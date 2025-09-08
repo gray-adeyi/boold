@@ -5,6 +5,12 @@
     "lib": ["ES2023"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "$/*": ["./src/*"],
+      "$backend": ["wailsjs/go/main/App.js"],
+      "$runtime": ["wailsjs/runtime/runtime.js"]
+    },
 
     /* Bundler mode */
     "moduleResolution": "bundler",

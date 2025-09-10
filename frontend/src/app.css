@@ -11,7 +11,9 @@
     --color-app-white: #ddd;
     --color-app-gray: #888;
     --color-app-gray-alt: #333;
+    --color-app-gray-alt-2: #555;
     --color-app-red: #500;
+    --color-app-red-alt: rgba(100, 0, 0, .1);
 }
 
 *, *::before, *::after {
@@ -22,13 +24,18 @@
         background: var(--color-app-black);
         color: var(--color-app-white);
     }
+
+    &:focus-visible{
+        outline: 2px solid var(--color-app-black);
+        outline-offset: 2px;
+    }
 }
+
 
 body{
     -webkit-user-select: none;
     user-select: none;
-
-
+    font-family: var(--font-ubuntu);
 }
 
 .material-icon{

@@ -1,6 +1,6 @@
 <script lang="ts">
   type Props = {
-    readonly onclick: () => void;
+    readonly onclick: (event?: MouseEvent) => void;
     readonly iconName: string;
     readonly buttonText: string;
   }
@@ -22,6 +22,7 @@
         color: var(--color-app-gray);
         border: none;
         font-size: 1.5rem;
+        padding: 30px;
         font-family: var(--font-ubuntu);
         cursor: pointer;
         transition: color .2s ease-in-out;
@@ -40,7 +41,7 @@
 
     .bar{
         width: 3px;
-        height: 100%;
+        height: 35px;
         background-color: var(--color-app-gray);
         transition: background-color .2s ease-in-out;
     }

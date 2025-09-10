@@ -1,8 +1,10 @@
 import { createRouter } from "sv-router";
 import StartMenuView from "$/views/startMenu/StartMenuView.svelte";
+import WorkspaceView from "$/views/WorkspaceView.svelte";
 
 const routes = {
-  '/': StartMenuView
+  '/': StartMenuView,
+    '/workspace': WorkspaceView
 };
 
-const {} =  createRouter(routes)
+export const {p, navigate, isActive, route} =  createRouter(routes)

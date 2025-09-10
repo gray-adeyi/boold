@@ -4,24 +4,34 @@
     import type {Snippet} from "svelte";
 
     type Props = {
-        readonly onclick: () => void;
+        readonly onclick: (event?: MouseEvent) => void;
         readonly iconName: string;
         readonly text: string;
         readonly isDialogOpen?: boolean;
         readonly dialogTitle?: string;
-        readonly dialogContent?: Snippet;
+        readonly dialogComponent?: Snippet;
     }
 
     const props: Props = $props()
 </script>
 
 <li>
-    <StartMenuOptionsItemButton onclick={props.onclick} iconName={props.iconName} buttonText={props.text} />
-    <StartMenuOptionsItemDialog title={props.dialogTitle} isVisible={props.isDialogOpen} children={props.dialogContent} />
+    <div class="button-container">
+    <StartMenuOptionsItemButton onclick={props.onclick} iconName={props.iconName} buttonText={props.text}/>
+    </div>
+
+    <StartMenuOptionsItemDialog title={props.dialogTitle} isVisible={props.isDialogOpen}
+                                children={props.dialogComponent} />
 </li>
 
 <style>
-    li{
-        padding: 30px;
+    li {
+        width: 100%;
+        position: relative;
     }
+
+    .button-container {
+        margin-inline-start: calc(50% - 160px);
+    }
+
 </style>

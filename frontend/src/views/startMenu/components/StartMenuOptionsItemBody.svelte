@@ -11,14 +11,14 @@
 </script>
 
 {#if props.isVisible}
-<div class="dialog">
+<div class="body">
     {#if props.title}<h2 class="title">{props.title}</h2>{/if}
     {@render props.children?.()}
 </div>
 {/if}
 
 <style>
-    .dialog {
+    .body {
         display: flex;
         flex-direction: column;
         place-items: center;

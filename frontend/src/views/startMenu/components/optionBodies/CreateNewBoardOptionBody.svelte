@@ -1,15 +1,19 @@
-<script lang="ts" module>
-    export {createNewBoardDialog}
-</script>
-
-<script>
+<script lang="ts">
     import DefaultButton from "$/lib/components/DefaultButton.svelte";
     import MacCmdKeyIcon from "$/assets/icons/mac-command.svg?component";
     import MouseLeftButtonIcon from "$/assets/icons/mouse-left-button.svg?component";
+    import StartMenuOptionsItemBody from "$/views/startMenu/components/StartMenuOptionsItemBody.svelte";
+
+    type Props = {
+        readonly title?: string;
+        readonly isVisible?: boolean;
+    }
+
+    const props: Props = $props()
 
 </script>
 
-{#snippet createNewBoardDialog() }
+<StartMenuOptionsItemBody title={props.title} isVisible={props.isVisible}>
     <div class="input-and-tip-container">
         <input placeholder="Board Name"/>
         <p class="tip">This board will be saved as new-board.board</p>
@@ -20,11 +24,11 @@
         <MouseLeftButtonIcon width="24" height="24" />
         (Cmd or Ctrl + Click) Starts a new board in sandbox mode
     </p>
-    <div class="button-container">
+    <div class="actions-container">
         <DefaultButton text="Cancel"/>
         <DefaultButton text="Create"/>
     </div>
-{/snippet}
+</StartMenuOptionsItemBody>
 
 <style>
     .input-and-tip-container {
@@ -60,6 +64,8 @@
         &:focus {
             border-bottom: 2px solid var(--color-app-black);
         }
+
+
     }
 
     .tip {
@@ -95,7 +101,7 @@
         font-family: var(--font-ubuntu);
     }
 
-    .button-container {
+    .actions-container {
         display: flex;
         place-items: center;
         gap: 20px;

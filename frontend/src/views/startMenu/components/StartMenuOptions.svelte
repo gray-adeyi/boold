@@ -2,52 +2,56 @@
     import StartMenuOptionsItem from "$/views/startMenu/components/StartMenuOptionsItem.svelte";
     import {Quit} from '$runtime'
     import {navigate} from "$/router";
-    import {createNewBoardDialog} from "./dialogs/CreateNewBoardDialog.svelte";
+    import CreateNewBoardOptionBody from "$/views/startMenu/components/optionBodies/CreateNewBoardOptionBody.svelte";
+    import SettingsOptionBody from "$/views/startMenu/components/optionBodies/SettingsOptionBody.svelte";
+    import OpenBoardBody from "$/views/startMenu/components/optionBodies/OpenBoardBody.svelte";
 
 
-    let isNewBoardDialogOpen = $state(false);
-    let isOpenBoardDialogOpen = $state(false);
-    let isSettingsDialogOpen = $state(false);
+    let isNewBoardBodyOpen = $state(false);
+    let isOpenBoardBodyOpen = $state(false);
+    let isSettingsBodyOpen = $state(false);
 
-    const toggleNewBoardDialog = (event: MouseEvent) => {
+    const toggleNewBoardBody = (event: MouseEvent) => {
         if(event.ctrlKey){
             navigate('/workspace')
         }
-        isOpenBoardDialogOpen = false
-        isSettingsDialogOpen = false
-        isNewBoardDialogOpen = !isNewBoardDialogOpen
+        isOpenBoardBodyOpen = false
+        isSettingsBodyOpen = false
+        isNewBoardBodyOpen = !isNewBoardBodyOpen
     }
-    const toggleOpenBoardDialog = () => {
-        isNewBoardDialogOpen = false
-        isSettingsDialogOpen = false
-        isOpenBoardDialogOpen = !isOpenBoardDialogOpen }
-    const toggleSettingsDialog = () => {
-        isNewBoardDialogOpen = false
-        isOpenBoardDialogOpen = false
-        isSettingsDialogOpen = !isSettingsDialogOpen}
+    const toggleOpenBoardBody = () => {
+        isNewBoardBodyOpen = false
+        isSettingsBodyOpen = false
+        isOpenBoardBodyOpen = !isOpenBoardBodyOpen }
+    const toggleSettingsBody = () => {
+        isNewBoardBodyOpen = false
+        isOpenBoardBodyOpen = false
+        isSettingsBodyOpen = !isSettingsBodyOpen}
 
     const options = () => [
         {
             text: "new board",
             iconName: "add",
-            onclick: toggleNewBoardDialog,
-            dialogTitle: 'Create a new board',
-            isDialogOpen: isNewBoardDialogOpen,
-            dialogComponent: createNewBoardDialog,
+            onclick: toggleNewBoardBody,
+            bodyTitle: 'Create a new board',
+            isBodyOpen: isNewBoardBodyOpen,
+            bodyComponent: CreateNewBoardOptionBody,
         },
         {
             text: "open board",
             iconName: "folder",
-            onclick: toggleOpenBoardDialog,
-            dialogTitle: 'Open an existing board',
-            isDialogOpen: isOpenBoardDialogOpen,
+            onclick: toggleOpenBoardBody,
+            bodyTitle: 'Recent boards',
+            isBodyOpen: isOpenBoardBodyOpen,
+            bodyComponent: OpenBoardBody,
         },
         {
             text: "settings",
             iconName: "settings",
-            onclick: toggleSettingsDialog,
-            dialogTitle: 'Settings',
-            isDialogOpen: isSettingsDialogOpen,
+            onclick: toggleSettingsBody,
+            bodyTitle: 'General Settings',
+            isBodyOpen: isSettingsBodyOpen,
+            bodyComponent: SettingsOptionBody,
         },
         {
             text: "quit",

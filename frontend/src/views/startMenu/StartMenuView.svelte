@@ -1,11 +1,20 @@
 <script lang="ts">
-    import StartMenuOptions from "$/views/startMenu/components/StartMenuOptions.svelte";
+import { state as startMenuStoreState } from "$/stores/startMenuStore.svelte.js";
+import StartMenuOptions from "$/views/startMenu/components/StartMenuOptions.svelte";
 
+function translateMenu(node: HTMLDivElement) {
+	if (startMenuStoreState.isAMenuOptionOpen) {
+		// node.style.transform = `translateY(-${startMenuStoreState.openedMenuHeight}px)`;
+		node.style.transform = `translateY(-100px)`;
+	} else {
+		node.style.transform = "translateY(0)";
+	}
+}
 </script>
 
 
 <div class="start-menu">
-   <div class="start-menu-contents" >
+   <div class="start-menu-contents" {@attach translateMenu}>
        <div class="app-logo">
            <h1 class="app-name">BOOLD</h1>
                <span class="version">v0.0.1</span>
@@ -29,7 +38,7 @@
         flex-direction: column;
         place-content: center;
         width: 100%;
-        transition: transform 0.5s ease-in-out;
+        transition: transform 0.5s;
     }
     
     .app-logo{

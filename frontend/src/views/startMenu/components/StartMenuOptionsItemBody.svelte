@@ -1,17 +1,23 @@
 <script lang="ts">
-    import type {Snippet} from "svelte";
+import type { Snippet } from "svelte";
+import { fade } from "svelte/transition";
+import { setOpenedMenuHeight } from "$/stores/startMenuStore.svelte";
 
-    type Props = {
-        readonly title?: string;
-        readonly isVisible?: boolean;
-        readonly children?: Snippet;
-    }
-    const props: Props = $props();
+type Props = {
+	readonly title?: string;
+	readonly isVisible?: boolean;
+	readonly children?: Snippet;
+};
+const props: Props = $props();
 
+function updateOpenedOptionHeight(node: HTMLDivElement) {
+	setOpenedMenuHeight(node.clientHeight);
+	return () => setOpenedMenuHeight(0);
+}
 </script>
 
 {#if props.isVisible}
-<div class="body">
+<div class="body" transition:fade {@attach updateOpenedOptionHeight}>
     {#if props.title}<h2 class="title">{props.title}</h2>{/if}
     {@render props.children?.()}
 </div>

@@ -1,4 +1,6 @@
 <script lang="ts">
+    import FloatingMenu from "$/views/workspace/floatingMenu/FloatingMenu.svelte";
+
 let windowHeight = $state(0);
 let windowWidth = $state(0);
 
@@ -19,11 +21,20 @@ function initCanvas(node: HTMLCanvasElement) {
 </script>
 
 <svelte:window bind:innerHeight={windowHeight} bind:innerWidth={windowWidth} />
-<canvas {@attach initCanvas}></canvas>
+<div class="container">
+    <canvas {@attach initCanvas}></canvas>
+    <FloatingMenu />   
+</div>
+
 
 
 <style>
     canvas{
         cursor: crosshair;
+    }
+    
+    .container{
+        position: relative;
+        /*overflow: hidden;*/
     }
 </style>

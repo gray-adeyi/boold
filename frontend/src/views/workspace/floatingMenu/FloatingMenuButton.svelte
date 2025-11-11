@@ -17,13 +17,13 @@
     button {
         display: flex;
         place-items: center;
+        gap: 3px;
         cursor: pointer;
         color: var(--color-app-white);
         background-color: var(--color-app-black);
         border-radius: 5px;
         border: none;
         padding: 8px;
-        /*background-color: black;*/
         transition: background-color .2s;
         
         &:hover{

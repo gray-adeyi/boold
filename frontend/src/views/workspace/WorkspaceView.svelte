@@ -1,6 +1,7 @@
 <script lang="ts">
     import FloatingMenu from "$/views/workspace/floatingMenu/FloatingMenu.svelte";
     import Toolbar from "$/views/workspace/toolbar/Toolbar.svelte";
+    import TutorialDrawer from "./tutorial/TutorialDrawer.svelte";
 
     let windowHeight = $state(0);
     let windowWidth = $state(0);
@@ -24,6 +25,7 @@
 <svelte:window bind:innerHeight={windowHeight} bind:innerWidth={windowWidth} />
 <div class="container">
     <canvas {@attach initCanvas}></canvas>
+    <TutorialDrawer />
     <Toolbar />
     <FloatingMenu />
     <div class="portal-target" id="workspace-portal-target"></div>

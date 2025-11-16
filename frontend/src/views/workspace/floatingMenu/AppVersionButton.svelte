@@ -4,4 +4,4 @@
 </script>
 
 
-<FloatingMenuButton materialIcon="memory" text="BOOLD v0.0.1" />
+<FloatingMenuButton onclick={() => {}} materialIcon="memory" text="BOOLD v0.0.1" />

@@ -2,11 +2,12 @@
     type Props = {
       materialIcon: string;
       text?: string;
+      onclick: ()  => void;
     }
-  const {materialIcon, text}: Props = $props()
+  const {materialIcon, text, onclick}: Props = $props()
 </script>
 
-<button on:click={() => {}}>
+<button {onclick}>
     <i class="material-icon">{materialIcon}</i>
     {#if text}
     <span>{text}</span>

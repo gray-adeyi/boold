@@ -68,10 +68,12 @@
     .menu {
         position: absolute;
         top: -315px;
+        left: -20px;
         background-color: var(--color-app-black);
         color: var(--color-app-white);
         border-radius: 5px;
         font-size: 15px;
+        width: 240px;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
     }
 

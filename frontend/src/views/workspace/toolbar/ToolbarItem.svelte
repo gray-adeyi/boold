@@ -1,19 +1,43 @@
 <script lang="ts">
+    import { Portal } from "@jsrob/svelte-portal";
+
     type Props = {
         text?: string;
         icon?: string;
+        tip: string;
+        tipSubtext?: string;
     };
-    const { text, icon } = $props();
+    const { text, icon, tip, tipSubtext }: Props = $props();
+    
+    let isTipVisible = $state(false)
+    let buttonEl: HTMLButtonElement | null = $state(null)
+    
+    const setTipLeftOffset = (el: HTMLDivElement) => {
+     if(!buttonEl) return 
+     const rect = buttonEl.getBoundingClientRect()
+     const leftPos = rect.left + (rect.width / 2)
+     el.style.left = `${leftPos}px`
+     // el.style.bottom = `${rect.top}px`
+    }
 </script>
 
 <li class="container">
-    <div class="tip">
-        <span class="tip-text"></span>
-        <span class="tip-subtext"></span>
+    <Portal target="#workspace-portal-target">
+    {#if isTipVisible}
+    <div class="tip" {@attach setTipLeftOffset}>
+        <span class="tip-text">{tip}</span>
+        {#if tipSubtext}
+            <span class="tip-subtext">{tipSubtext}</span>
+        {/if}
     </div>
-    <button class="button">
+    {/if}
+    </Portal>
+    <button class="button" bind:this={buttonEl}
+        onmouseenter={() => isTipVisible = true}
+        onmouseleave={() => isTipVisible = false}
+    >
         {#if text}
-            <span>{text}</span>
+            <span class="button-text">{text}</span>
         {/if}
         {#if icon}
             <i class="material-icon icon">{icon}</i>
@@ -44,6 +68,37 @@
 
     .tip {
         position: absolute;
+        background: var(--color-app-black);
+        color: var(--color-app-white);
+        padding: 10px;
+        font-size: 0.875rem;
+        max-width: 6.25rem;
+        text-align: center;
+        box-shadow: 0 0 20px rgba(0 0 0 / .25);
+        border-radius: 5px;
+        bottom: 92px;
+        transform: translate(-50%);
+        
+        &::before{
+            --size: 15px;
+            content: "";
+            position: absolute;
+            width: var(--size);
+            height: var(--size);
+            transform: rotate(-45deg);
+            left: calc(50% - 7px);
+            bottom: -8px;
+            background: var(--color-app-black);
+        }
+    }
+    
+    .tip-text{
+        display: block;
+    }
+    
+    .tip-subtext{
+        color: var(--color-app-gray-alt-2);
+        font-size: 0.625rem;
     }
 
     .button {
@@ -51,19 +106,21 @@
         border: none;
         background: var(--color-app-black);
         color: var(--color-app-gray-alt-2);
-        /*padding-block: 18px;*/
         font-size: 1rem;
-        font-weight: 600;
+        font-weight: 700;
+        width: 400px;
+        /*padding-block: 18px;*/
+
         cursor: pointer;
         /*transition: color background-color 0.2s;*/
-        
+
         &:hover {
             background: #222;
             color: var(--color-app-white);
         }
     }
-    
-    .icon{
+
+    .icon {
         font-weight: 400;
         font-size: 1.5rem;
     }

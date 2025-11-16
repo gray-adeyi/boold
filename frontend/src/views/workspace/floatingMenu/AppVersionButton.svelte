@@ -4,4 +4,4 @@
 </script>
 
 
-<FloatingMenuButton materialIcon="memory" text="BOOLD 0.0.1" />
+<FloatingMenuButton materialIcon="memory" text="BOOLD v0.0.1" />

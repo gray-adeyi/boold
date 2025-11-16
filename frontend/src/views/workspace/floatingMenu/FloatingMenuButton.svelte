@@ -24,6 +24,7 @@
         border-radius: 5px;
         border: none;
         padding: 8px;
+        box-shadow: 0 0 20px rgba(0 0 0 / .25);
         transition: background-color .2s;
         
         &:hover{

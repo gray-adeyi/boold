@@ -1,4 +1,5 @@
 <script lang="ts">
+    import DialogPrimitive from "$/lib/components/DialogPrimitive.svelte";
     import FloatingMenu from "$/views/workspace/floatingMenu/FloatingMenu.svelte";
     import Toolbar from "$/views/workspace/toolbar/Toolbar.svelte";
     import TutorialDrawer from "./tutorial/TutorialDrawer.svelte";
@@ -42,8 +43,8 @@
         height: 100vh;
         overflow: hidden;
     }
-    
-    .portal-target{
+
+    .portal-target {
         position: relative;
         border: 2px solid green;
         width: 100%;

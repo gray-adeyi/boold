@@ -25,10 +25,11 @@
 
 <style>
     .container {
+        --offset: 5px;
         display: flex;
         gap: 6px;
         position: absolute;
-        right: 10px;
-        bottom: 10px;
+        right: var(--offset);
+        bottom: var(--offset);
     }
 </style>

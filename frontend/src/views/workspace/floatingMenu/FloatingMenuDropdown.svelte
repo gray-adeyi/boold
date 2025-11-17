@@ -67,8 +67,8 @@
 <style>
     .menu {
         position: absolute;
-        top: -315px;
-        left: -20px;
+        top: -314px;
+        left: -10px;
         background-color: var(--color-app-black);
         color: var(--color-app-white);
         border-radius: 5px;

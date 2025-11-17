@@ -1,21 +1,21 @@
 <script lang="ts">
     type Props = {
-      materialIcon: string;
-      text?: string;
-      onclick: ()  => void;
-    }
-  const {materialIcon, text, onclick}: Props = $props()
+        materialIcon: string;
+        text?: string;
+        onclick: () => void;
+    };
+    const { materialIcon, text, onclick }: Props = $props();
 </script>
 
-<button {onclick}>
+<button class="button" {onclick}>
     <i class="material-icon">{materialIcon}</i>
     {#if text}
-    <span>{text}</span>
+        <span class="button-text">{text}</span>
     {/if}
 </button>
 
 <style>
-    button {
+    .button {
         display: flex;
         place-items: center;
         gap: 3px;
@@ -25,11 +25,15 @@
         border-radius: 5px;
         border: none;
         padding: 8px;
-        box-shadow: 0 0 20px rgba(0 0 0 / .25);
-        transition: background-color .2s;
-        
-        &:hover{
+        box-shadow: 0 0 20px rgba(0 0 0 / 0.25);
+        transition: background-color 0.2s;
+
+        &:hover {
             background-color: var(--color-app-gray-alt);
         }
+    }
+
+    .button-text {
+        font-size: 0.9375rem;
     }
 </style>

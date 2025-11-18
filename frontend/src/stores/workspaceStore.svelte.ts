@@ -6,6 +6,7 @@ export type WorkspaceStoreState = {
   zoom: number;
   canvas: HTMLCanvasElement | null;
   canvasCtx: CanvasRenderingContext2D | null;
+  audioCtx: AudioContext | null;
   offset: Coord;
   mouse: {
     screen: Coord;
@@ -27,6 +28,7 @@ export const state: WorkspaceStoreState = $state({
   zoom: 100,
   canvas: null,
   canvasCtx: null,
+  audioCtx: null,
   offset: { x: 0, y: 0 },
   mouse: {
     screen: { x: 0, y: 0 },

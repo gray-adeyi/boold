@@ -18,7 +18,12 @@ export type ComponentIcon = {
 } | {type: "value"}
 
 export type ComponentProperties = {
-  delay?: number
+  delay?: number;
+  frequency?: number;
+  duration?: number;
+  data?: unknown;
+  addressWidth?: unknown;
+  rom?: number[];
 }
 
 export type ComponentPinPlacement = {

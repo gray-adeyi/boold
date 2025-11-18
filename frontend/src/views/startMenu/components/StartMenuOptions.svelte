@@ -13,7 +13,7 @@ let isSettingsBodyOpen = $state(false);
 
 const toggleNewBoardBody = (event: MouseEvent) => {
 	if (event.ctrlKey) {
-		navigate("/workspace");
+		navigate("/board");
 	}
 	isOpenBoardBodyOpen = false;
 	isSettingsBodyOpen = false;

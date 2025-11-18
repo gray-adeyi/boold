@@ -1,5 +1,5 @@
 import type { Coord } from "$/types";
-import PrimitiveComponent from "./PrimitiveComponent.svelte";
+import PrimitiveComponent from "$/lib/logicComponents/PrimitiveComponent.svelte";
 
 export default class ConstantComponent extends PrimitiveComponent {
   constructor(name: string | null, pos: Coord, value: number = 0) {

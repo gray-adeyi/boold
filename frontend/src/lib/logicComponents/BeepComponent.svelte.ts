@@ -1,7 +1,7 @@
 import type { Coord } from "$/types";
-import { beep } from "../audio";
-import PrimitiveComponent from "./PrimitiveComponent.svelte";
-import { state as workspaceStoreState } from "$/stores/workspaceStore.svelte";
+import { beep } from "$/lib/audio";
+import PrimitiveComponent from "$/lib/logicComponents/PrimitiveComponent.svelte";
+import { state as boardStoreState } from "$/stores/boardStore.svelte";
 
 export default class BeepComponent extends PrimitiveComponent {
   constructor(name: string | null, pos: Coord) {
@@ -16,10 +16,10 @@ export default class BeepComponent extends PrimitiveComponent {
       this.inputPins[0].value === 1 &&
       this.properties.frequency &&
       this.properties.duration &&
-      workspaceStoreState.audioCtx
+      boardStoreState.audioCtx
     ) {
       beep(
-        workspaceStoreState.audioCtx,
+        boardStoreState.audioCtx,
         this.properties.frequency,
         this.properties.duration,
       );

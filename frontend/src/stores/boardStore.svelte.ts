@@ -2,7 +2,7 @@ import type PrimitiveComponent from "$/lib/logicComponents/PrimitiveComponent.sv
 import type Wire from "$/lib/logicComponents/Wire.svelte";
 import type { Coord } from "$/types";
 
-export type WorkspaceStoreState = {
+export type BoardStoreState = {
   zoom: number;
   canvas: HTMLCanvasElement | null;
   canvasCtx: CanvasRenderingContext2D | null;
@@ -24,7 +24,7 @@ export type WorkspaceStoreState = {
   timerStart: Date | null;
 };
 
-export const state: WorkspaceStoreState = $state({
+export const state: BoardStoreState = $state({
   zoom: 100,
   canvas: null,
   canvasCtx: null,

@@ -2,9 +2,9 @@
     import DialogPrimitive from "$/lib/components/DialogPrimitive.svelte";
     import PrimitiveComponent from "$/lib/logicComponents/PrimitiveComponent.svelte";
     import Wire from "$/lib/logicComponents/Wire.svelte";
-    import FloatingMenu from "$/views/workspace/floatingMenu/FloatingMenu.svelte";
-    import Toolbar from "$/views/workspace/toolbar/Toolbar.svelte";
-    import TutorialDrawer from "./tutorial/TutorialDrawer.svelte";
+    import FloatingMenu from "$/views/board/floatingMenu/FloatingMenu.svelte";
+    import Toolbar from "$/views/board/toolbar/Toolbar.svelte";
+    import TutorialDrawer from "$/views/board/tutorial/TutorialDrawer.svelte";
 
     let windowHeight = $state(0);
     let windowWidth = $state(0);

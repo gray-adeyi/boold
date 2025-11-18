@@ -1,11 +1,11 @@
 <script lang="ts">
-    import ToolbarItem from "$/views/workspace/toolbar/ToolbarItem.svelte";
+    import ToolbarItem from "$/views/board/toolbar/ToolbarItem.svelte";
     import { Portal } from "@jsrob/svelte-portal";
-    import NOTGateInfoDialog from "./dialogs/NOTGateInfoDialog.svelte";
-    import IOSelectDropdown from "./IOSelectDropdown.svelte";
-    import ANDGateInfoDialog from "./dialogs/ANDGateInfoDialog.svelte";
-    import ORGateInfoDialog from "./dialogs/ORGateInfoDialog.svelte";
-    import XORGateInfoDialog from "./dialogs/XORGateInfoDialog.svelte";
+    import NOTGateInfoDialog from "$/views/board/toolbar/dialogs/NOTGateInfoDialog.svelte";
+    import IOSelectDropdown from "$/views/board/toolbar/IOSelectDropdown.svelte";
+    import ANDGateInfoDialog from "$/views/board/toolbar/dialogs/ANDGateInfoDialog.svelte";
+    import ORGateInfoDialog from "$/views/board/toolbar/dialogs/ORGateInfoDialog.svelte";
+    import XORGateInfoDialog from "$/views/board/toolbar/dialogs/XORGateInfoDialog.svelte";
     type ToolbarItem = {
         text?: string;
         icon?: string;

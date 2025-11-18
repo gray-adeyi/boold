@@ -1,5 +1,5 @@
 import type { Coord } from "$/types";
-import PrimitiveComponent from "./PrimitiveComponent.svelte";
+import PrimitiveComponent from "$/lib/logicComponents/PrimitiveComponent.svelte";
 
 export default class DisplayComponent extends PrimitiveComponent {
   private lineWidth: number;

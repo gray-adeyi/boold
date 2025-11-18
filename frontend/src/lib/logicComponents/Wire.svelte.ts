@@ -1,5 +1,5 @@
 import type { Coord, RGBColor } from "$/types";
-import { state as workspaceStoreState } from "$/stores/workspaceStore.svelte";
+import { state as boardStoreState } from "$/stores/boardStore.svelte";
 
 const updateQueue = [];
 
@@ -79,9 +79,9 @@ export default class Wire {
   }
 
   draw() {
-    const ctx = workspaceStoreState.canvasCtx;
+    const ctx = boardStoreState.canvasCtx;
     if (!ctx) return;
-    if (workspaceStoreState.zoom > 50) {
+    if (boardStoreState.zoom > 50) {
       ctx.lineCap = "round";
     }
     let color: RGBColor;
@@ -123,9 +123,9 @@ export default class Wire {
     ctx.beginPath();
     path.forEach((coord) => {
       ctx.lineTo(
-        ((coord.x - workspaceStoreState.offset.x) * workspaceStoreState.zoom) |
+        ((coord.x - boardStoreState.offset.x) * boardStoreState.zoom) |
           0,
-        (-(coord.y - workspaceStoreState.offset.y) * workspaceStoreState.zoom) |
+        (-(coord.y - boardStoreState.offset.y) * boardStoreState.zoom) |
           0,
       );
     });
@@ -138,11 +138,11 @@ export default class Wire {
       else if (intersection.type === 3) ctx.fillStyle = "#f11";
       ctx.beginPath();
       ctx.arc(
-        (intersection.x - workspaceStoreState.offset.x) *
-          workspaceStoreState.zoom,
-        -(intersection.y - workspaceStoreState.offset.y) *
-          workspaceStoreState.zoom,
-        workspaceStoreState.zoom / 8,
+        (intersection.x - boardStoreState.offset.x) *
+          boardStoreState.zoom,
+        -(intersection.y - boardStoreState.offset.y) *
+          boardStoreState.zoom,
+        boardStoreState.zoom / 8,
         0,
         Math.PI * 2,
       );

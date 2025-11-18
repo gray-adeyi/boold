@@ -1,6 +1,6 @@
 import type { Coord } from "$/types";
 import PrimitiveComponent from "./PrimitiveComponent.svelte";
-import { state as workspaceStoreState } from "$/stores/workspaceStore.svelte";
+import { state as boardStoreState } from "$/stores/boardStore.svelte";
 
 export default class TimerStartComponent extends PrimitiveComponent {
   constructor(name: string | null, pos: Coord) {
@@ -10,7 +10,7 @@ export default class TimerStartComponent extends PrimitiveComponent {
 
   update() {
     console.time();
-    workspaceStoreState.timerStart = new Date();
+    boardStoreState.timerStart = new Date();
     this.execute();
     if (!this.value) return;
     this.outputPins[0].value = this.value;

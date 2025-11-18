@@ -1,6 +1,6 @@
 import type { Coord } from "$/types";
-import PrimitiveComponent from "./PrimitiveComponent.svelte";
-// import {state as workspaceStoreState} from "$/stores/workspaceStore.svelte";
+import PrimitiveComponent from "$/lib/logicComponents/PrimitiveComponent.svelte";
+// import {state as boardStoreState} from "$/stores/boardStore.svelte";
 
 export default class TimerEndComponent extends PrimitiveComponent{
   constructor(name: string | null, pos: Coord){
@@ -11,7 +11,7 @@ export default class TimerEndComponent extends PrimitiveComponent{
   
   update(){
     console.timeEnd()
-    // booldConsole.log(`${this.name}: ${new Date - workspaceStoreState.timerStart} ms`)
+    // booldConsole.log(`${this.name}: ${new Date - boardStoreState.timerStart} ms`)
     this.execute()
   }
   

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import TutorialControls from "./TutorialControls.svelte";
+    import TutorialControls from "$/views/board/tutorial/TutorialControls.svelte";
     const totalSteps = 11;
     let currentStep = $state(1);
 
@@ -73,14 +73,14 @@
         border: none;
         background: none;
         color: var(--color-app-gray);
-        
-        &:hover{
+
+        &:hover {
             font-weight: 800;
             transform: rotateZ(90deg) scale(1.2);
         }
     }
-    
-    .main{
+
+    .main {
         display: flex;
         flex-direction: column;
         align-items: center;

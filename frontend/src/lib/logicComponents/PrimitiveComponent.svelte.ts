@@ -5,7 +5,7 @@ import type {
   ComponentPin,
   ComponentPinPlacement,
 } from "$/types";
-import { state as workspaceStoreState } from "$/stores/workspaceStore.svelte";
+import { state as boardStoreState } from "$/stores/boardStore.svelte";
 import type Wire from "./Wire.svelte";
 
 const updateQueue = [];
@@ -38,13 +38,13 @@ export default class PrimitiveComponent implements LogicComponent {
 
   constructor(
     name: string | null,
-    pos: Coord = Object.assign({}, workspaceStoreState.mouse.grid),
+    pos: Coord = Object.assign({}, boardStoreState.mouse.grid),
     width: number = 2,
     height: number = 2,
     icon: ComponentIcon | null,
   ) {
     if (!name) {
-      const similarComponentsCount = workspaceStoreState.components.filter(
+      const similarComponentsCount = boardStoreState.components.filter(
         (c) => c.constructor === this.constructor,
       ).length;
       name = `${this.constructor.name}#${similarComponentsCount + 1}`;
@@ -62,7 +62,7 @@ export default class PrimitiveComponent implements LogicComponent {
   }
 
   update() {
-    if (workspaceStoreState.settings.isShowComponentUpdatesEnabled)
+    if (boardStoreState.settings.isShowComponentUpdatesEnabled)
       this.highlight(250);
 
     this.execute();
@@ -92,7 +92,7 @@ export default class PrimitiveComponent implements LogicComponent {
   }
 
   draw() {
-    const { zoom, offset, canvas, canvasCtx } = workspaceStoreState;
+    const { zoom, offset, canvas, canvasCtx } = boardStoreState;
     if (!canvas || !canvasCtx) return;
     const ctx = canvasCtx;
     const canvasWidth = canvas.width;

@@ -1,5 +1,5 @@
 import type { Coord, RGBColor } from "$/types";
-import PrimitiveComponent from "./PrimitiveComponent.svelte";
+import PrimitiveComponent from "$/lib/logicComponents/PrimitiveComponent.svelte";
 
 
 export default class LEDComponent extends PrimitiveComponent {

@@ -2,15 +2,27 @@ import type {
   Coord,
   ComponentIcon,
   ComponentProperties,
-  ComponentPort,
-  ComponentPortPlacement,
+  ComponentPin,
+  ComponentPinPlacement,
 } from "$/types";
 import { state as workspaceStoreState } from "$/stores/workspaceStore.svelte";
 import type Wire from "./Wire.svelte";
 
 const updateQueue = [];
 
-export default class PrimitiveComponent {
+export interface LogicComponent {
+  // updates the component for every simulation frame
+  update(): void;
+  // draws the component to the canvas
+  draw(): void;
+  // applies the logical functionality of the component
+  execute(): void;
+  // change the orientation of the component if it has not be connected
+  // to other components
+  rotate(): void;
+}
+
+export default class PrimitiveComponent implements LogicComponent {
   private id = crypto.randomUUID();
   name: string;
   pos: Coord;
@@ -19,10 +31,10 @@ export default class PrimitiveComponent {
   rotation: number;
   icon: ComponentIcon | null;
   properties: ComponentProperties;
-  inputPorts: ComponentPort[];
-  outputPorts: ComponentPort[];
+  inputPins: ComponentPin[];
+  outputPins: ComponentPin[];
   outline?: number;
-  value: unknown;
+  value: number | null = null;
 
   constructor(
     name: string | null,
@@ -45,28 +57,26 @@ export default class PrimitiveComponent {
     this.rotation = 0;
     this.icon = icon;
     this.properties = {};
-    this.inputPorts = [];
-    this.outputPorts = [];
+    this.inputPins = [];
+    this.outputPins = [];
   }
 
   update() {
     if (workspaceStoreState.settings.isShowComponentUpdatesEnabled)
       this.highlight(250);
 
-    // Update output ports
-    // TODO: Figure out what this.function() does
-    // this.function()
+    this.execute();
     const wires: Wire[] = [];
     const values: number[] = [];
-    for (let i = 0; i < this.outputPorts.length; i++) {
-      const port = this.outputPorts[i];
-      if (!port.connection) continue;
-      const index = wires.indexOf(port.connection);
+    for (let i = 0; i < this.outputPins.length; i++) {
+      const pin = this.outputPins[i];
+      if (!pin.connection) continue;
+      const index = wires.indexOf(pin.connection);
       if (index === -1) {
-        wires.push(port.connection);
-        values.push(port.value);
-      } else if (values[index] < port.value) {
-        values[index] = port.value;
+        wires.push(pin.connection);
+        values.push(pin.value);
+      } else if (values[index] < pin.value) {
+        values[index] = pin.value;
       }
     }
     for (let i = 0; i < wires.length; i++) {
@@ -74,7 +84,7 @@ export default class PrimitiveComponent {
     }
   }
 
-  highlight(duration: number = 500) {
+  protected highlight(duration: number = 500) {
     this.outline = 1;
     setTimeout(() => {
       this.outline = 0;
@@ -127,7 +137,7 @@ export default class PrimitiveComponent {
         ctx.fillStyle = "#111";
         ctx.font = `normal normal normal ${zoom / 1.3}px Ubuntu Mono`;
         ctx.fillText(
-          this.value,
+          this.value?.toString() || "--",
           x + ((this.width - 1) / 2) * zoom,
           y + ((this.height - 0.85) / 2) * zoom,
         );
@@ -156,9 +166,9 @@ export default class PrimitiveComponent {
     }
 
     // Draw input pins
-    for (let i = 0; i < this.inputPorts.length; i++) {
+    for (let i = 0; i < this.inputPins.length; i++) {
       const screen = { x, y };
-      const placement = this.inputPorts[i].placement;
+      const placement = this.inputPins[i].placement;
 
       const angle = (Math.PI / 2) * placement.side;
       screen.x += Math.sin(angle) * zoom;
@@ -166,7 +176,7 @@ export default class PrimitiveComponent {
       if (placement.side === 1) {
         screen.x += (this.width - 1) * zoom;
       } else if (placement.side === 2) {
-        screen.y += placement.coord * zoom;
+        screen.y += placement.pinIndex * zoom;
       }
 
       ctx.beginPath();
@@ -188,7 +198,7 @@ export default class PrimitiveComponent {
       }
 
       if (zoom > 30) {
-        const name = this.inputPorts[i].name;
+        const name = this.inputPins[i].name;
         if (name) {
           ctx.fillStyle = "#888";
           ctx.font = `${zoom}px Ubuntu`;
@@ -202,9 +212,9 @@ export default class PrimitiveComponent {
     }
 
     // Draw output pins
-    for (let i = 0; i < this.outputPorts.length; i++) {
+    for (let i = 0; i < this.outputPins.length; i++) {
       const screen = { x, y };
-      const placement = this.outputPorts[i].placement;
+      const placement = this.outputPins[i].placement;
       const angle = (Math.PI / 2) * placement.side;
       screen.x += Math.sin(angle) * zoom;
       screen.y -= Math.cos(angle) * zoom;
@@ -215,9 +225,9 @@ export default class PrimitiveComponent {
       }
 
       if (placement.side % 2 === 0) {
-        screen.x += placement.coord * zoom;
+        screen.x += placement.pinIndex * zoom;
       } else {
-        screen.y += placement.coord * zoom;
+        screen.y += placement.pinIndex * zoom;
       }
 
       ctx.beginPath();
@@ -237,7 +247,7 @@ export default class PrimitiveComponent {
       }
 
       if (zoom > 30) {
-        const name = this.outputPorts[i].name;
+        const name = this.outputPins[i].name;
         if (name) {
           ctx.fillStyle = "#888";
           ctx.font = `${zoom / 7}px Ubuntu`;
@@ -251,12 +261,12 @@ export default class PrimitiveComponent {
     }
   }
 
-  addInputPort(
-    placement: ComponentPortPlacement,
+  protected addInputPin(
+    placement: ComponentPinPlacement,
     name: string,
     properties: ComponentProperties = {},
-  ): ComponentPort {
-    let port: ComponentPort = {
+  ): ComponentPin {
+    let port: ComponentPin = {
       id: crypto.randomUUID(),
       type: "input",
       component: this,
@@ -265,16 +275,16 @@ export default class PrimitiveComponent {
       value: 0,
     };
     port = Object.assign(port, properties);
-    this.inputPorts.push(port);
+    this.inputPins.push(port);
     return port;
   }
 
-  addOutputPort(
-    placement: ComponentPortPlacement,
+  protected addOutputPin(
+    placement: ComponentPinPlacement,
     name: string,
     properties: ComponentProperties = {},
-  ): ComponentPort {
-    let port: ComponentPort = {
+  ): ComponentPin {
+    let port: ComponentPin = {
       id: crypto.randomUUID(),
       type: "output",
       component: this,
@@ -283,15 +293,15 @@ export default class PrimitiveComponent {
       value: 0,
     };
     port = Object.assign(port, properties);
-    this.outputPorts.push(port);
+    this.outputPins.push(port);
     return port;
   }
 
   rotate() {
     // TODO: solution for input/output
-    const allPorts = [...this.inputPorts, ...this.outputPorts];
-    for (let i = 0; i < allPorts.length; i++) {
-      if (allPorts[i].connection) {
+    const allPins = [...this.inputPins, ...this.outputPins];
+    for (let i = 0; i < allPins.length; i++) {
+      if (allPins[i].connection) {
         return;
       }
     }
@@ -314,14 +324,18 @@ export default class PrimitiveComponent {
       this.pos.x += this.height - this.width;
     }
 
-    for (let i = 0; i < this.inputPorts.length; i++) {
-      this.inputPorts[i].placement.side =
-        ++this.inputPorts[i].placement.side % 4;
+    for (let i = 0; i < this.inputPins.length; i++) {
+      this.inputPins[i].placement.side =
+        ++this.inputPins[i].placement.side % 4;
     }
 
-    for (let i = 0; i < this.outputPorts.length; i++) {
-      this.outputPorts[i].placement.side =
-        ++this.outputPorts[i].placement.side % 4;
+    for (let i = 0; i < this.outputPins.length; i++) {
+      this.outputPins[i].placement.side =
+        ++this.outputPins[i].placement.side % 4;
     }
+  }
+
+  execute(): void {
+    throw new Error("not implemented, override this method in subclass");
   }
 }

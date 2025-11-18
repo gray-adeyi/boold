@@ -21,17 +21,17 @@ export type ComponentProperties = {
   delay?: number
 }
 
-export type ComponentPortPlacement = {
+export type ComponentPinPlacement = {
   side: number;
-  coord: number; // x or y
+  pinIndex: number;
 }
 
-export type ComponentPort = ComponentProperties & {
+export type ComponentPin = ComponentProperties & {
   readonly id: string;
   readonly type: "input" | "output";
   component: PrimitiveComponent;
   name: string;
-  readonly placement: ComponentPortPlacement; // alias for pos
+  readonly placement: ComponentPinPlacement; // alias for pos
   value: number;
   connection?: Wire;
 }

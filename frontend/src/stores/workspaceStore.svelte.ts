@@ -20,6 +20,7 @@ export type WorkspaceStoreState = {
     isVisualizeComponentUpdatesEnabled: boolean;
     isShowComponentUpdatesEnabled: boolean;
   };
+  timerStart: Date | null;
 };
 
 export const state: WorkspaceStoreState = $state({
@@ -40,4 +41,5 @@ export const state: WorkspaceStoreState = $state({
     isVisualizeComponentUpdatesEnabled: false,
     isShowComponentUpdatesEnabled: false
   },
+  timerStart: null,
 });

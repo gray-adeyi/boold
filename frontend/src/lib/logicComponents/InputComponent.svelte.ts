@@ -9,7 +9,7 @@ export default class InputComponent extends PrimitiveComponent {
   }
 
   execute(): void {
-    if (!this.value) return;
+    if (this.value === null) return;
     this.outputPins[0].value = this.value;
   }
 }

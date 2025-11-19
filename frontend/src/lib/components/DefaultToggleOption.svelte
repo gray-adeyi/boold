@@ -1,5 +1,5 @@
 <script>
-    import DefaultToggleSwitch from "$/lib/components/DefaultToggleSwitch.svelte";
+import DefaultToggleSwitch from "$/lib/components/DefaultToggleSwitch.svelte";
 </script>
 
 <div class="option">

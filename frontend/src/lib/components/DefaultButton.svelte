@@ -1,13 +1,18 @@
 <script lang="ts">
-
-    type Props = {
-        onclick: (event?: MouseEvent) => void;
-         text: string;
-         disabled?: boolean;
-         type?: "button" | "submit" | "reset";
-         variant?: 'default' | 'danger';
-    }
-    const {type = "button", onclick, text, disabled=false, variant = 'default'} : Props = $props();
+type Props = {
+	onclick: (event?: MouseEvent) => void;
+	text: string;
+	disabled?: boolean;
+	type?: "button" | "submit" | "reset";
+	variant?: "default" | "danger";
+};
+const {
+	type = "button",
+	onclick,
+	text,
+	disabled = false,
+	variant = "default",
+}: Props = $props();
 </script>
 
 <button class={['button',{'button--danger': variant === 'danger'}]} {type} {onclick} {disabled}>{text}</button>

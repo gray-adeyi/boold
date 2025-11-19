@@ -1,10 +1,10 @@
 <script lang="ts">
-  type Props = {
-    readonly onclick: (event?: MouseEvent) => void;
-    readonly iconName: string;
-    readonly buttonText: string;
-  }
-    let props: Props = $props()
+type Props = {
+	readonly onclick: (event?: MouseEvent) => void;
+	readonly iconName: string;
+	readonly buttonText: string;
+};
+let props: Props = $props();
 </script>
 
 <button class="button" onclick={props.onclick}>

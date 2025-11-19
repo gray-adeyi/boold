@@ -1,46 +1,46 @@
 :root {
-    --font-material-icons: "Material Icons", sans-serif;
-    --font-righteous: "Righteous", system-ui;
-    --font-inconsolata: "Inconsolata Variable", monospace;
-    --font-ubuntu: "Ubuntu", sans-serif;
-    --font-ubuntu-mono: "Ubuntu Mono", monospace;
-    --font-monospace: "Monaspace Neon", monospace;
+	--font-material-icons: "Material Icons", sans-serif;
+	--font-righteous: "Righteous", system-ui;
+	--font-inconsolata: "Inconsolata Variable", monospace;
+	--font-ubuntu: "Ubuntu", sans-serif;
+	--font-ubuntu-mono: "Ubuntu Mono", monospace;
+	--font-monospace: "Monaspace Neon", monospace;
 
-    --color-app-black: #111;
-    --color-app-black-alt: #c7c7c7ff;
-    --color-app-white: #ddd;
-    --color-app-gray: #888;
-    --color-app-gray-alt: #333;
-    --color-app-gray-alt-2: #555;
-    --color-app-red: #500;
-    --color-app-red-alt: rgba(100, 0, 0, 0.1);
+	--color-app-black: #111;
+	--color-app-black-alt: #c7c7c7ff;
+	--color-app-white: #ddd;
+	--color-app-gray: #888;
+	--color-app-gray-alt: #333;
+	--color-app-gray-alt-2: #555;
+	--color-app-red: #500;
+	--color-app-red-alt: rgba(100, 0, 0, 0.1);
 }
 
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    &::selection {
-        background: var(--color-app-black);
-        color: var(--color-app-white);
-    }
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	&::selection {
+		background: var(--color-app-black);
+		color: var(--color-app-white);
+	}
 
-    &:focus-visible {
-        outline: 2px solid var(--color-app-black);
-        outline-offset: 2px;
-    }
+	&:focus-visible {
+		outline: 2px solid var(--color-app-black);
+		outline-offset: 2px;
+	}
 }
 
 body {
-    -webkit-user-select: none;
-    user-select: none;
-    font-family: var(--font-ubuntu);
+	-webkit-user-select: none;
+	user-select: none;
+	font-family: var(--font-ubuntu);
 }
 
 .material-icon {
-    font-family: var(--font-material-icons);
-    font-style: normal;
-    font-size: 1.5rem;
+	font-family: var(--font-material-icons);
+	font-style: normal;
+	font-size: 1.5rem;
 }

@@ -1,75 +1,75 @@
 <script lang="ts">
-    import ToolbarItem from "$/views/board/toolbar/ToolbarItem.svelte";
-    import { Portal } from "@jsrob/svelte-portal";
-    import NOTGateInfoDialog from "$/views/board/toolbar/dialogs/NOTGateInfoDialog.svelte";
-    import IOSelectDropdown from "$/views/board/toolbar/IOSelectDropdown.svelte";
-    import ANDGateInfoDialog from "$/views/board/toolbar/dialogs/ANDGateInfoDialog.svelte";
-    import ORGateInfoDialog from "$/views/board/toolbar/dialogs/ORGateInfoDialog.svelte";
-    import XORGateInfoDialog from "$/views/board/toolbar/dialogs/XORGateInfoDialog.svelte";
-    type ToolbarItem = {
-        text?: string;
-        icon?: string;
-        tip: string;
-        tipSubtext?: string;
-        onclick: () => void;
-        onrightclick?: () => void;
-    };
+import ToolbarItem from "$/views/board/toolbar/ToolbarItem.svelte";
+import { Portal } from "@jsrob/svelte-portal";
+import NOTGateInfoDialog from "$/views/board/toolbar/dialogs/NOTGateInfoDialog.svelte";
+import IOSelectDropdown from "$/views/board/toolbar/IOSelectDropdown.svelte";
+import ANDGateInfoDialog from "$/views/board/toolbar/dialogs/ANDGateInfoDialog.svelte";
+import ORGateInfoDialog from "$/views/board/toolbar/dialogs/ORGateInfoDialog.svelte";
+import XORGateInfoDialog from "$/views/board/toolbar/dialogs/XORGateInfoDialog.svelte";
+type ToolbarItem = {
+	text?: string;
+	icon?: string;
+	tip: string;
+	tipSubtext?: string;
+	onclick: () => void;
+	onrightclick?: () => void;
+};
 
-    let isIOSelectDropdownVisible = $state(false);
-    let isNOTGateDialogVisible = $state(false);
-    let isANDGateDialogVisible = $state(false);
-    let isORGateDialogVisible = $state(false);
-    let isXORGateDialogVisible = $state(false);
+let isIOSelectDropdownVisible = $state(false);
+let isNOTGateDialogVisible = $state(false);
+let isANDGateDialogVisible = $state(false);
+let isORGateDialogVisible = $state(false);
+let isXORGateDialogVisible = $state(false);
 
-    const toggleIOSelectDropdownVisibility = () => {
-        isIOSelectDropdownVisible = !isIOSelectDropdownVisible;
-    };
+const toggleIOSelectDropdownVisibility = () => {
+	isIOSelectDropdownVisible = !isIOSelectDropdownVisible;
+};
 
-    const toolbarItems: ToolbarItem[] = [
-        {
-            text: "I/O",
-            tip: "Input and output ports",
-            onclick: toggleIOSelectDropdownVisibility,
-        },
-        {
-            text: "!",
-            tip: "NOT gate",
-            tipSubtext: "Right click for details",
-            onclick: () => {},
-            onrightclick: () => (isNOTGateDialogVisible = true),
-        },
-        {
-            text: "&",
-            tip: "AND gate",
-            tipSubtext: "Right click for details",
-            onclick: () => {},
-            onrightclick: () => (isANDGateDialogVisible = true),
-        },
-        {
-            text: "|",
-            tip: "OR gate",
-            tipSubtext: "Right click for details",
-            onclick: () => {},
-            onrightclick: () => (isORGateDialogVisible = true),
-        },
-        {
-            text: "^",
-            tip: "XOR gate",
-            tipSubtext: "Right click for details",
-            onclick: () => {},
-            onrightclick: () => (isXORGateDialogVisible = true),
-        },
-        {
-            icon: "memory",
-            tip: "Custom component",
-            onclick: () => {},
-        },
-        {
-            icon: "list",
-            tip: "Saved components",
-            onclick: () => {},
-        },
-    ];
+const toolbarItems: ToolbarItem[] = [
+	{
+		text: "I/O",
+		tip: "Input and output ports",
+		onclick: toggleIOSelectDropdownVisibility,
+	},
+	{
+		text: "!",
+		tip: "NOT gate",
+		tipSubtext: "Right click for details",
+		onclick: () => {},
+		onrightclick: () => (isNOTGateDialogVisible = true),
+	},
+	{
+		text: "&",
+		tip: "AND gate",
+		tipSubtext: "Right click for details",
+		onclick: () => {},
+		onrightclick: () => (isANDGateDialogVisible = true),
+	},
+	{
+		text: "|",
+		tip: "OR gate",
+		tipSubtext: "Right click for details",
+		onclick: () => {},
+		onrightclick: () => (isORGateDialogVisible = true),
+	},
+	{
+		text: "^",
+		tip: "XOR gate",
+		tipSubtext: "Right click for details",
+		onclick: () => {},
+		onrightclick: () => (isXORGateDialogVisible = true),
+	},
+	{
+		icon: "memory",
+		tip: "Custom component",
+		onclick: () => {},
+	},
+	{
+		icon: "list",
+		tip: "Saved components",
+		onclick: () => {},
+	},
+];
 </script>
 
 <div class="container">

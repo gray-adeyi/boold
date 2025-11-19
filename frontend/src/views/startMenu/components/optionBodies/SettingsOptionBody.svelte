@@ -1,13 +1,13 @@
 <script lang="ts" >
-    import DefaultButton from "$/lib/components/DefaultButton.svelte";
-    import DefaultToggleOption from "$/lib/components/DefaultToggleOption.svelte";
-    import StartMenuOptionsItemBody from "$/views/startMenu/components/StartMenuOptionsItemBody.svelte";
-    type Props = {
-        readonly title?: string;
-        readonly isVisible?: boolean;
-    }
+import DefaultButton from "$/lib/components/DefaultButton.svelte";
+import DefaultToggleOption from "$/lib/components/DefaultToggleOption.svelte";
+import StartMenuOptionsItemBody from "$/views/startMenu/components/StartMenuOptionsItemBody.svelte";
+type Props = {
+	readonly title?: string;
+	readonly isVisible?: boolean;
+};
 
-    const props: Props = $props()
+const props: Props = $props();
 </script>
 
 

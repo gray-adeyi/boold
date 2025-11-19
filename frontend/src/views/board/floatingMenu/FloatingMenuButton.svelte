@@ -1,10 +1,10 @@
 <script lang="ts">
-    type Props = {
-        materialIcon: string;
-        text?: string;
-        onclick: () => void;
-    };
-    const { materialIcon, text, onclick }: Props = $props();
+type Props = {
+	materialIcon: string;
+	text?: string;
+	onclick: () => void;
+};
+const { materialIcon, text, onclick }: Props = $props();
 </script>
 
 <button class="button" {onclick}>

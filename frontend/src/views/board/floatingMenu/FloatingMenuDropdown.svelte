@@ -1,53 +1,53 @@
 <script lang="ts">
-    type MenuOption = {
-        icon: string;
-        display: string;
-        shortcut?: string;
-        action: () => void;
-    };
-    const menuOptions: MenuOption[] = [
-        {
-            icon: "add",
-            display: "New board",
-            shortcut: "Ctrl+N",
-            action: () => {},
-        },
-        {
-            icon: "folder",
-            display: "Open board",
-            shortcut: "Ctrl+O",
-            action: () => {},
-        },
-        {
-            icon: "save",
-            display: "Save board",
-            shortcut: "Ctrl+S",
-            action: () => {},
-        },
-        {
-            icon: "featured_play_list",
-            display: "Open console",
-            shortcut: "Shift+T",
-            action: () => {},
-        },
-        {
-            icon: "settings",
-            display: "Settings",
-            shortcut: "Ctrl+Shift+S",
-            action: () => {},
-        },
-        {
-            icon: "help",
-            display: "Open tutorial",
-            shortcut: "F1",
-            action: () => {},
-        },
-        {
-            icon: "exit_to_app",
-            display: "Quit",
-            action: () => {},
-        },
-    ];
+type MenuOption = {
+	icon: string;
+	display: string;
+	shortcut?: string;
+	action: () => void;
+};
+const menuOptions: MenuOption[] = [
+	{
+		icon: "add",
+		display: "New board",
+		shortcut: "Ctrl+N",
+		action: () => {},
+	},
+	{
+		icon: "folder",
+		display: "Open board",
+		shortcut: "Ctrl+O",
+		action: () => {},
+	},
+	{
+		icon: "save",
+		display: "Save board",
+		shortcut: "Ctrl+S",
+		action: () => {},
+	},
+	{
+		icon: "featured_play_list",
+		display: "Open console",
+		shortcut: "Shift+T",
+		action: () => {},
+	},
+	{
+		icon: "settings",
+		display: "Settings",
+		shortcut: "Ctrl+Shift+S",
+		action: () => {},
+	},
+	{
+		icon: "help",
+		display: "Open tutorial",
+		shortcut: "F1",
+		action: () => {},
+	},
+	{
+		icon: "exit_to_app",
+		display: "Quit",
+		action: () => {},
+	},
+];
 </script>
 
 <ul class="menu">

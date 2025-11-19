@@ -1,15 +1,15 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ],
-  "compilerOptions": {
-      "baseUrl": ".",
-      "paths": {
-        "$/*": ["./src/*"],
-        "$backend": ["wailsjs/go/main/App.js"],
-        "$runtime": ["wailsjs/runtime/runtime.js"],
-      }
-    }
+	"files": [],
+	"references": [
+		{ "path": "./tsconfig.app.json" },
+		{ "path": "./tsconfig.node.json" }
+	],
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"$/*": ["./src/*"],
+			"$backend": ["wailsjs/go/main/App.js"],
+			"$runtime": ["wailsjs/runtime/runtime.js"]
+		}
+	}
 }

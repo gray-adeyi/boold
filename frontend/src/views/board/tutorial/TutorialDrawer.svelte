@@ -1,24 +1,22 @@
 <script lang="ts">
-    import TutorialControls from "$/views/board/tutorial/TutorialControls.svelte";
-    const totalSteps = 11;
-    let currentStep = $state(1);
+import TutorialControls from "$/views/board/tutorial/TutorialControls.svelte";
+const totalSteps = 11;
+let currentStep = $state(1);
 
-    const gotoPreviousStep = () => {
-        if (currentStep <= 1) return;
-        currentStep--;
-    };
+const gotoPreviousStep = () => {
+	if (currentStep <= 1) return;
+	currentStep--;
+};
 
-    const gotoNextStep = () => {
-        if (currentStep >= totalSteps) return;
-        currentStep++;
-    };
+const gotoNextStep = () => {
+	if (currentStep >= totalSteps) return;
+	currentStep++;
+};
 
-    const stepComponentModule = $derived.by(async () => {
-        const module = await import(
-            `./steps/TutorialStep${currentStep}.svelte`
-        );
-        return module.default;
-    });
+const stepComponentModule = $derived.by(async () => {
+	const module = await import(`./steps/TutorialStep${currentStep}.svelte`);
+	return module.default;
+});
 </script>
 
 <dialog class="container">

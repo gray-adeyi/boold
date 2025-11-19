@@ -1,81 +1,81 @@
 <script lang="ts">
-    type IOSelectOption = {
-        displayText: string;
-        displayTextTransform: "uppercase" | "capitalize";
-        onclick: () => void;
-    };
-    const options: IOSelectOption[] = [
-        {
-            displayText: "input",
-            displayTextTransform: "capitalize",
-            onclick: () => {},
-        },
-        {
-            displayText: "output",
-            displayTextTransform: "capitalize",
-            onclick: () => {},
-        },
-        {
-            displayText: "button",
-            displayTextTransform: "capitalize",
-            onclick: () => {},
-        },
-        {
-            displayText: "constant",
-            displayTextTransform: "capitalize",
-            onclick: () => {},
-        },
-        {
-            displayText: "delay",
-            displayTextTransform: "capitalize",
-            onclick: () => {},
-        },
-        {
-            displayText: "clock",
-            displayTextTransform: "capitalize",
-            onclick: () => {},
-        },
-        {
-            displayText: "led",
-            displayTextTransform: "uppercase",
-            onclick: () => {},
-        },
-        {
-            displayText: "display",
-            displayTextTransform: "capitalize",
-            onclick: () => {},
-        },
-        {
-            displayText: "debug",
-            displayTextTransform: "capitalize",
-            onclick: () => {},
-        },
-        {
-            displayText: "beep",
-            displayTextTransform: "capitalize",
-            onclick: () => {},
-        },
-        {
-            displayText: "counter",
-            displayTextTransform: "capitalize",
-            onclick: () => {},
-        },
-        {
-            displayText: "timer start",
-            displayTextTransform: "capitalize",
-            onclick: () => {},
-        },
-        {
-            displayText: "timer end",
-            displayTextTransform: "capitalize",
-            onclick: () => {},
-        },
-        {
-            displayText: "rom",
-            displayTextTransform: "uppercase",
-            onclick: () => {},
-        },
-    ];
+type IOSelectOption = {
+	displayText: string;
+	displayTextTransform: "uppercase" | "capitalize";
+	onclick: () => void;
+};
+const options: IOSelectOption[] = [
+	{
+		displayText: "input",
+		displayTextTransform: "capitalize",
+		onclick: () => {},
+	},
+	{
+		displayText: "output",
+		displayTextTransform: "capitalize",
+		onclick: () => {},
+	},
+	{
+		displayText: "button",
+		displayTextTransform: "capitalize",
+		onclick: () => {},
+	},
+	{
+		displayText: "constant",
+		displayTextTransform: "capitalize",
+		onclick: () => {},
+	},
+	{
+		displayText: "delay",
+		displayTextTransform: "capitalize",
+		onclick: () => {},
+	},
+	{
+		displayText: "clock",
+		displayTextTransform: "capitalize",
+		onclick: () => {},
+	},
+	{
+		displayText: "led",
+		displayTextTransform: "uppercase",
+		onclick: () => {},
+	},
+	{
+		displayText: "display",
+		displayTextTransform: "capitalize",
+		onclick: () => {},
+	},
+	{
+		displayText: "debug",
+		displayTextTransform: "capitalize",
+		onclick: () => {},
+	},
+	{
+		displayText: "beep",
+		displayTextTransform: "capitalize",
+		onclick: () => {},
+	},
+	{
+		displayText: "counter",
+		displayTextTransform: "capitalize",
+		onclick: () => {},
+	},
+	{
+		displayText: "timer start",
+		displayTextTransform: "capitalize",
+		onclick: () => {},
+	},
+	{
+		displayText: "timer end",
+		displayTextTransform: "capitalize",
+		onclick: () => {},
+	},
+	{
+		displayText: "rom",
+		displayTextTransform: "uppercase",
+		onclick: () => {},
+	},
+];
 </script>
 
 <ul class="container">

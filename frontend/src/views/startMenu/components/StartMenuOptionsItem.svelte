@@ -1,17 +1,17 @@
 <script lang="ts">
-    import StartMenuOptionsItemButton from "$/views/startMenu/components/StartMenuOptionsItemButton.svelte";
-    import type {Component} from "svelte";
+import StartMenuOptionsItemButton from "$/views/startMenu/components/StartMenuOptionsItemButton.svelte";
+import type { Component } from "svelte";
 
-    type Props = {
-        readonly onclick: (event?: MouseEvent) => void;
-        readonly iconName: string;
-        readonly text: string;
-        readonly isBodyOpen?: boolean;
-        readonly bodyTitle?: string;
-        readonly bodyComponent?: Component;
-    }
+type Props = {
+	readonly onclick: (event?: MouseEvent) => void;
+	readonly iconName: string;
+	readonly text: string;
+	readonly isBodyOpen?: boolean;
+	readonly bodyTitle?: string;
+	readonly bodyComponent?: Component;
+};
 
-    const props: Props = $props()
+const props: Props = $props();
 </script>
 
 <li>

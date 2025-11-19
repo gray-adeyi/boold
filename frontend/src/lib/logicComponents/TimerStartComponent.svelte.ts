@@ -3,25 +3,25 @@ import PrimitiveComponent from "./PrimitiveComponent.svelte";
 import { state as boardStoreState } from "$/stores/boardStore.svelte";
 
 export default class TimerStartComponent extends PrimitiveComponent {
-  constructor(name: string | null, pos: Coord) {
-    super(name, pos, 2, 1, { type: "value" });
-    this.value = 0;
-  }
+	constructor(name: string | null, pos: Coord) {
+		super(name, pos, 2, 1, { type: "value" });
+		this.value = 0;
+	}
 
-  update() {
-    console.time();
-    boardStoreState.timerStart = new Date();
-    this.execute();
-    if (!this.value) return;
-    this.outputPins[0].value = this.value;
+	update() {
+		console.time();
+		boardStoreState.timerStart = new Date();
+		this.execute();
+		if (!this.value) return;
+		this.outputPins[0].value = this.value;
 
-    if (this.outputPins[0].connection) {
-      this.outputPins[0].connection.update(this.value);
-    }
-  }
+		if (this.outputPins[0].connection) {
+			this.outputPins[0].connection.update(this.value);
+		}
+	}
 
-  execute(): void {
-    if (!this.value) return;
-    this.outputPins[0].value = this.value;
-  }
+	execute(): void {
+		if (!this.value) return;
+		this.outputPins[0].value = this.value;
+	}
 }

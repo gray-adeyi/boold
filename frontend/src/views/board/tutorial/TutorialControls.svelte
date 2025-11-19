@@ -1,15 +1,15 @@
 <script lang="ts">
-    type Props = {
-        currentStep: number;
-        totalSteps: number;
-        ongotopreviousstep: () => void;
-        ongotonextstep: () => void;
-    };
-    const { currentStep, totalSteps, ongotopreviousstep, ongotonextstep } =
-        $props();
-    
-    const isPreviousDisabled = $derived(currentStep === 1)
-    const isNextDisabled = $derived(currentStep === totalSteps)
+type Props = {
+	currentStep: number;
+	totalSteps: number;
+	ongotopreviousstep: () => void;
+	ongotonextstep: () => void;
+};
+const { currentStep, totalSteps, ongotopreviousstep, ongotonextstep } =
+	$props();
+
+const isPreviousDisabled = $derived(currentStep === 1);
+const isNextDisabled = $derived(currentStep === totalSteps);
 </script>
 
 <div class="container">

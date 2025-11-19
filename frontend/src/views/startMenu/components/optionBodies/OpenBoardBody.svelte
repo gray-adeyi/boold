@@ -4,11 +4,11 @@ import RecentBoardItem from "$/views/startMenu/components/optionBodies/RecentBoa
 import StartMenuOptionsItemBody from "$/views/startMenu/components/StartMenuOptionsItemBody.svelte";
 
 type Props = {
-    readonly title?: string;
-    readonly isVisible?: boolean;
-}
+	readonly title?: string;
+	readonly isVisible?: boolean;
+};
 
-const props: Props = $props()
+const props: Props = $props();
 </script>
 
 <StartMenuOptionsItemBody title={props.title} isVisible={props.isVisible}>

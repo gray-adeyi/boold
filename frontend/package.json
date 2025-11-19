@@ -1,33 +1,33 @@
 {
-  "name": "frontend",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "2.2.3",
-    "@sveltejs/vite-plugin-svelte": "^6.1.1",
-    "@tsconfig/svelte": "^5.0.4",
-    "@types/bun": "^1.2.21",
-    "svelte": "^5.38.1",
-    "svelte-check": "^4.3.1",
-    "typescript": "~5.8.3",
-    "vite": "^7.1.2"
-  },
-  "dependencies": {
-    "@fontsource-variable/inconsolata": "^5.2.7",
-    "@fontsource/material-icons": "^5.2.5",
-    "@fontsource/monaspace-neon": "^5.2.5",
-    "@fontsource/righteous": "^5.2.6",
-    "@fontsource/ubuntu": "^5.2.7",
-    "@fontsource/ubuntu-mono": "^5.2.7",
-    "@hazycora/vite-plugin-svelte-svg": "^2.4.3",
-    "@jsrob/svelte-portal": "^0.2.1",
-    "sv-router": "^0.9.0"
-  }
+	"name": "frontend",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview",
+		"check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.2.3",
+		"@sveltejs/vite-plugin-svelte": "^6.1.1",
+		"@tsconfig/svelte": "^5.0.4",
+		"@types/bun": "^1.2.21",
+		"svelte": "^5.38.1",
+		"svelte-check": "^4.3.1",
+		"typescript": "~5.8.3",
+		"vite": "^7.1.2"
+	},
+	"dependencies": {
+		"@fontsource-variable/inconsolata": "^5.2.7",
+		"@fontsource/material-icons": "^5.2.5",
+		"@fontsource/monaspace-neon": "^5.2.5",
+		"@fontsource/righteous": "^5.2.6",
+		"@fontsource/ubuntu": "^5.2.7",
+		"@fontsource/ubuntu-mono": "^5.2.7",
+		"@hazycora/vite-plugin-svelte-svg": "^2.4.3",
+		"@jsrob/svelte-portal": "^0.2.1",
+		"sv-router": "^0.9.0"
+	}
 }

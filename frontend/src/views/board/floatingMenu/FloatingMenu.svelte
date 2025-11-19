@@ -1,14 +1,14 @@
 <script lang="ts">
-    import AppVersionButton from "$/views/board/floatingMenu/AppVersionButton.svelte";
-    import FloatingMenuDropdown from "$/views/board/floatingMenu/FloatingMenuDropdown.svelte";
-    import FloatingMenuDropdownButton from "$/views/board/floatingMenu/FloatingMenuDropdownButton.svelte";
-    import PauseSimulationButton from "$/views/board/floatingMenu/PauseSimulationButton.svelte";
+import AppVersionButton from "$/views/board/floatingMenu/AppVersionButton.svelte";
+import FloatingMenuDropdown from "$/views/board/floatingMenu/FloatingMenuDropdown.svelte";
+import FloatingMenuDropdownButton from "$/views/board/floatingMenu/FloatingMenuDropdownButton.svelte";
+import PauseSimulationButton from "$/views/board/floatingMenu/PauseSimulationButton.svelte";
 
-    let isDropdownVisible = $state(false);
+let isDropdownVisible = $state(false);
 
-    const toggleDropdownVisibility = () => {
-        isDropdownVisible = !isDropdownVisible;
-    };
+const toggleDropdownVisibility = () => {
+	isDropdownVisible = !isDropdownVisible;
+};
 </script>
 
 <div class="container">

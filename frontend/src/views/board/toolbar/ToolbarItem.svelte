@@ -1,33 +1,32 @@
 <script lang="ts">
-    import { Portal } from "@jsrob/svelte-portal";
+import { Portal } from "@jsrob/svelte-portal";
 
-    type Props = {
-        text?: string;
-        icon?: string;
-        tip: string;
-        tipSubtext?: string;
-        onclick: () => void;
-        onrightclick?: () => void;
-    };
-    const { text, icon, tip, tipSubtext, onclick, onrightclick }: Props =
-        $props();
+type Props = {
+	text?: string;
+	icon?: string;
+	tip: string;
+	tipSubtext?: string;
+	onclick: () => void;
+	onrightclick?: () => void;
+};
+const { text, icon, tip, tipSubtext, onclick, onrightclick }: Props = $props();
 
-    let isTipVisible = $state(false);
-    let buttonEl: HTMLButtonElement | null = $state(null);
+let isTipVisible = $state(false);
+let buttonEl: HTMLButtonElement | null = $state(null);
 
-    const setTipLeftOffset = (el: HTMLDivElement) => {
-        if (!buttonEl) return;
-        const rect = buttonEl.getBoundingClientRect();
-        const leftPos = rect.left + rect.width / 2;
-        el.style.left = `${leftPos}px`;
-        // el.style.bottom = `${rect.top}px`
-    };
+const setTipLeftOffset = (el: HTMLDivElement) => {
+	if (!buttonEl) return;
+	const rect = buttonEl.getBoundingClientRect();
+	const leftPos = rect.left + rect.width / 2;
+	el.style.left = `${leftPos}px`;
+	// el.style.bottom = `${rect.top}px`
+};
 
-    const handleRightClick = (event: MouseEvent) => {
-        event.preventDefault();
-        if (!onrightclick) return;
-        onrightclick();
-    };
+const handleRightClick = (event: MouseEvent) => {
+	event.preventDefault();
+	if (!onrightclick) return;
+	onrightclick();
+};
 </script>
 
 <li class="container">

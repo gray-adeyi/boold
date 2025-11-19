@@ -1,35 +1,35 @@
 <script lang="ts">
-    import type { Snippet } from "svelte";
+import type { Snippet } from "svelte";
 
-    type Props = {
-        children: Snippet;
-        onclose: () => void;
-        actionType?: "closeOnly" | "okCancel";
-        title: string;
-        closeButtonText?: string;
-        okButtonText?: string;
-        cancelButtonText?: string;
-        onok?: () => void;
-        oncancel?: () => void;
-    };
+type Props = {
+	children: Snippet;
+	onclose: () => void;
+	actionType?: "closeOnly" | "okCancel";
+	title: string;
+	closeButtonText?: string;
+	okButtonText?: string;
+	cancelButtonText?: string;
+	onok?: () => void;
+	oncancel?: () => void;
+};
 
-    const {
-        children,
-        onclose,
-        actionType = "closeOnly",
-        title,
-        closeButtonText = "close",
-        okButtonText = "ok",
-        cancelButtonText = "cancel",
-        onok,
-        oncancel,
-    }: Props = $props();
+const {
+	children,
+	onclose,
+	actionType = "closeOnly",
+	title,
+	closeButtonText = "close",
+	okButtonText = "ok",
+	cancelButtonText = "cancel",
+	onok,
+	oncancel,
+}: Props = $props();
 
-    if (actionType === "okCancel" && !onok && !oncancel) {
-        throw new Error(
-            'onok and oncancel callback required if actionType === "okCancel"',
-        );
-    }
+if (actionType === "okCancel" && !onok && !oncancel) {
+	throw new Error(
+		'onok and oncancel callback required if actionType === "okCancel"',
+	);
+}
 </script>
 
 <dialog class="dialog" open>

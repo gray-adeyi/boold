@@ -1,9 +1,9 @@
 <script lang="ts">
-    import FloatingMenuButton from "$/views/board/floatingMenu/FloatingMenuButton.svelte";
+import FloatingMenuButton from "$/views/board/floatingMenu/FloatingMenuButton.svelte";
 
-    let isSimulationRunning = $state(true);
+let isSimulationRunning = $state(true);
 
-    const materialIcon = $derived(isSimulationRunning ? "pause" : "play_arrow");
+const materialIcon = $derived(isSimulationRunning ? "pause" : "play_arrow");
 </script>
 
 <FloatingMenuButton

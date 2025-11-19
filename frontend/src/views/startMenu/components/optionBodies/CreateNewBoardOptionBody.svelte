@@ -1,16 +1,15 @@
 <script lang="ts">
-    import DefaultButton from "$/lib/components/DefaultButton.svelte";
-    import MacCmdKeyIcon from "$/assets/icons/mac-command.svg?component";
-    import MouseLeftButtonIcon from "$/assets/icons/mouse-left-button.svg?component";
-    import StartMenuOptionsItemBody from "$/views/startMenu/components/StartMenuOptionsItemBody.svelte";
+import DefaultButton from "$/lib/components/DefaultButton.svelte";
+import MacCmdKeyIcon from "$/assets/icons/mac-command.svg?component";
+import MouseLeftButtonIcon from "$/assets/icons/mouse-left-button.svg?component";
+import StartMenuOptionsItemBody from "$/views/startMenu/components/StartMenuOptionsItemBody.svelte";
 
-    type Props = {
-        readonly title?: string;
-        readonly isVisible?: boolean;
-    }
+type Props = {
+	readonly title?: string;
+	readonly isVisible?: boolean;
+};
 
-    const props: Props = $props()
-
+const props: Props = $props();
 </script>
 
 <StartMenuOptionsItemBody title={props.title} isVisible={props.isVisible}>

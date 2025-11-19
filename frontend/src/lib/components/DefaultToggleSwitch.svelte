@@ -1,21 +1,21 @@
 <script lang="ts">
-    // type Props = {
-    //     checked: boolean;
-    //     onToggle: (checked: boolean) => void;
-    // }
-    // const {checked, onToggle}: Props = $props();
-    // const toggle = () => {}
-    let checked = $state(false);
-    const ariaChecked = $derived(checked ? 'true' : 'false');
+// type Props = {
+//     checked: boolean;
+//     onToggle: (checked: boolean) => void;
+// }
+// const {checked, onToggle}: Props = $props();
+// const toggle = () => {}
+let checked = $state(false);
+const ariaChecked = $derived(checked ? "true" : "false");
 
-    const toggle = () => {
-        checked = !checked
-    }
-    const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-            toggle();
-        }
-    }
+const toggle = () => {
+	checked = !checked;
+};
+const handleKeyDown = (event: KeyboardEvent) => {
+	if (event.key === "Enter" || event.key === " ") {
+		toggle();
+	}
+};
 </script>
 
 <div class={["switch",{'switch--checked': checked}]} role="switch" onclick={toggle} onkeydown={handleKeyDown}

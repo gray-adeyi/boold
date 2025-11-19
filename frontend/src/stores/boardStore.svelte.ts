@@ -1,7 +1,11 @@
-import InputComponent from "$/lib/logicComponents/InputComponent.svelte";
-import type PrimitiveComponent from "$/lib/logicComponents/PrimitiveComponent.svelte";
+import ANDGateComponent from "$/lib/logicComponents/ANDGateComponent.svelte";
 import type Wire from "$/lib/logicComponents/Wire.svelte";
-import type { ComponentPin, Coord } from "$/types";
+import type {
+	AllLogicComponents,
+	AllLogicComponentsClasses,
+	ComponentPin,
+	Coord,
+} from "$/types";
 
 type UserSelection = {
 	pos: Coord;
@@ -9,7 +13,7 @@ type UserSelection = {
 		width: number;
 		height: number;
 	};
-	components: PrimitiveComponent[];
+	components: LogicComponent[];
 	wires: Wire[];
 };
 
@@ -21,7 +25,7 @@ type UserDrag =
 			dy: number;
 	  }
 	| {
-			component: PrimitiveComponent;
+			component: LogicComponent;
 			pos: Coord;
 			dx: number;
 			dy: number;
@@ -41,7 +45,7 @@ export type BoardStoreState = {
 		screen: Coord;
 		grid: Coord;
 	};
-	components: PrimitiveComponent[];
+	components: AllLogicComponents[];
 	wires: Wire[];
 	settings: {
 		isScrollAnimationEnabled: boolean;
@@ -67,7 +71,7 @@ export type BoardStoreState = {
 	userDrag: UserDrag | null;
 	connectingWire: Wire | null;
 	animationFrameId: number | null;
-	selectedComponent: typeof PrimitiveComponent; // not to be confused with user selection
+	selectedComponent: AllLogicComponentsClasses; // type of any logic component not just InputComponent
 };
 
 export const state: BoardStoreState = $state({
@@ -102,7 +106,7 @@ export const state: BoardStoreState = $state({
 	userDrag: null,
 	connectingWire: null,
 	animationFrameId: null,
-	selectedComponent: InputComponent,
+	selectedComponent: ANDGateComponent,
 });
 
 export function scrollBoard(dx: number, dy: number) {

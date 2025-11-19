@@ -1,26 +1,15 @@
+import type Wire from "$/lib/logicComponents/Wire.svelte";
+import type { BoardStoreState } from "$/stores/boardStore.svelte";
 import type {
-	Coord,
 	ComponentIcon,
-	ComponentProperties,
 	ComponentPin,
 	ComponentPinPlacement,
+	ComponentProperties,
+	Coord,
+	LogicComponent,
 } from "$/types";
-import { state as boardStoreState } from "$/stores/boardStore.svelte";
-import type Wire from "./Wire.svelte";
 
 const updateQueue = [];
-
-export interface LogicComponent {
-	// updates the component for every simulation frame
-	update(): void;
-	// draws the component to the canvas
-	draw(): void;
-	// applies the logical functionality of the component
-	execute(): void;
-	// change the orientation of the component if it has not be connected
-	// to other components
-	rotate(): void;
-}
 
 export default class PrimitiveComponent implements LogicComponent {
 	readonly id = crypto.randomUUID();
@@ -35,23 +24,29 @@ export default class PrimitiveComponent implements LogicComponent {
 	outputPins: ComponentPin[];
 	outline?: number;
 	value: number | null = null;
+	boardStoreState: BoardStoreState;
 
 	constructor(
 		name: string | null,
-		pos: Coord = Object.assign({}, boardStoreState.mouse.grid),
+		pos: Coord = {} as Coord,
 		width: number = 2,
 		height: number = 2,
 		icon: ComponentIcon | null,
+		boardStoreState: BoardStoreState,
 	) {
+		this.boardStoreState = boardStoreState;
 		if (!name) {
-			const similarComponentsCount = boardStoreState.components.filter(
+			const similarComponentsCount = this.boardStoreState.components.filter(
 				(c) => c.constructor === this.constructor,
 			).length;
 			name = `${this.constructor.name}#${similarComponentsCount + 1}`;
 		}
 		this.name = name;
 
-		this.pos = pos;
+		this.pos =
+			Object.keys(pos).length === 0
+				? Object.assign({}, this.boardStoreState.mouse.grid)
+				: pos;
 		this.width = width;
 		this.height = height;
 		this.rotation = 0;
@@ -62,7 +57,7 @@ export default class PrimitiveComponent implements LogicComponent {
 	}
 
 	update() {
-		if (boardStoreState.settings.isShowComponentUpdatesEnabled)
+		if (this.boardStoreState.settings.isShowComponentUpdatesEnabled)
 			this.highlight(250);
 
 		this.execute();
@@ -92,7 +87,7 @@ export default class PrimitiveComponent implements LogicComponent {
 	}
 
 	draw() {
-		const { zoom, offset, canvas, canvasCtx } = boardStoreState;
+		const { zoom, offset, canvas, canvasCtx } = this.boardStoreState;
 		if (!canvas || !canvasCtx) return;
 		const ctx = canvasCtx;
 		const canvasWidth = canvas.width;

@@ -1,13 +1,19 @@
 import type { Coord } from "$/types";
 import PrimitiveComponent from "$/lib/logicComponents/PrimitiveComponent.svelte";
+import type { BoardStoreState } from "$/stores/boardStore.svelte";
 
 export default class DisplayComponent extends PrimitiveComponent {
 	private lineWidth: number;
 	private hOffset: number;
 	private colorOff: string;
 	private colorOn: string;
-	constructor(name: string | null, pos: Coord, color = "#a00") {
-		super(name, pos, 4, 5, { type: "value" });
+	constructor(
+		name: string | null,
+		pos: Coord,
+		color = "#a00",
+		boardStoreState: BoardStoreState,
+	) {
+		super(name, pos, 4, 5, { type: "value" }, boardStoreState);
 		this.addInputPin({ side: 0, pinIndex: 0 }, "A");
 		this.addInputPin({ side: 0, pinIndex: 1 }, "B");
 		this.addInputPin({ side: 0, pinIndex: 2 }, "C");

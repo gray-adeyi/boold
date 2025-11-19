@@ -1,5 +1,35 @@
-import type PrimitiveComponent from "./lib/logicComponents/PrimitiveComponent.svelte";
-import type Wire from "./lib/logicComponents/Wire.svelte";
+import type BeepComponent from "$/lib/logicComponents/BeepComponent.svelte";
+import type ButtonComponent from "$/lib/logicComponents/ButtonComponent.svelte";
+import type ClockComponent from "$/lib/logicComponents/ClockComponent.svelte";
+import type ConstantComponent from "$/lib/logicComponents/ConstantComponent.svelte";
+import type CounterComponent from "$/lib/logicComponents/CounterComponent.svelte";
+import type CustomComponent from "$/lib/logicComponents/CustomComponent.svelte";
+import type DebugComponent from "$/lib/logicComponents/DebugComponent.svelte";
+import type DelayComponent from "$/lib/logicComponents/DelayComponent.svelte";
+import type DisplayComponent from "$/lib/logicComponents/DisplayComponent.svelte";
+import type InputComponent from "$/lib/logicComponents/InputComponent.svelte";
+import type LEDComponent from "$/lib/logicComponents/LEDComponent.svelte";
+import type NOTGateComponent from "$/lib/logicComponents/NOTGateComponent.svelte";
+import type ORGateComponent from "$/lib/logicComponents/ORGateComponent.svelte";
+import type OutputComponent from "$/lib/logicComponents/OutputComponent.svelte";
+import type PrimitiveComponent from "$/lib/logicComponents/PrimitiveComponent.svelte";
+import type ROMComponent from "$/lib/logicComponents/ROMComponent.svelte";
+import type TimerEndComponent from "$/lib/logicComponents/TimerEndComponent.svelte";
+import type TimerStartComponent from "$/lib/logicComponents/TimerStartComponent.svelte";
+import type Wire from "$/lib/logicComponents/Wire.svelte";
+import type XORGateComponent from "$/lib/logicComponents/XORGateComponent.svelte";
+
+export interface LogicComponent {
+	// updates the component for every simulation frame
+	update(): void;
+	// draws the component to the canvas
+	draw(): void;
+	// applies the logical functionality of the component
+	execute(): void;
+	// change the orientation of the component if it has not be connected
+	// to other components
+	rotate(): void;
+}
 
 export type Coord = {
 	x: number;
@@ -52,3 +82,43 @@ export type ComponentOutputPin = BaseComponentPin & {
 };
 
 export type ComponentPin = ComponentInputPin | ComponentOutputPin;
+
+export type AllLogicComponents =
+	| BeepComponent
+	| ButtonComponent
+	| ClockComponent
+	| ConstantComponent
+	| CounterComponent
+	| CustomComponent
+	| DebugComponent
+	| DelayComponent
+	| DisplayComponent
+	| InputComponent
+	| LEDComponent
+	| NOTGateComponent
+	| ORGateComponent
+	| OutputComponent
+	| ROMComponent
+	| TimerEndComponent
+	| TimerStartComponent
+	| XORGateComponent;
+
+export type AllLogicComponentsClasses =
+	| typeof BeepComponent
+	| typeof ButtonComponent
+	| typeof ClockComponent
+	| typeof ConstantComponent
+	| typeof CounterComponent
+	| typeof CustomComponent
+	| typeof DebugComponent
+	| typeof DelayComponent
+	| typeof DisplayComponent
+	| typeof InputComponent
+	| typeof LEDComponent
+	| typeof NOTGateComponent
+	| typeof ORGateComponent
+	| typeof OutputComponent
+	| typeof ROMComponent
+	| typeof TimerEndComponent
+	| typeof TimerStartComponent
+	| typeof XORGateComponent;

@@ -1,10 +1,10 @@
+import type { BoardStoreState } from "$/stores/boardStore.svelte";
 import type {
 	ComponentInputPin,
 	ComponentOutputPin,
 	Coord,
 	RGBColor,
 } from "$/types";
-import { state as boardStoreState } from "$/stores/boardStore.svelte";
 
 const updateQueue = [];
 
@@ -18,6 +18,7 @@ export default class Wire {
 	inputConnections: Wire[];
 	outputConnections: Wire[];
 	color: RGBColor;
+	boardStoreState: BoardStoreState;
 
 	constructor(
 		path: Coord[] = [],
@@ -25,9 +26,11 @@ export default class Wire {
 		color: RGBColor = { r: 136, g: 136, b: 136 },
 		from: ComponentOutputPin,
 		to: ComponentInputPin,
+		boardStoreState: BoardStoreState,
 	) {
 		this.path = path;
 		this.intersections = intersections;
+		this.boardStoreState = boardStoreState;
 
 		this.from = from;
 		this.to = to;
@@ -84,9 +87,9 @@ export default class Wire {
 	}
 
 	draw() {
-		const ctx = boardStoreState.canvasCtx;
+		const ctx = this.boardStoreState.canvasCtx;
 		if (!ctx) return;
-		if (boardStoreState.zoom > 50) {
+		if (this.boardStoreState.zoom > 50) {
 			ctx.lineCap = "round";
 		}
 		let color: RGBColor;
@@ -130,8 +133,12 @@ export default class Wire {
 		ctx.beginPath();
 		path.forEach((coord) => {
 			ctx.lineTo(
-				((coord.x - boardStoreState.offset.x) * boardStoreState.zoom) | 0,
-				(-(coord.y - boardStoreState.offset.y) * boardStoreState.zoom) | 0,
+				((coord.x - this.boardStoreState.offset.x) *
+					this.boardStoreState.zoom) |
+					0,
+				(-(coord.y - this.boardStoreState.offset.y) *
+					this.boardStoreState.zoom) |
+					0,
 			);
 		});
 		ctx.stroke();
@@ -143,9 +150,11 @@ export default class Wire {
 			else if (intersection.type === 3) ctx.fillStyle = "#f11";
 			ctx.beginPath();
 			ctx.arc(
-				(intersection.x - boardStoreState.offset.x) * boardStoreState.zoom,
-				-(intersection.y - boardStoreState.offset.y) * boardStoreState.zoom,
-				boardStoreState.zoom / 8,
+				(intersection.x - this.boardStoreState.offset.x) *
+					this.boardStoreState.zoom,
+				-(intersection.y - this.boardStoreState.offset.y) *
+					this.boardStoreState.zoom,
+				this.boardStoreState.zoom / 8,
 				0,
 				Math.PI * 2,
 			);

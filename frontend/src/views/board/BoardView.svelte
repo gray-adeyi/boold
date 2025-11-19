@@ -5,15 +5,13 @@
     import FloatingMenu from "$/views/board/floatingMenu/FloatingMenu.svelte";
     import Toolbar from "$/views/board/toolbar/Toolbar.svelte";
     import TutorialDrawer from "$/views/board/tutorial/TutorialDrawer.svelte";
+    import {
+        state as boardStoreState,
+        drawBoardFrame,
+    } from "$/stores/boardStore.svelte";
 
     let windowHeight = $state(0);
     let windowWidth = $state(0);
-
-    function draw(ctx: CanvasRenderingContext2D) {
-        ctx.fillStyle = "#fff";
-        ctx.fillRect(0, 0, windowWidth, windowHeight);
-        requestAnimationFrame(() => draw(ctx));
-    }
 
     function initCanvas(node: HTMLCanvasElement) {
         node.height = windowHeight;
@@ -21,7 +19,22 @@
         const ctx = node.getContext("2d", { alpha: false });
         if (!ctx) throw new Error("Could not get canvas context");
         ctx.imageSmoothingEnabled = true;
-        draw(ctx);
+        boardStoreState.canvas = node;
+        boardStoreState.canvasCtx = ctx;
+        boardStoreState.audioCtx = new AudioContext();
+        boardStoreState.animationFrameId =
+            requestAnimationFrame(drawBoardFrame);
+        return () => {
+            if (boardStoreState.animationFrameId) {
+                cancelAnimationFrame(boardStoreState.animationFrameId);
+            }
+            if (boardStoreState.audioCtx) {
+                boardStoreState.audioCtx.close();
+                boardStoreState.audioCtx = null;
+            }
+            boardStoreState.canvas = null;
+            boardStoreState.canvasCtx = null;
+        };
     }
 </script>
 

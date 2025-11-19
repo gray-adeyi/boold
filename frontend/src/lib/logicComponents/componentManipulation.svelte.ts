@@ -1,8 +1,13 @@
 import type PrimitiveComponent from "$/lib/logicComponents/PrimitiveComponent.svelte";
 import { state as boardStoreState } from "$/stores/boardStore.svelte";
-import type { ComponentPin, Coord } from "$/types";
-import type Wire from "$/lib/logicComponents/Wire.svelte";
-import CustomComponent from "./CustomComponent.svelte";
+import type {
+  ComponentInputPin,
+  ComponentOutputPin,
+  ComponentPin,
+  Coord,
+} from "$/types";
+import Wire from "$/lib/logicComponents/Wire.svelte";
+import CustomComponent from "$/lib/logicComponents/CustomComponent.svelte";
 
 /**
  * Adds the logic component to the board
@@ -25,6 +30,29 @@ export function addComponent(
   }
   return false;
 }
+
+export function addSelection() {}
+
+export function removeComponent() {}
+
+export function removeSelection() {}
+
+export function connectComponents(
+  from: ComponentOutputPin,
+  to: ComponentInputPin,
+) {}
+
+export function connectWires(wire1: Wire, wire2: Wire) {}
+
+export function changeComponentSize() {}
+
+export function moveComponent() {}
+
+export function moveComponentPin() {}
+
+export function moveSelection() {}
+
+export function editEntity() {}
 
 /**
  * Finds a component by its position
@@ -344,7 +372,7 @@ export function cloneComponent(
   component: PrimitiveComponent,
   dx: number = 0,
   dy: number = 0,
-) {
+): PrimitiveComponent {
   const clone: PrimitiveComponent = component.constructor();
   clone.pos = {
     x: component.pos.x + dx,
@@ -410,3 +438,53 @@ function cloneComponentPins(
     pin.placement = Object.assign({}, component.outputPins[i].placement);
   }
 }
+
+/**
+ * Clone a wire
+ * @param wire is the wire to be cloned
+ * @param dx is the x coordinate where the cloned wire should be placed
+ * @param dy is the y coordinate where the cloned wire should be placed
+ * @returns the cloned wire
+ */
+export function cloneWire(wire: Wire, dx: number = 0, dy: number = 0): Wire {
+  const newPath = wire.path.map((coord) => {
+    return { x: coord.x + dx, y: coord.y + dy };
+  });
+  const newIntersections = wire.intersections.map((intersection) => {
+    return { x: intersection.x + dx, y: intersection.y + dy };
+  });
+  const clone = new Wire(
+    newPath,
+    newIntersections,
+    wire.color,
+    undefined,
+    undefined,
+  );
+  clone.value = wire.value;
+  return clone;
+}
+
+export function cloneSelection(
+  components: PrimitiveComponent[] = [],
+  wires: PrimitiveComponent[] = [],
+  dx: number = 0,
+  dy: number = 0,
+): {
+  components: PrimitiveComponent[];
+  wires: Wire[];
+} {
+  // prevent modifying origin
+  wires = [...wires];
+
+  const clonedComponents = components.map((component) =>
+    cloneComponent(component, dx, dy),
+  );
+  const clonedWires: Wire[] = [];
+
+  return {
+    components: clonedComponents,
+    wires: clonedWires,
+  };
+}
+
+export function componentize() {}

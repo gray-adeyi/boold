@@ -1,4 +1,4 @@
-import type { Coord, RGBColor } from "$/types";
+import type { ComponentInputPin, ComponentOutputPin, Coord, RGBColor } from "$/types";
 import { state as boardStoreState } from "$/stores/boardStore.svelte";
 
 const updateQueue = [];
@@ -6,9 +6,9 @@ const updateQueue = [];
 export default class Wire {
   readonly id = crypto.randomUUID();
   path: Coord[];
-  intersections: unknown;
-  from: Wire;
-  to: unknown;
+  intersections: { pos: Coord; type: number; }[];
+  from: ComponentOutputPin;
+  to: ComponentInputPin;
   value: number;
   inputConnections: Wire[];
   outputConnections: Wire[];
@@ -18,8 +18,8 @@ export default class Wire {
     path: Coord[] = [],
     intersections = [],
     color: RGBColor = { r: 136, g: 136, b: 136 },
-    from: Wire,
-    to: unknown,
+    from: ComponentOutputPin,
+    to: ComponentInputPin,
   ) {
     this.path = path;
     this.intersections = intersections;

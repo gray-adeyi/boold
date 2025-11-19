@@ -4,8 +4,8 @@ import { state as boardStoreState } from "$/stores/boardStore.svelte";
 const updateQueue = [];
 
 export default class Wire {
-  private id = crypto.randomUUID();
-  pos: Coord[];
+  readonly id = crypto.randomUUID();
+  path: Coord[];
   intersections: unknown;
   from: Wire;
   to: unknown;
@@ -15,13 +15,13 @@ export default class Wire {
   color: RGBColor;
 
   constructor(
-    pos: Coord[] = [],
+    path: Coord[] = [],
     intersections = [],
     color: RGBColor = { r: 136, g: 136, b: 136 },
     from: Wire,
     to: unknown,
   ) {
-    this.pos = pos;
+    this.path = path;
     this.intersections = intersections;
 
     this.from = from;
@@ -98,16 +98,18 @@ export default class Wire {
     ctx.strokeStyle = `rgb(${color.r} ${color.g} ${color.b})`;
 
     const path: Coord[] = [];
-    for (let i = 0; i < this.pos.length; i++) {
-      const isFirstOrLastCoord = i === 0 || i === this.pos.length - 1;
+    for (let i = 0; i < this.path.length; i++) {
+      const isFirstOrLastCoord = i === 0 || i === this.path.length - 1;
       const xDistanceFromCurrentCoordToPrevious =
-        this.pos[i].x - this.pos[i - 1].x;
-      const xDistanceFromNextCoordToCurrent = this.pos[i + 1].x - this.pos[i].x;
+        this.path[i].x - this.path[i - 1].x;
+      const xDistanceFromNextCoordToCurrent =
+        this.path[i + 1].x - this.path[i].x;
       const yDistanceFromCurrentCoordToPrevious =
-        this.pos[i].y - this.pos[i - 1].y;
-      const yDistanceFromNextCoordToCurrent = this.pos[i + 1].y - this.pos[i].y;
+        this.path[i].y - this.path[i - 1].y;
+      const yDistanceFromNextCoordToCurrent =
+        this.path[i + 1].y - this.path[i].y;
       if (isFirstOrLastCoord) {
-        path.push(Object.assign({}, this.pos[i]));
+        path.push(Object.assign({}, this.path[i]));
       } else if (
         xDistanceFromCurrentCoordToPrevious !==
           xDistanceFromNextCoordToCurrent ||
@@ -116,17 +118,15 @@ export default class Wire {
           yDistanceFromNextCoordToCurrent
         )
       ) {
-        path.push(Object.assign({}, this.pos[i]));
+        path.push(Object.assign({}, this.path[i]));
       }
     }
 
     ctx.beginPath();
     path.forEach((coord) => {
       ctx.lineTo(
-        ((coord.x - boardStoreState.offset.x) * boardStoreState.zoom) |
-          0,
-        (-(coord.y - boardStoreState.offset.y) * boardStoreState.zoom) |
-          0,
+        ((coord.x - boardStoreState.offset.x) * boardStoreState.zoom) | 0,
+        (-(coord.y - boardStoreState.offset.y) * boardStoreState.zoom) | 0,
       );
     });
     ctx.stroke();
@@ -138,10 +138,8 @@ export default class Wire {
       else if (intersection.type === 3) ctx.fillStyle = "#f11";
       ctx.beginPath();
       ctx.arc(
-        (intersection.x - boardStoreState.offset.x) *
-          boardStoreState.zoom,
-        -(intersection.y - boardStoreState.offset.y) *
-          boardStoreState.zoom,
+        (intersection.x - boardStoreState.offset.x) * boardStoreState.zoom,
+        -(intersection.y - boardStoreState.offset.y) * boardStoreState.zoom,
         boardStoreState.zoom / 8,
         0,
         Math.PI * 2,

@@ -23,7 +23,7 @@ export interface LogicComponent {
 }
 
 export default class PrimitiveComponent implements LogicComponent {
-  private id = crypto.randomUUID();
+  readonly id = crypto.randomUUID();
   name: string;
   pos: Coord;
   width: number;

@@ -261,7 +261,7 @@ export default class PrimitiveComponent implements LogicComponent {
     }
   }
 
-  protected addInputPin(
+  addInputPin(
     placement: ComponentPinPlacement,
     name: string,
     properties: ComponentProperties = {},
@@ -279,7 +279,7 @@ export default class PrimitiveComponent implements LogicComponent {
     return port;
   }
 
-  protected addOutputPin(
+  addOutputPin(
     placement: ComponentPinPlacement,
     name: string,
     properties: ComponentProperties = {},

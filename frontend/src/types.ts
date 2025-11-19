@@ -36,7 +36,7 @@ export type ComponentPin = ComponentProperties & {
   readonly type: "input" | "output";
   component: PrimitiveComponent;
   name: string;
-  readonly placement: ComponentPinPlacement; // alias for pos
+  placement: ComponentPinPlacement; // alias for pos
   value: number;
   connection?: Wire;
 }

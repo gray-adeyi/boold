@@ -2,6 +2,7 @@ import type PrimitiveComponent from "$/lib/logicComponents/PrimitiveComponent.sv
 import { state as boardStoreState } from "$/stores/boardStore.svelte";
 import type { ComponentPin, Coord } from "$/types";
 import type Wire from "$/lib/logicComponents/Wire.svelte";
+import CustomComponent from "./CustomComponent.svelte";
 
 /**
  * Adds the logic component to the board
@@ -264,6 +265,11 @@ export function findWiresInUserSelection({
   return result;
 }
 
+/**
+ * Finds all the wires in a user selection without connections
+ * @param param0 is the info about the user selection
+ * @returns all the wires without connection if any
+ */
 export function findAllWiresInSelectionWithoutConnections({
   pos: {
     x = boardStoreState.userSelection.pos.x,
@@ -327,4 +333,80 @@ export function findAllWiresInSelectionWithoutConnections({
     }
   }
   return result;
+} /**
+ * Creates a clone of the component to and positions it (dx,dy) from the original
+ * @param component is the component to cloned
+ * @param dx is the x coordinate from the original component
+ * @param dy is the y coordinate from the original component
+ * @returns the cloned component
+ */
+export function cloneComponent(
+  component: PrimitiveComponent,
+  dx: number = 0,
+  dy: number = 0,
+) {
+  const clone: PrimitiveComponent = component.constructor();
+  clone.pos = {
+    x: component.pos.x + dx,
+    y: component.pos.y + dy,
+  };
+  clone.name = component.name;
+  if (clone.name.includes(`${clone.constructor.name}#`)) {
+    const autoNamedComponentsCount = boardStoreState.components.filter((c) =>
+      c.name.includes(`${clone.constructor.name}#`),
+    ).length;
+    clone.name = `${clone.constructor.name}#${autoNamedComponentsCount + 1}`;
+  } else {
+    const clonesCount = boardStoreState.components.filter((c) =>
+      c.name.includes(`${clone.name}#`),
+    ).length;
+    const baseName = clone.name.includes("#")
+      ? clone.name.split("#")[0]
+      : clone.name;
+    clone.name = `${baseName}#${clonesCount + 1}`;
+  }
+  clone.width = component.width;
+  clone.height = component.height;
+  clone.rotation = component.rotation;
+  if (component.hasOwnProperty("value")) clone.value = component.value;
+  clone.properties = Object.assign({}, component.properties);
+
+  if (component.constructor === CustomComponent) {
+    const inner = cloneSelection(component.components, component.wires);
+    clone.components = inner.components;
+    clone.wires = inner.wires;
+    clone.inputPins = [];
+    clone.outputPins = [];
+    clone.create();
+    clone.height = component.height;
+    clone.width = component.width;
+  }
+  cloneComponentPins(component, clone);
+  return clone;
+}
+
+/**
+ * Clones the pins on the source component to the clone component
+ * @param component is the source where you want to copy the pins from
+ * @param clone is the component where you want the clone pin to be
+ */
+function cloneComponentPins(
+  component: PrimitiveComponent,
+  clone: PrimitiveComponent,
+) {
+  clone.inputPins = [];
+  for (let i = 0; i < component.inputPins.length; i++) {
+    const pin = clone.addInputPin({ side: 0, pinIndex: 0 }, "");
+    pin.name = component.inputPins[i].name;
+    pin.value = component.inputPins[i].value;
+    pin.placement = Object.assign({}, component.inputPins[i].placement);
+  }
+
+  clone.outputPins = [];
+  for (let i = 0; i < component.outputPins.length; i++) {
+    const pin = clone.addInputPin({ side: 0, pinIndex: 0 }, "");
+    pin.name = component.outputPins[i].name;
+    pin.value = component.outputPins[i].value;
+    pin.placement = Object.assign({}, component.outputPins[i].placement);
+  }
 }

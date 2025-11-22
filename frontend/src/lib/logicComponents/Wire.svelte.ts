@@ -4,6 +4,7 @@ import type {
 	ComponentOutputPin,
 	Coord,
 	RGBColor,
+    WireIntersection,
 } from "$/types";
 
 const updateQueue = [];
@@ -11,9 +12,9 @@ const updateQueue = [];
 export default class Wire {
 	readonly id = crypto.randomUUID();
 	path: Coord[];
-	intersections: { pos: Coord; type: number }[];
-	from: ComponentOutputPin;
-	to: ComponentInputPin;
+	intersections: WireIntersection[];
+	from: ComponentOutputPin | undefined;
+	to: ComponentInputPin | undefined;
 	value: number;
 	inputConnections: Wire[];
 	outputConnections: Wire[];
@@ -22,10 +23,10 @@ export default class Wire {
 
 	constructor(
 		path: Coord[] = [],
-		intersections = [],
+		intersections: WireIntersection[] = [],
 		color: RGBColor = { r: 136, g: 136, b: 136 },
-		from: ComponentOutputPin,
-		to: ComponentInputPin,
+		from: ComponentOutputPin | undefined,
+		to: ComponentInputPin | undefined,
 		boardStoreState: BoardStoreState,
 	) {
 		this.path = path;

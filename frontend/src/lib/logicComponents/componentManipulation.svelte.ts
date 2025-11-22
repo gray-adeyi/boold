@@ -10,7 +10,7 @@ import type {
 	ComponentPin,
 	Coord,
 	UserSelection,
-  WireIntersection,
+	WireIntersection,
 } from "$/types";
 
 /**
@@ -29,7 +29,11 @@ export function addComponent(
 	force: boolean = false,
 	boardStoreState: BoardStoreState,
 ): boolean {
-	if ((!findComponentPinByPos( x, y,boardStoreState ) && !findWireByPos( x, y,boardStoreState )) || force) {
+	if (
+		(!findComponentPinByPos(x, y, boardStoreState) &&
+			!findWireByPos(x, y, boardStoreState)) ||
+		force
+	) {
 		boardStoreState.components.push(component);
 		return true;
 	}
@@ -211,53 +215,63 @@ export function connectWires(wire1: Wire, wire2: Wire) {
 }
 
 export function changeComponentSize(
-  component: AnyLogicComponent,
-  width = component.width,
-  height = component.height,
-  ,boardStoreState: BoardStoreState) {
-  const allPins = component.inputPins.concat(component.outputPins)
-  if(2 * (height + width) < allPins.length) return
+	component: AnyLogicComponent,
+	width = component.width,
+	height = component.height,
+	boardStoreState: BoardStoreState,
+) {
+	const allPins = component.inputPins.concat(component.outputPins);
+	if (2 * (height + width) < allPins.length) return;
 
-  const oldPinsPlacements = allPins.map((pin) => Object.assign({}, pin.placement))
-  const oldHeight = component.height;
-  const oldWidth = component.width;
+	const oldPinsPlacements = allPins.map((pin) =>
+		Object.assign({}, pin.placement),
+	);
+	const oldHeight = component.height;
+	const oldWidth = component.width;
 
-  component.height = height
-  component.width = width
+	component.height = height;
+	component.width = width;
 
-  for (let i = 0; i < allPins.length; i++){
-    const pin = allPins[i]
-    if((pin.placement.side % 2 === 1 && pin.placement.pinIndex > height - 1) ||
-    (pin.placement.side % 2 === 0 && pin.placement.pinIndex > width - 1)){
-      let side = pin.placement.side % 2 ? 2 : 1
-      let pinIndex = 0;
-      if(pin.placement.side === 0 || pin.placement.side === 3){
-        pinIndex = 0
-      } else if(pin.placement.side === 1){
-        pinIndex = width - 1
-      } else if(pin.placement.side === 2){
-        pinIndex = height - 1
-      }
+	for (let i = 0; i < allPins.length; i++) {
+		const pin = allPins[i];
+		if (
+			(pin.placement.side % 2 === 1 && pin.placement.pinIndex > height - 1) ||
+			(pin.placement.side % 2 === 0 && pin.placement.pinIndex > width - 1)
+		) {
+			let side = pin.placement.side % 2 ? 2 : 1;
+			let pinIndex = 0;
+			if (pin.placement.side === 0 || pin.placement.side === 3) {
+				pinIndex = 0;
+			} else if (pin.placement.side === 1) {
+				pinIndex = width - 1;
+			} else if (pin.placement.side === 2) {
+				pinIndex = height - 1;
+			}
 
-      const dir = pin.placement.side === 0 || pin.placement.side === 3 ? 1 : -1
+			const dir = pin.placement.side === 0 || pin.placement.side === 3 ? 1 : -1;
 
-      while(findComponentPinInComponent(component,side,pinIndex, boardStoreState)){
-        pinIndex += dir
-        if(pinIndex < 0){
-          side = (4 + (side - 1)) % 2
-          if(side % 2 === 1) {
-            pinIndex = height - 1
-          } else {
-            pinIndex = width - 1
-          }
-        } else if(side % 2 === 0 && pinIndex > width - 1 || side % 2 === 1 && pinIndex > height - 1){
-          side = (side + 1) % 4
-          pinIndex = 0
-        }
-      }
-      moveComponentPin(pin,side,pos,boardStoreState)
-    }
-  }
+			while (
+				findComponentPinInComponent(component, side, pinIndex, boardStoreState)
+			) {
+				pinIndex += dir;
+				if (pinIndex < 0) {
+					side = (4 + (side - 1)) % 2;
+					if (side % 2 === 1) {
+						pinIndex = height - 1;
+					} else {
+						pinIndex = width - 1;
+					}
+				} else if (
+					(side % 2 === 0 && pinIndex > width - 1) ||
+					(side % 2 === 1 && pinIndex > height - 1)
+				) {
+					side = (side + 1) % 4;
+					pinIndex = 0;
+				}
+			}
+			moveComponentPin(pin, side, pos, boardStoreState);
+		}
+	}
 }
 
 export function moveComponent(
@@ -516,8 +530,8 @@ export function findWireByPos(
 	y: number | null = null,
 	boardStoreState: BoardStoreState,
 ): Wire | undefined {
-  if(!x) x = boardStoreState.mouse.grid.x
-  if(!y) y = boardStoreState.mouse.grid.y
+	if (!x) x = boardStoreState.mouse.grid.x;
+	if (!y) y = boardStoreState.mouse.grid.y;
 	for (let i = 0; i < boardStoreState.wires.length; i++) {
 		const { path: pos } = boardStoreState.wires[i];
 		for (let j = 0; j < pos.length; j++) {
@@ -580,15 +594,16 @@ export function findComponentPinInComponent(
 export function findComponentPinByPos(
 	x: number | null = null,
 	y: number | null = null,
-	boardStoreState: BoardStoreState,): ComponentPin | undefined {
-  if(!x) x = boardStoreState.mouse.grid.x
-  if(!y) y = boardStoreState.mouse.grid.y
-	if (findComponentByPos( x, y ,boardStoreState)) return;
+	boardStoreState: BoardStoreState,
+): ComponentPin | undefined {
+	if (!x) x = boardStoreState.mouse.grid.x;
+	if (!y) y = boardStoreState.mouse.grid.y;
+	if (findComponentByPos(x, y, boardStoreState)) return;
 	for (let i = 0; i < 4; i++) {
 		const component = findComponentByPos(
 			x - Math.round(Math.sin((Math.PI / 2) * 1)),
 			y - Math.round(Math.cos((Math.PI / 2) * 1)),
-			boardStoreState
+			boardStoreState,
 		);
 
 		if (component) {
@@ -626,16 +641,17 @@ export function findComponentPinByID(
  * @returns all components found in the user selection if any
  */
 export function findComponentsInUserSelection(
-  x: number | null = null,
-  y: number | null = null,
-  width: number | null = null,
-  height: number | null = null,
-  boardStoreState: BoardStoreState,): PrimitiveComponent[] {
-    // userSelection should be available when the fn is called
-    if(!x) x = boardStoreState.userSelection?.pos.x || 0
-    if(!y) y = boardStoreState.userSelection?.pos.y || 0
-    if(!width) width = boardStoreState.userSelection?.dimension.width || 0
-    if(!height) height = boardStoreState.userSelection?.dimension.height || 0
+	x: number | null = null,
+	y: number | null = null,
+	width: number | null = null,
+	height: number | null = null,
+	boardStoreState: BoardStoreState,
+): PrimitiveComponent[] {
+	// userSelection should be available when the fn is called
+	if (!x) x = boardStoreState.userSelection?.pos.x || 0;
+	if (!y) y = boardStoreState.userSelection?.pos.y || 0;
+	if (!width) width = boardStoreState.userSelection?.dimension.width || 0;
+	if (!height) height = boardStoreState.userSelection?.dimension.height || 0;
 	const x2 = Math.max(x, x + width);
 	const y2 = Math.max(y, y + height);
 	x = Math.min(x, x + width);
@@ -661,17 +677,17 @@ export function findComponentsInUserSelection(
  * @returns all wires found in the selection if any.
  */
 export function findWiresInUserSelection(
-  x: number | null = null,
-    y: number | null = null,
-    width: number | null = null,
-    height: number | null = null,
-    boardStoreState: BoardStoreState,
+	x: number | null = null,
+	y: number | null = null,
+	width: number | null = null,
+	height: number | null = null,
+	boardStoreState: BoardStoreState,
 ): Wire[] {
-  // userSelection should be available when the fn is called
-  if(!x) x = boardStoreState.userSelection?.pos.x || 0
-  if(!y) y = boardStoreState.userSelection?.pos.y || 0
-  if(!width) width = boardStoreState.userSelection?.dimension.width || 0
-  if(!height) height = boardStoreState.userSelection?.dimension.height || 0
+	// userSelection should be available when the fn is called
+	if (!x) x = boardStoreState.userSelection?.pos.x || 0;
+	if (!y) y = boardStoreState.userSelection?.pos.y || 0;
+	if (!width) width = boardStoreState.userSelection?.dimension.width || 0;
+	if (!height) height = boardStoreState.userSelection?.dimension.height || 0;
 	const x2 = Math.max(x, x + width);
 	const y2 = Math.max(y, y + height);
 	x = Math.min(x, x + width);
@@ -701,18 +717,18 @@ export function findWiresInUserSelection(
  * @returns all the wires without connection if any
  */
 export function findAllWiresInSelectionWithoutConnections(
-  x: number | null = null,
-      y: number | null = null,
-      width: number | null = null,
-      height: number | null = null,
+	x: number | null = null,
+	y: number | null = null,
+	width: number | null = null,
+	height: number | null = null,
 	boardStoreState: BoardStoreState,
 ): Wire[] {
-  // userSelection should be available when the fn is called
-  if(!x) x = boardStoreState.userSelection?.pos.x || 0
-  if(!y) y = boardStoreState.userSelection?.pos.y || 0
-  if(!width) width = boardStoreState.userSelection?.dimension.width || 0
-  if(!height) height = boardStoreState.userSelection?.dimension.height || 0
-	const result = findWiresInUserSelection(x, y ,width, height,boardStoreState);
+	// userSelection should be available when the fn is called
+	if (!x) x = boardStoreState.userSelection?.pos.x || 0;
+	if (!y) y = boardStoreState.userSelection?.pos.y || 0;
+	if (!width) width = boardStoreState.userSelection?.dimension.width || 0;
+	if (!height) height = boardStoreState.userSelection?.dimension.height || 0;
+	const result = findWiresInUserSelection(x, y, width, height, boardStoreState);
 
 	for (let i = 0; i < result.length; i++) {
 		const wire = result[i];
@@ -799,7 +815,13 @@ export function cloneComponent(
 	clone.properties = Object.assign({}, component.properties);
 
 	if (component.constructor === CustomComponent) {
-		const inner = cloneSelection(component.components, component.wires,undefined,undefined, boardStoreState);
+		const inner = cloneSelection(
+			component.components,
+			component.wires,
+			undefined,
+			undefined,
+			boardStoreState,
+		);
 		clone.components = inner.components;
 		clone.wires = inner.wires;
 		clone.inputPins = [];
@@ -855,16 +877,21 @@ export function cloneWire(
 	const newPath = wire.path.map((coord) => {
 		return { x: coord.x + dx, y: coord.y + dy };
 	});
-	const newIntersections: WireIntersection[] = wire.intersections.map((intersection) => {
-    return { pos: { x: intersection.pos.x + dx, y: intersection.pos.y + dy }, type: intersection.type };
-	});
+	const newIntersections: WireIntersection[] = wire.intersections.map(
+		(intersection) => {
+			return {
+				pos: { x: intersection.pos.x + dx, y: intersection.pos.y + dy },
+				type: intersection.type,
+			};
+		},
+	);
 	const clone = new Wire(
 		newPath,
 		newIntersections,
 		wire.color,
 		undefined,
 		undefined,
-		boardStoreState
+		boardStoreState,
 	);
 	clone.value = wire.value;
 	return clone;
@@ -884,7 +911,7 @@ export function cloneSelection(
 	wires = [...wires];
 
 	const clonedComponents = components.map((component) =>
-		cloneComponent(component, dx, dy,boardStoreState),
+		cloneComponent(component, dx, dy, boardStoreState),
 	);
 	const clonedWires: Wire[] = [];
 

@@ -133,6 +133,6 @@ export type AnyLogicComponentClass =
 	| typeof TimerStartComponent
 	| typeof XORGateComponent;
 
-	export type BoardEntity = AnyLogicComponent | ComponentPin | Wire
-	
-	export type WireIntersection = { pos: Coord; type: number }
+export type BoardEntity = AnyLogicComponent | ComponentPin | Wire;
+
+export type WireIntersection = { pos: Coord; type: number };

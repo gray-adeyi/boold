@@ -4,7 +4,7 @@ import type {
 	ComponentOutputPin,
 	Coord,
 	RGBColor,
-    WireIntersection,
+	WireIntersection,
 } from "$/types";
 
 const updateQueue = [];

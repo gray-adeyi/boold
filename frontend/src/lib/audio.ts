@@ -8,5 +8,5 @@ export function beep(
 	oscillator.frequency.value = frequency;
 	oscillator.connect(audioContext.destination);
 	oscillator.start(0);
-	setTimeout(() => oscillator.stop(0), duration);
+	return setTimeout(() => oscillator.stop(0), duration);
 }

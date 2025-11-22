@@ -31,6 +31,16 @@ export interface LogicComponent {
 	rotate(): void;
 }
 
+export type UserSelection = {
+	pos: Coord;
+	dimension: {
+		width: number;
+		height: number;
+	};
+	components: AnyLogicComponent[];
+	wires: Wire[];
+};
+
 export type Coord = {
 	x: number;
 	y: number;
@@ -66,7 +76,7 @@ export type ComponentPinPlacement = {
 type BaseComponentPin = ComponentProperties & {
 	readonly id: string;
 	readonly type: "input" | "output";
-	component: PrimitiveComponent;
+	component: AnyLogicComponent;
 	name: string;
 	placement: ComponentPinPlacement; // alias for pos
 	value: number;
@@ -83,7 +93,7 @@ export type ComponentOutputPin = BaseComponentPin & {
 
 export type ComponentPin = ComponentInputPin | ComponentOutputPin;
 
-export type AllLogicComponents =
+export type AnyLogicComponent =
 	| BeepComponent
 	| ButtonComponent
 	| ClockComponent
@@ -103,7 +113,7 @@ export type AllLogicComponents =
 	| TimerStartComponent
 	| XORGateComponent;
 
-export type AllLogicComponentsClasses =
+export type AnyLogicComponentClass =
 	| typeof BeepComponent
 	| typeof ButtonComponent
 	| typeof ClockComponent

@@ -1,21 +1,12 @@
 import ANDGateComponent from "$/lib/logicComponents/ANDGateComponent.svelte";
 import type Wire from "$/lib/logicComponents/Wire.svelte";
 import type {
-	AllLogicComponents,
-	AllLogicComponentsClasses,
+	AnyLogicComponent,
+	AnyLogicComponentClass,
 	ComponentPin,
 	Coord,
+	UserSelection,
 } from "$/types";
-
-type UserSelection = {
-	pos: Coord;
-	dimension: {
-		width: number;
-		height: number;
-	};
-	components: LogicComponent[];
-	wires: Wire[];
-};
 
 type UserDrag =
 	| {
@@ -25,14 +16,14 @@ type UserDrag =
 			dy: number;
 	  }
 	| {
-			component: LogicComponent;
+			component: AnyLogicComponent;
 			pos: Coord;
 			dx: number;
 			dy: number;
 	  }
 	| {
 			pin: ComponentPin;
-			pos: Coord;
+			pinIndex: number;
 	  };
 
 export type BoardStoreState = {
@@ -45,7 +36,7 @@ export type BoardStoreState = {
 		screen: Coord;
 		grid: Coord;
 	};
-	components: AllLogicComponents[];
+	components: AnyLogicComponent[];
 	wires: Wire[];
 	settings: {
 		isScrollAnimationEnabled: boolean;
@@ -63,15 +54,14 @@ export type BoardStoreState = {
 	timerStart: Date | null;
 	simulationFrameRate: number;
 	lastFrameTimestamp: Date;
-	isUserDragging: boolean;
-	isUserSelecting: boolean;
 	isUserConnecting: boolean;
 	isMouseWheelClick: boolean;
 	userSelection: UserSelection | null;
 	userDrag: UserDrag | null;
 	connectingWire: Wire | null;
 	animationFrameId: number | null;
-	selectedComponent: AllLogicComponentsClasses; // type of any logic component not just InputComponent
+	selectedComponent: AnyLogicComponentClass; // type of any logic component not just InputComponent
+	updateQueue: (() => void)[];
 };
 
 export const state: BoardStoreState = $state({
@@ -98,8 +88,6 @@ export const state: BoardStoreState = $state({
 	timerStart: null,
 	simulationFrameRate: 60,
 	lastFrameTimestamp: new Date(),
-	isUserDragging: false,
-	isUserSelecting: false,
 	isUserConnecting: false,
 	isMouseWheelClick: false,
 	userSelection: null,
@@ -107,11 +95,12 @@ export const state: BoardStoreState = $state({
 	connectingWire: null,
 	animationFrameId: null,
 	selectedComponent: ANDGateComponent,
+	updateQueue: [],
 });
 
 export function scrollBoard(dx: number, dy: number) {
 	if (state.settings.isScrollAnimationEnabled) {
-		state.scrollAnimation.v = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2)) / 16;
+		state.scrollAnimation.v = Math.sqrt(dx ** 2 + dy ** 2) / 16;
 		state.scrollAnimation.r = Math.atan2(-dx, dy);
 		state.scrollAnimation.animate = true;
 	} else {

@@ -23,7 +23,7 @@ import type {
  * @returns a flag indicating if adding the component to the board was successful
  */
 export function addComponent(
-	component: PrimitiveComponent,
+	component: AnyLogicComponent,
 	x: number = component.pos.x,
 	y: number = component.pos.y,
 	force: boolean = false,
@@ -63,11 +63,11 @@ export function addSelection(
 		}
 
 		for (let i = 0; i < wire.inputConnections.length; i++) {
-			connectWires(wire.inputConnections[i], wire, boardStoreState);
+			connectWires(wire.inputConnections[i], wire);
 		}
 
 		for (let i = 0; i < wire.outputConnections.length; i++) {
-			connectWires(wire, wire.outputConnections[i], boardStoreState);
+			connectWires(wire, wire.outputConnections[i]);
 		}
 		boardStoreState.wires.push(wire);
 	}
@@ -251,7 +251,7 @@ export function changeComponentSize(
 			const dir = pin.placement.side === 0 || pin.placement.side === 3 ? 1 : -1;
 
 			while (
-				findComponentPinInComponent(component, side, pinIndex, boardStoreState)
+				findComponentPinInComponent(component, side, pinIndex)
 			) {
 				pinIndex += dir;
 				if (pinIndex < 0) {
@@ -269,7 +269,7 @@ export function changeComponentSize(
 					pinIndex = 0;
 				}
 			}
-			moveComponentPin(pin, side, pos, boardStoreState);
+			moveComponentPin(pin, side, pinIndex, boardStoreState);
 		}
 	}
 }

@@ -542,7 +542,106 @@ export function moveSelection(
   dx: number,
   dy: number,
   boardStoreState: BoardStoreState,
-) {}
+) {
+  for (let i = 0; i < components.length; i++) {
+    const component = components[i];
+    component.pos.x += dx;
+    component.pos.y += dy;
+
+    for (let i = 0; i < component.inputPins.length; i++) {
+      const wire = component.inputPins[i].connection;
+      if (wire && !wires.includes(wire)) {
+        // FIXME: The next two lines don't really do anything,
+        //  figure out what they should be doing
+        wire.path.slice(-1)[0].x += dx;
+        wire.path.slice(-1)[0].y += dy;
+        let wdx = wire.path.slice(-1)[0].x - wire.path.slice(-2)[0].x;
+        let wdy = wire.path.slice(-1)[0].y - wire.path.slice(-2)[0].y;
+
+        const index = wire.path.findIndex(
+          (coord) =>
+            coord.x === wire.path.slice(-1)[0].x &&
+            coord.y === wire.path.slice(-1)[0].y,
+        );
+        if (index > -1) {
+          wire.path.splice(index + 1, wire.path.length);
+          continue;
+        }
+
+        while (Math.abs(wdx) + Math.abs(wdy) > 0) {
+          let sdx = 0;
+          let sdy = 0;
+          if (Math.abs(wdx) > Math.abs(wdy)) {
+            sdx = Math.sign(wdx);
+          } else {
+            sdy = Math.sign(wdy);
+          }
+
+          wire.path.splice(wire.path.length - 1, 0, {
+            x: wire.path.slice(-2)[0].x + sdx,
+            y: wire.path.slice(-2)[0].y + sdy,
+          });
+          wdx = wdx - sdx;
+          wdy = wdy - sdy;
+        }
+      }
+    }
+
+    for (let i = 0; i < component.outputPins.length; i++) {
+      const wire = component.outputPins[i].connection;
+      if (wire && !wires.includes(wire)) {
+        wire.path[0].x += dx;
+        wire.path[0].y += dy;
+        let wdx = wire.path[0].x - wire.path[1].x;
+        let wdy = wire.path[0].y - wire.path[1].y;
+
+        const index = wire.path.findIndex(
+          (coord) => coord.x === wire.path[0].x && coord.y === wire.path[0].y,
+        );
+        if (index > -1) {
+          wire.path.splice(1, index);
+          continue;
+        }
+
+        while (Math.abs(wdx) + Math.abs(wdy) > 0) {
+          let sdx = 0;
+          let sdy = 0;
+          if (Math.abs(wdx) > Math.abs(wdy)) {
+            sdx = Math.sign(wdx);
+          } else {
+            sdy = Math.sign(wdy);
+          }
+
+          wire.path.splice(1, 0, {
+            x: wire.path[1].x + sdx,
+            y: wire.path[1].y + sdy,
+          });
+          wdx = wdx - sdx;
+          wdy = wdy - sdy;
+        }
+      }
+    }
+  }
+
+  for (let i = 0; i < wires.length; i++) {
+    const wire = wires[i];
+    for (let j = 0; j < wire.path.length; j++) {
+      wire.path[j].x += dx;
+      wire.path[j].y += dy;
+    }
+
+    for (let j = 0; j < wire.intersections.length; j++) {
+      wire.intersections[j].pos.x += dx;
+      wire.intersections[j].pos.y += dy;
+    }
+  }
+
+  if (boardStoreState.userSelection) {
+    boardStoreState.userSelection.pos.x += dx;
+    boardStoreState.userSelection.pos.y += dy;
+    // TODO: Context menu
+  }
+}
 
 export function editEntity(
   entity: BoardEntity,

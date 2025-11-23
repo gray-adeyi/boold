@@ -1,5 +1,4 @@
 import CustomComponent from "$/lib/logicComponents/CustomComponent.svelte";
-import type PrimitiveComponent from "$/lib/logicComponents/PrimitiveComponent.svelte";
 import Wire from "$/lib/logicComponents/Wire.svelte";
 import type { BoardStoreState } from "$/stores/boardStore.svelte";
 import type {
@@ -666,7 +665,7 @@ export function findComponentByPos(
   x: number | null = null,
   y: number | null = null,
   boardStoreState: BoardStoreState,
-): PrimitiveComponent | undefined {
+): AnyLogicComponent | undefined {
   if (!x) x = boardStoreState.mouse.grid.x;
   if (!y) y = boardStoreState.mouse.grid.y;
   for (let i = 0; i < boardStoreState.components.length; i++) {
@@ -690,7 +689,7 @@ export function findComponentByPos(
 export function findComponentById(
   id: string,
   boardStoreState: BoardStoreState,
-): PrimitiveComponent | undefined {
+): AnyLogicComponent | undefined {
   return boardStoreState.components.find((component) => component.id === id);
 }
 
@@ -703,7 +702,7 @@ export function findComponentById(
 export function findComponentByName(
   name: string,
   boardStoreState: BoardStoreState,
-): PrimitiveComponent | undefined {
+): AnyLogicComponent | undefined {
   return boardStoreState.components.find(
     (component) => component.name === name,
   );
@@ -778,7 +777,7 @@ export function findAllWiresInPos(
  * with the same sideIndex
  */
 export function findComponentPinInComponent(
-  component: PrimitiveComponent,
+  component: AnyLogicComponent,
   side: number,
   sideIndex: number,
 ): ComponentPin | undefined {
@@ -851,7 +850,7 @@ export function findComponentsInUserSelection(
   width: number | null = null,
   height: number | null = null,
   boardStoreState: BoardStoreState,
-): PrimitiveComponent[] {
+): AnyLogicComponent[] {
   // userSelection should be available when the fn is called
   if (!x) x = boardStoreState.userSelection?.pos.x || 0;
   if (!y) y = boardStoreState.userSelection?.pos.y || 0;
@@ -862,7 +861,7 @@ export function findComponentsInUserSelection(
   x = Math.min(x, x + width);
   y = Math.min(y, y + height);
 
-  const result: PrimitiveComponent[] = [];
+  const result: AnyLogicComponent[] = [];
   for (let i = 0; i < boardStoreState.components.length; i++) {
     const component = boardStoreState.components[i];
     if (
@@ -988,12 +987,12 @@ export function findAllWiresInSelectionWithoutConnections(
  * @returns the cloned component
  */
 export function cloneComponent(
-  component: PrimitiveComponent,
+  component: AnyLogicComponent,
   dx: number = 0,
   dy: number = 0,
   boardStoreState: BoardStoreState,
-): PrimitiveComponent {
-  const clone: PrimitiveComponent = component.constructor();
+): AnyLogicComponent {
+  const clone: AnyLogicComponent = component.constructor();
   clone.pos = {
     x: component.pos.x + dx,
     y: component.pos.y + dy,
@@ -1045,8 +1044,8 @@ export function cloneComponent(
  * @param clone is the component where you want the clone pin to be
  */
 function cloneComponentPins(
-  component: PrimitiveComponent,
-  clone: PrimitiveComponent,
+  component: AnyLogicComponent,
+  clone: AnyLogicComponent,
   boardStoreState: BoardStoreState,
 ) {
   clone.inputPins = [];
@@ -1103,13 +1102,13 @@ export function cloneWire(
 }
 
 export function cloneSelection(
-  components: PrimitiveComponent[] = [],
-  wires: PrimitiveComponent[] = [],
+  components: AnyLogicComponent[] = [],
+  wires: AnyLogicComponent[] = [],
   dx: number = 0,
   dy: number = 0,
   boardStoreState: BoardStoreState,
 ): {
-  components: PrimitiveComponent[];
+  components: AnyLogicComponent[];
   wires: Wire[];
 } {
   // prevent modifying origin

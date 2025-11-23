@@ -545,11 +545,12 @@ export function findWireByPos(
  * @param param0 is the coordinate where you want to find all the wires
  * @returns all the wires found in that coordinate if any.
  */
-export function findAllWiresInPos({
-	x = boardStoreState.mouse.grid.x,
-	y = boardStoreState.mouse.grid.y,
-	boardStoreState: BoardStoreState,
-}: Coord): Wire[] {
+export function findAllWiresInPos(
+	x:number | null = null,
+	y: number | null = null,
+	boardStoreState: BoardStoreState,): Wire[] {
+	if(!x) x =boardStoreState.mouse.grid.x
+	if(!y) y =boardStoreState.mouse.grid.y
 	const foundWires: Wire[] = [];
 	for (let i = 0; i < boardStoreState.wires.length; i++) {
 		const { path: pos } = boardStoreState.wires[i];
@@ -830,7 +831,7 @@ export function cloneComponent(
 		clone.height = component.height;
 		clone.width = component.width;
 	}
-	cloneComponentPins(component, clone);
+	cloneComponentPins(component, clone,boardStoreState);
 	return clone;
 }
 

@@ -23,7 +23,7 @@ type UserDrag =
 	  }
 	| {
 			pin: ComponentPin;
-			pinIndex: number;
+			sideIndex: number;
 	  };
 
 export type BoardStoreState = {

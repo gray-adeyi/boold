@@ -14,14 +14,14 @@ export default class DisplayComponent extends PrimitiveComponent {
 		boardStoreState: BoardStoreState,
 	) {
 		super(name, pos, 4, 5, { type: "value" }, boardStoreState);
-		this.addInputPin({ side: 0, pinIndex: 0 }, "A");
-		this.addInputPin({ side: 0, pinIndex: 1 }, "B");
-		this.addInputPin({ side: 0, pinIndex: 2 }, "C");
-		this.addInputPin({ side: 0, pinIndex: 3 }, "D");
-		this.addInputPin({ side: 2, pinIndex: 0 }, "E");
-		this.addInputPin({ side: 2, pinIndex: 1 }, "F");
-		this.addInputPin({ side: 2, pinIndex: 2 }, "G");
-		this.addInputPin({ side: 2, pinIndex: 3 }, "DP");
+		this.addInputPin({ side: 0, sideIndex: 0 }, "A");
+		this.addInputPin({ side: 0, sideIndex: 1 }, "B");
+		this.addInputPin({ side: 0, sideIndex: 2 }, "C");
+		this.addInputPin({ side: 0, sideIndex: 3 }, "D");
+		this.addInputPin({ side: 2, sideIndex: 0 }, "E");
+		this.addInputPin({ side: 2, sideIndex: 1 }, "F");
+		this.addInputPin({ side: 2, sideIndex: 2 }, "G");
+		this.addInputPin({ side: 2, sideIndex: 3 }, "DP");
 		this.value = 0;
 
 		this.lineWidth = 0.12;

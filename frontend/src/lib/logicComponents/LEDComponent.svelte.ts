@@ -11,7 +11,7 @@ export default class LEDComponent extends PrimitiveComponent {
 		boardStoreState: BoardStoreState,
 	) {
 		super(name, pos, 1, 1, { type: "value" }, boardStoreState);
-		this.addInputPin({ side: 3, pinIndex: 0 }, "IN");
+		this.addInputPin({ side: 3, sideIndex: 0 }, "IN");
 		this.value = 0;
 		this.color = color;
 	}

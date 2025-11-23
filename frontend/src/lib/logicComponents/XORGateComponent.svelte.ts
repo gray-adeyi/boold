@@ -9,9 +9,9 @@ export default class XORGateComponent extends PrimitiveComponent {
 		boardStoreState: BoardStoreState,
 	) {
 		super(name, pos, 2, 2, { type: "char", text: "^" }, boardStoreState);
-		this.addInputPin({ side: 3, pinIndex: 0 }, "A");
-		this.addInputPin({ side: 3, pinIndex: 1 }, "B");
-		this.addOutputPin({ side: 1, pinIndex: 0 }, "OUT");
+		this.addInputPin({ side: 3, sideIndex: 0 }, "A");
+		this.addInputPin({ side: 3, sideIndex: 1 }, "B");
+		this.addOutputPin({ side: 1, sideIndex: 0 }, "OUT");
 	}
 
 	execute(): void {

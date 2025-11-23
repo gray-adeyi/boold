@@ -16,7 +16,7 @@ export default class ClockComponent extends PrimitiveComponent {
 			{ type: "icon", text: "access_time" },
 			boardStoreState,
 		);
-		this.addOutputPin({ side: 1, pinIndex: 0 }, "OUT");
+		this.addOutputPin({ side: 1, sideIndex: 0 }, "OUT");
 		this.value = 0;
 	}
 

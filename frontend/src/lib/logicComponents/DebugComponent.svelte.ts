@@ -16,7 +16,7 @@ export default class DebugComponent extends PrimitiveComponent {
 			{ type: "icon", text: "report_problem" },
 			boardStoreState,
 		);
-		this.addInputPin({ side: 3, pinIndex: 0 }, "IN");
+		this.addInputPin({ side: 3, sideIndex: 0 }, "IN");
 		this.value = 0;
 	}
 

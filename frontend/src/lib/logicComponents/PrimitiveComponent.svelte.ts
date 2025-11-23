@@ -171,7 +171,7 @@ export default class PrimitiveComponent implements LogicComponent {
 			if (placement.side === 1) {
 				screen.x += (this.width - 1) * zoom;
 			} else if (placement.side === 2) {
-				screen.y += placement.pinIndex * zoom;
+				screen.y += placement.sideIndex * zoom;
 			}
 
 			ctx.beginPath();
@@ -220,9 +220,9 @@ export default class PrimitiveComponent implements LogicComponent {
 			}
 
 			if (placement.side % 2 === 0) {
-				screen.x += placement.pinIndex * zoom;
+				screen.x += placement.sideIndex * zoom;
 			} else {
-				screen.y += placement.pinIndex * zoom;
+				screen.y += placement.sideIndex * zoom;
 			}
 
 			ctx.beginPath();

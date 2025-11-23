@@ -11,7 +11,7 @@ export default class ConstantComponent extends PrimitiveComponent {
 		boardStoreState: BoardStoreState,
 	) {
 		super(name, pos, 2, 1, { type: "value" }, boardStoreState);
-		this.addOutputPin({ side: 1, pinIndex: 0 }, "OUT");
+		this.addOutputPin({ side: 1, sideIndex: 0 }, "OUT");
 		this.value = value;
 	}
 

@@ -235,39 +235,39 @@ export function changeComponentSize(
   for (let i = 0; i < allPins.length; i++) {
     const pin = allPins[i];
     if (
-      (pin.placement.side % 2 === 1 && pin.placement.pinIndex > height - 1) ||
-      (pin.placement.side % 2 === 0 && pin.placement.pinIndex > width - 1)
+      (pin.placement.side % 2 === 1 && pin.placement.sideIndex > height - 1) ||
+      (pin.placement.side % 2 === 0 && pin.placement.sideIndex > width - 1)
     ) {
       let side = pin.placement.side % 2 ? 2 : 1;
-      let pinIndex = 0;
+      let sideIndex = 0;
       if (pin.placement.side === 0 || pin.placement.side === 3) {
-        pinIndex = 0;
+        sideIndex = 0;
       } else if (pin.placement.side === 1) {
-        pinIndex = width - 1;
+        sideIndex = width - 1;
       } else if (pin.placement.side === 2) {
-        pinIndex = height - 1;
+        sideIndex = height - 1;
       }
 
       const dir = pin.placement.side === 0 || pin.placement.side === 3 ? 1 : -1;
 
-      while (findComponentPinInComponent(component, side, pinIndex)) {
-        pinIndex += dir;
-        if (pinIndex < 0) {
+      while (findComponentPinInComponent(component, side, sideIndex)) {
+        sideIndex += dir;
+        if (sideIndex < 0) {
           side = (4 + (side - 1)) % 2;
           if (side % 2 === 1) {
-            pinIndex = height - 1;
+            sideIndex = height - 1;
           } else {
-            pinIndex = width - 1;
+            sideIndex = width - 1;
           }
         } else if (
-          (side % 2 === 0 && pinIndex > width - 1) ||
-          (side % 2 === 1 && pinIndex > height - 1)
+          (side % 2 === 0 && sideIndex > width - 1) ||
+          (side % 2 === 1 && sideIndex > height - 1)
         ) {
           side = (side + 1) % 4;
-          pinIndex = 0;
+          sideIndex = 0;
         }
       }
-      moveComponentPin(pin, side, pinIndex, boardStoreState);
+      moveComponentPin(pin, side, sideIndex, boardStoreState);
     }
   }
 }
@@ -310,9 +310,9 @@ export function moveComponent(
     }
 
     if (placement.side % 2 === 0) {
-      pos.x += placement.pinIndex;
+      pos.x += placement.sideIndex;
     } else {
-      pos.y -= placement.pinIndex;
+      pos.y -= placement.sideIndex;
     }
 
     let dx = wire.path.slice(-1)[0].x - wire.path.slice(-2)[0].x;
@@ -367,9 +367,9 @@ export function moveComponent(
     }
 
     if (placement.side % 2 === 0) {
-      pos.x += placement.pinIndex;
+      pos.x += placement.sideIndex;
     } else {
-      pos.y -= placement.pinIndex;
+      pos.y -= placement.sideIndex;
     }
 
     let dx = wire.path.slice(-1)[0].x - wire.path.slice(-2)[0].x;
@@ -410,17 +410,17 @@ export function moveComponent(
 export function moveComponentPin(
   pin: ComponentPin,
   side: number = pin.placement.side,
-  pinIndex: number = pin.placement.pinIndex,
+  sideIndex: number = pin.placement.sideIndex,
   boardStoreState: BoardStoreState,
 ) {
-  const oldPinIndex = Object.assign(
+  const oldSideIndex = Object.assign(
     {},
     boardStoreState.userDrag && boardStoreState.userDrag?.pin === pin
-      ? boardStoreState.userDrag?.pinIndex
-      : pin.placement.pinIndex,
+      ? boardStoreState.userDrag?.sideIndex
+      : pin.placement.sideIndex,
   );
   pin.placement.side = side;
-  pin.placement.pinIndex = pinIndex;
+  pin.placement.sideIndex = sideIndex;
   const wire = pin.connection;
   if (!wire) return;
   const oldWirePath = [...wire.path];
@@ -439,9 +439,9 @@ export function moveComponentPin(
     }
 
     if (pin.placement.side % 2 === 0) {
-      coord.x += pin.placement.pinIndex;
+      coord.x += pin.placement.sideIndex;
     } else {
-      coord.y -= pin.placement.pinIndex;
+      coord.y -= pin.placement.sideIndex;
     }
 
     const dx = wire.path.slice(-1)[0].x - wire.path.slice(-2)[0].x;
@@ -487,9 +487,9 @@ export function moveComponentPin(
     }
 
     if (pin.placement.side % 2 === 0) {
-      coord.x += pin.placement.pinIndex;
+      coord.x += pin.placement.sideIndex;
     } else {
-      coord.y -= pin.placement.pinIndex;
+      coord.y -= pin.placement.sideIndex;
     }
 
     const dx = wire.path[0].x - wire.path[1].x;
@@ -674,17 +674,17 @@ export function findAllWiresInPos(
  * @param component is the component in which you're looking for one of it's pins
  * @param side is the side of the component where the pin you're looking for is located,
  *  can be any of the values 0,1,2,3 where 0 = top, 1 = right, 2 = bottom and 3 = left.
- * @param pinIndex is the index of that pin in that side of the component 0 being the first
+ * @param sideIndex is the index of that pin in that side of the component 0 being the first
  *  pin on that side of the of the component. each side of the component may have a pin
- * with the same pinIndex
+ * with the same sideIndex
  */
 export function findComponentPinInComponent(
   component: PrimitiveComponent,
   side: number,
-  pinIndex: number,
+  sideIndex: number,
 ): ComponentPin | undefined {
   const predicateFn = (pin: ComponentPin) =>
-    pin.placement.side === side && pin.placement.pinIndex === pinIndex;
+    pin.placement.side === side && pin.placement.sideIndex === sideIndex;
   return (
     component.inputPins.find(predicateFn) ||
     component.outputPins.find(predicateFn)
@@ -714,9 +714,9 @@ export function findComponentPinByPos(
 
     if (component) {
       const side = i;
-      const pinIndex =
+      const sideIndex =
         side % 2 === 0 ? x - component.pos.x : component.pos.y - y;
-      const found = findComponentPinInComponent(component, side, pinIndex);
+      const found = findComponentPinInComponent(component, side, sideIndex);
       if (found) return found;
     }
   }
@@ -952,7 +952,7 @@ function cloneComponentPins(
 ) {
   clone.inputPins = [];
   for (let i = 0; i < component.inputPins.length; i++) {
-    const pin = clone.addInputPin({ side: 0, pinIndex: 0 }, "");
+    const pin = clone.addInputPin({ side: 0, sideIndex: 0 }, "");
     pin.name = component.inputPins[i].name;
     pin.value = component.inputPins[i].value;
     pin.placement = Object.assign({}, component.inputPins[i].placement);
@@ -960,7 +960,7 @@ function cloneComponentPins(
 
   clone.outputPins = [];
   for (let i = 0; i < component.outputPins.length; i++) {
-    const pin = clone.addInputPin({ side: 0, pinIndex: 0 }, "");
+    const pin = clone.addInputPin({ side: 0, sideIndex: 0 }, "");
     pin.name = component.outputPins[i].name;
     pin.value = component.outputPins[i].value;
     pin.placement = Object.assign({}, component.outputPins[i].placement);

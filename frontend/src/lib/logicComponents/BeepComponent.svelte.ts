@@ -17,7 +17,7 @@ export default class BeepComponent extends PrimitiveComponent {
 			{ type: "icon", text: "audiotrack" },
 			boardStoreState,
 		);
-		this.addInputPin({ side: 3, pinIndex: 0 }, "IN");
+		this.addInputPin({ side: 3, sideIndex: 0 }, "IN");
 		this.properties.frequency = 700;
 		this.properties.duration = 200;
 	}

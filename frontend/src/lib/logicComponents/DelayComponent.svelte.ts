@@ -9,7 +9,7 @@ export default class DelayComponent extends PrimitiveComponent {
 		boardStoreState: BoardStoreState,
 	) {
 		super(name, pos, 2, 1, { type: "icon", text: "timer" }, boardStoreState);
-		this.addInputPin({ side: 3, pinIndex: 0 }, "IN");
-		this.addOutputPin({ side: 1, pinIndex: 0 }, "OUT");
+		this.addInputPin({ side: 3, sideIndex: 0 }, "IN");
+		this.addOutputPin({ side: 1, sideIndex: 0 }, "OUT");
 	}
 }

@@ -70,7 +70,13 @@ export type ComponentProperties = {
 
 export type ComponentPinPlacement = {
 	side: number;
-	pinIndex: number;
+	/**
+ * sideIndex is the index of the pin on that side of the component
+ * e.g. if a componentPin has a side=3 (i.e. the pin is on the left
+ * side of the component), a sideIndex of 0 indicates that the pin 
+ * is the first pin on that side of the component.
+ */	
+	sideIndex: number;
 };
 
 type BaseComponentPin = ComponentProperties & {

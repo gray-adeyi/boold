@@ -32,7 +32,7 @@ const testBoardStoreState: BoardStoreState = {
   userDrag: null,
   connectingWire: null,
   animationFrameId: null,
-  selectedComponent: ANDGateComponent,
+  componentInSelectionFocus: ANDGateComponent,
   updateQueue: [],
 };
 

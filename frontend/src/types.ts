@@ -39,6 +39,7 @@ export type UserSelection = {
 	};
 	components: AnyLogicComponent[];
 	wires: Wire[];
+  dashOffset: number;
 };
 
 export type Coord = {

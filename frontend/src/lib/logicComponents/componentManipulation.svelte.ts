@@ -1103,7 +1103,7 @@ export function cloneWire(
 
 export function cloneSelection(
   components: AnyLogicComponent[] = [],
-  wires: AnyLogicComponent[] = [],
+  wires: Wire[] = [],
   dx: number = 0,
   dy: number = 0,
   boardStoreState: BoardStoreState,
@@ -1125,4 +1125,40 @@ export function cloneSelection(
   };
 }
 
-export function componentize(boardStoreState: BoardStoreState) {}
+export function componentize(
+  components: AnyLogicComponent[],
+  wires: Wire[],
+  userSelection: UserSelection | null = null,
+  x: number | null = null,
+  y: number | null = null,
+  boardStoreState: BoardStoreState,
+) {
+  if (!userSelection) userSelection = boardStoreState.userSelection;
+  if (!x) x = boardStoreState.mouse.grid.x;
+  if (!y) y = boardStoreState.mouse.grid.y;
+  const component = new CustomComponent(
+    null,
+    { x, y },
+    undefined,
+    undefined,
+    null,
+    boardStoreState,
+  );
+  const clone = cloneSelection(
+    components,
+    wires,
+    undefined,
+    undefined,
+    boardStoreState,
+  );
+  component.components = clone.components;
+  component.wires = clone.wires;
+  component.create();
+  userSelection = Object.assign({ components: [], wires: [] }, userSelection);
+  removeSelection(
+    userSelection.components,
+    userSelection.wires,
+    boardStoreState,
+  );
+  boardStoreState.components.push(component);
+}

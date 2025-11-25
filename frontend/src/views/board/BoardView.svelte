@@ -41,7 +41,15 @@ function initCanvas(node: HTMLCanvasElement) {
 
 <svelte:window bind:innerHeight={windowHeight} bind:innerWidth={windowWidth} />
 <div class="container">
-    <canvas {@attach initCanvas} onmousewheel={(e: WheelEvent) =>canvasEventManager.handleOnMouseWheel(e)}></canvas>
+    <canvas {@attach initCanvas} 
+        onmouseleave={(e: MouseEvent) => canvasEventManager.handleOnMouseLeave(e)}
+        onmouseenter={(e: MouseEvent) => canvasEventManager.handleOnMouseEnter(e)}
+        onmousedown={(e: MouseEvent) => canvasEventManager.handleOnMouseDown(e)}
+        onmousemove={(e: MouseEvent) => canvasEventManager.handleOnMouseMove(e)}
+        onmouseup={(e: MouseEvent) => canvasEventManager.handleOnMouseUp(e)}
+        ondblclick={(e: MouseEvent) => canvasEventManager.handleOnDblClick(e)}
+        onmousewheel={(e: WheelEvent) =>canvasEventManager.handleOnMouseWheel(e)}
+    ></canvas>
     <TutorialDrawer />
     <Toolbar />
     <FloatingMenu />

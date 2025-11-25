@@ -9,9 +9,11 @@ import {
 	state as boardStoreState,
 	drawBoardFrame,
 } from "$/stores/boardStore.svelte";
+    import CanvasEventManager from "$/lib/composable/CanvasEventManager";
 
 let windowHeight = $state(0);
 let windowWidth = $state(0);
+const canvasEventManager = new CanvasEventManager(boardStoreState)
 
 function initCanvas(node: HTMLCanvasElement) {
 	node.height = windowHeight;
@@ -39,7 +41,7 @@ function initCanvas(node: HTMLCanvasElement) {
 
 <svelte:window bind:innerHeight={windowHeight} bind:innerWidth={windowWidth} />
 <div class="container">
-    <canvas {@attach initCanvas}></canvas>
+    <canvas {@attach initCanvas} onmousewheel={(e: WheelEvent) =>canvasEventManager.handleOnMouseWheel(e)}></canvas>
     <TutorialDrawer />
     <Toolbar />
     <FloatingMenu />

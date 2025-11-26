@@ -4,6 +4,7 @@ import type {
   AnyLogicComponent,
   AnyLogicComponentClass,
   ComponentPin,
+  ComponentPinPlacement,
   Coord,
   UserSelection,
 } from "$/types";
@@ -23,7 +24,7 @@ type UserDrag =
     }
   | {
       pin: ComponentPin;
-      sideIndex: number;
+      placement: ComponentPinPlacement
     };
 
 export type BoardStoreState = {
@@ -33,6 +34,7 @@ export type BoardStoreState = {
   audioCtx: AudioContext | null;
   offset: Coord;
   mouse: {
+    isMouseWheelClicked: boolean;
     screen: Coord;
     grid: Coord;
   };
@@ -70,6 +72,7 @@ export const state: BoardStoreState = $state({
   audioCtx: null,
   offset: { x: 0, y: 0 },
   mouse: {
+    isMouseWheelClicked: false,
     screen: { x: 0, y: 0 },
     grid: { x: 0, y: 0 },
   },

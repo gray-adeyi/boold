@@ -741,7 +741,21 @@ export default class CanvasEventManager {
 
   handleOnMouseUp(event: MouseEvent) {}
 
-  handleOnDblClick(event: MouseEvent) {}
+  handleOnDblClick(event: MouseEvent) {
+    this.state.mouse.screen.x = event.x;
+    this.state.mouse.screen.y = event.y;
+    this.state.mouse.grid.x = Math.round(
+      event.x / this.state.zoom + this.state.offset.x,
+    );
+    this.state.mouse.grid.y = Math.round(
+      -event.y / this.state.zoom + this.state.offset.y,
+    );
+
+    const component = findComponentByPos(null, null, this.state);
+    if (event.button === MouseButton.LEFT && component && "open" in component) {
+      component.open();
+    }
+  }
 
   handleOnMouseWheel(event: WheelEvent) {
     event.preventDefault();

@@ -1,14 +1,22 @@
 import type { BoardStoreState } from "$/stores/boardStore.svelte";
-import type { AnyLogicComponent, ComponentPin } from "$/types";
+import type {
+  AnyLogicComponent,
+  AnyLogicComponentClass,
+  ComponentPin,
+} from "$/types";
 import {
   addComponent,
   connectComponents,
   connectWires,
+  findAllWiresInPos,
   findAllWiresInSelectionWithoutConnections,
   findComponentByPos,
   findComponentPinByPos,
   findComponentsInUserSelection,
   findWireByPos,
+  moveComponentPin,
+  moveSelection,
+  selectComponent,
 } from "../logicComponents/componentManipulation.svelte";
 import PrimitiveComponent from "../logicComponents/PrimitiveComponent.svelte";
 import Wire from "../logicComponents/Wire.svelte";
@@ -739,7 +747,484 @@ export default class CanvasEventManager {
     }
   }
 
-  handleOnMouseUp(event: MouseEvent) {}
+  handleOnMouseUp(event: MouseEvent) {
+    this.state.mouse.screen.x = event.x;
+    this.state.mouse.screen.y = event.y;
+    this.state.mouse.grid.x = Math.round(
+      event.y / this.state.zoom + this.state.offset.x,
+    );
+    this.state.mouse.grid.y = Math.round(
+      -event.y / this.state.zoom + this.state.offset.y,
+    );
+
+    if (event.button === MouseButton.LEFT) {
+      if (
+        this.state.userSelection &&
+        !this.state.userSelection.components.length &&
+        !this.state.userDrag
+      ) {
+        if (
+          Math.abs(this.state.userSelection.dimension.width) < 0.5 &&
+          Math.abs(this.state.userSelection.dimension.height) < 0.5
+        ) {
+          return;
+        } else {
+          this.state.userSelection.components = findComponentsInUserSelection(
+            this.state.userSelection.pos.x,
+            this.state.userSelection.pos.y,
+            Math.round(this.state.userSelection.dimension.width),
+            Math.round(this.state.userSelection.dimension.height),
+            this.state,
+          );
+          this.state.userSelection.wires =
+            findAllWiresInSelectionWithoutConnections(
+              this.state.userSelection.pos.x,
+              this.state.userSelection.pos.y,
+              Math.round(this.state.userSelection.dimension.width),
+              Math.round(this.state.userSelection.dimension.height),
+              this.state,
+            );
+
+          const animate = () => {
+            if (!this.state.userSelection) return;
+            this.state.userSelection.dimension.width +=
+              (Math.round(this.state.userSelection.dimension.width) -
+                this.state.userSelection.dimension.width) /
+              4;
+            this.state.userSelection.dimension.height +=
+              (Math.round(this.state.userSelection.dimension.height) -
+                this.state.userSelection.dimension.height) /
+              4;
+
+            if (
+              Math.abs(
+                Math.round(this.state.userSelection.dimension.width) -
+                  this.state.userSelection.dimension.width,
+              ) *
+                this.state.zoom >
+                1 ||
+              Math.abs(
+                Math.round(this.state.userSelection.dimension.height) -
+                  this.state.userSelection.dimension.height,
+              ) *
+                this.state.zoom >
+                1
+            ) {
+              requestAnimationFrame(animate);
+            } else {
+              this.state.userSelection.dimension.width = Math.round(
+                this.state.userSelection.dimension.width,
+              );
+              this.state.userSelection.dimension.height = Math.round(
+                this.state.userSelection.dimension.height,
+              );
+
+              // TODO: show context menu
+            }
+          };
+          animate();
+        }
+      } else if (this.state.userDrag) {
+        if (
+          "isDragSelecting" in this.state.userDrag &&
+          this.state.userDrag.isDragSelecting &&
+          this.state.userSelection
+        ) {
+          /*
+            The x and y coordinate of the selection need to be integers. While dragging, they are floats. So I created a little animation for the x
+            and y coordinates of the selection becoming integers.
+            */
+          const components = this.state.userSelection.components;
+          const wires = this.state.wires;
+
+          const animate = () => {
+            if (
+              !this.state.userSelection ||
+              !this.state.userDrag ||
+              !this.state.canvas
+            )
+              return;
+            let dx =
+              Math.round(this.state.userSelection.pos.x) -
+              this.state.userSelection.pos.x;
+            let dy =
+              Math.round(this.state.userSelection.pos.y) -
+              this.state.userSelection.pos.y;
+
+            this.state.userSelection.pos.x += dx / 2.5;
+            this.state.userSelection.pos.y += dy / 2.5;
+
+            for (let i = 0; i < this.state.components.length; i++) {
+              const component = components[i];
+              component.pos.x += dx / 2.5;
+              component.pos.y += dy / 2.5;
+
+              for (let i = 0; i < component.inputPins.length; i++) {
+                const wire = component.inputPins[i].connection;
+                if (wire && wires.includes(wire)) {
+                  wire.path.slice(-1)[0].x += dx / 2.5;
+                  wire.path.slice(-1)[0].y += dy / 2.5;
+                }
+              }
+
+              for (let i = 0; i < component.outputPins.length; i++) {
+                const wire = component.outputPins[i].connection;
+                if (wire && !wires.includes(wire)) {
+                  wire.path[0].x += dx / 2.5;
+                  wire.path[0].y += dy / 2.5;
+                }
+              }
+            }
+
+            for (let i = 0; i < wires.length; i++) {
+              const path = wires[i].path;
+              for (let j = 0; j < path.length; i++) {
+                path[j].x += dx / 2.5;
+                path[j].y += dy / 2.5;
+              }
+
+              const { intersections } = wires[i];
+              for (let j = 0; j < intersections.length; j++) {
+                intersections[j].pos.x += dx / 2.5;
+                intersections[j].pos.y += dy / 2.5;
+              }
+            }
+
+            if (
+              Math.abs(dx) * this.state.zoom > 1 ||
+              Math.abs(dy) * this.state.zoom > 1
+            ) {
+              dx = dx - dx / 2.5;
+              dy = dy - dy / 2.5;
+              requestAnimationFrame(animate);
+            } else {
+              // Stop animation
+              this.state.userSelection.pos.x = Math.round(
+                this.state.userSelection.pos.x,
+              );
+              this.state.userSelection.pos.y = Math.round(
+                this.state.userSelection.pos.y,
+              );
+              // TODO: update context menu pos
+
+              for (let i = 0; i < components.length; i++) {
+                const component = components[i];
+                component.pos.x = Math.round(component.pos.x);
+                component.pos.y = Math.round(component.pos.y);
+
+                for (let i = 0; i < component.inputPins.length; i++) {
+                  const wire = component.inputPins[i].connection;
+                  if (wire && !wires.includes(wire)) {
+                    wire.path.slice(-1)[0].x = Math.round(
+                      wire.path.slice(-1)[0].x,
+                    );
+                    wire.path.slice(-1)[0].y = Math.round(
+                      wire.path.slice(-1)[0].y,
+                    );
+                  }
+                }
+
+                for (let i = 0; i < component.outputPins.length; i++) {
+                  const wire = component.outputPins[i].connection;
+                  if (wire && !wires.includes(wire)) {
+                    wire.path[0].x = Math.round(wire.path[0].x);
+                    wire.path[0].y = Math.round(wire.path[0].y);
+                  }
+                }
+              }
+
+              for (let i = 0; i < wires.length; i++) {
+                const path = wires[i].path;
+                for (let j = 0; j < path.length; j++) {
+                  path[j].x = Math.round(path[j].x);
+                  path[j].y = Math.round(path[j].y);
+                }
+
+                const { intersections } = wires[i];
+                for (let j = 0; j < intersections.length; j++) {
+                  intersections[j].pos.x = Math.round(intersections[j].pos.x);
+                  intersections[j].pos.y = Math.round(intersections[j].pos.y);
+                }
+              }
+
+              // Only for undo purposes
+              const dx =
+                this.state.userSelection.pos.x - this.state.userDrag.pos.x;
+              const dy =
+                this.state.userSelection.pos.y - this.state.userDrag.pos.y;
+              moveSelection(
+                this.state.userSelection.components,
+                this.state.userSelection.wires,
+                -dx,
+                -dy,
+                this.state,
+              );
+              moveSelection(
+                this.state.userSelection.components,
+                this.state.userSelection.wires,
+                dx,
+                dy,
+                this.state,
+              );
+
+              this.state.userDrag = null;
+              this.state.canvas.style.cursor = "crosshair";
+            }
+          };
+          animate();
+        } else {
+          if (
+            "component" in this.state.userDrag &&
+            this.state.userDrag.component
+          ) {
+            /*
+              The x and y coordinate of the component need to be integers. While dragging, they are floats. So I created a little animation for the x
+              and y coordinates of the component becoming integers.
+            */
+            const component = this.state.userDrag.component;
+            const animate = () => {};
+            animate();
+          } else if ("pin" in this.state.userDrag && this.state.userDrag.pin) {
+            const pin = this.state.userDrag.pin;
+            pin.placement.sideIndex = Math.round(pin.placement.sideIndex);
+
+            for (let i = 0; i < pin.component.inputPins.length; i++) {
+              const pin2 = pin.component.inputPins[i];
+              if (pin2 === pin) continue;
+              if (
+                pin2.placement.side === pin.placement.side &&
+                pin2.placement.sideIndex === pin.placement.sideIndex
+              ) {
+                pin.placement.side = this.state.userDrag.placement.side;
+                pin.placement.sideIndex =
+                  this.state.userDrag.placement.sideIndex;
+              }
+            }
+
+            for (let i = 0; i < pin.component.outputPins.length; i++) {
+              const pin2 = pin.component.outputPins[i];
+              if (pin2 === pin) continue;
+              if (
+                pin2.placement.side === pin.placement.side &&
+                pin2.placement.sideIndex === pin.placement.sideIndex
+              ) {
+                pin.placement.side = this.state.userDrag.placement.side;
+                pin.placement.sideIndex =
+                  this.state.userDrag.placement.sideIndex;
+              }
+            }
+
+            const wire = pin.connection;
+            if (wire) {
+              if (pin.type === "input") {
+                wire.path.slice(-1)[0].x = Math.round(wire.path.slice(-1)[0].x);
+                wire.path.slice(-1)[0].y = Math.round(wire.path.slice(-1)[0].y);
+              } else {
+                wire.path[0].x = Math.round(wire.path[0].x);
+                wire.path[0].y = Math.round(wire.path[0].y);
+              }
+            }
+            moveComponentPin(pin, undefined, undefined, this.state);
+            this.state.userDrag = null;
+          }
+        }
+      } else if (this.state.connectingWire) {
+        if (this.state.connectingWire.path.length > 1) {
+          const pos = this.state.connectingWire.path.slice(-1)[0];
+          const wire = findWireByPos(pos.x, pos.y, this.state);
+          if (wire && wire !== this.state.connectingWire) {
+            this.state.wires.push(this.state.connectingWire);
+
+            if (this.state.connectingWire.inputConnections.length > 0) {
+              connectWires(
+                this.state.connectingWire.inputConnections[0],
+                this.state.connectingWire,
+              );
+              /*
+                Give the intersection point to the wire with the highest index,
+                so the intersection point is drawn
+              */
+              if (
+                this.state.wires.indexOf(this.state.connectingWire) >
+                this.state.wires.indexOf(
+                  this.state.connectingWire.inputConnections[0],
+                )
+              ) {
+                this.state.connectingWire.intersections.push(
+                  Object.assign(
+                    {},
+                    {
+                      type: 0,
+                      pos: this.state.connectingWire.path[0],
+                    },
+                  ),
+                );
+              } else {
+                this.state.connectingWire.inputConnections[0].intersections.push(
+                  Object.assign(
+                    {},
+                    {
+                      type: 0,
+                      pos: this.state.connectingWire.path[0],
+                    },
+                  ),
+                );
+              }
+            }
+
+            connectWires(this.state.connectingWire, wire);
+          } else {
+            const wires = findAllWiresInPos(null, null, this.state);
+
+            if (wires.length > 1) {
+              const wire1PathIndex = wires[0].path.findIndex(
+                (coord) =>
+                  coord.x === this.state.mouse.grid.x &&
+                  this.state.mouse.grid.y,
+              );
+              if (wire1PathIndex) {
+                const wire1Dx =
+                  wires[0].path[wire1PathIndex].x -
+                  wires[0].path[wire1PathIndex + 1].x;
+                if (wire1Dx !== 0) {
+                  const tmp = wires[0];
+                  wires[0] = wires[1];
+                  wires[1] = tmp;
+                }
+              }
+
+              if (wires.indexOf(wires[0]) > wires.indexOf(wires[1])) {
+                if (
+                  !wires[0].intersections.find(
+                    (intersection) =>
+                      intersection.pos.x === this.state.mouse.grid.x &&
+                      intersection.pos.y === this.state.mouse.grid.y,
+                  )
+                ) {
+                  wires[0].intersections.push({
+                    type: 0,
+                    pos: this.state.mouse.grid,
+                  });
+                }
+              } else {
+                if (
+                  !wires[1].intersections.find(
+                    (intersection) =>
+                      intersection.pos.x === this.state.mouse.grid.x &&
+                      intersection.pos.y === this.state.mouse.grid.y,
+                  )
+                ) {
+                  wires[1].intersections.push({
+                    type: 0,
+                    pos: this.state.mouse.grid,
+                  });
+                }
+              }
+
+              if (
+                wires[0].inputConnections.includes(wires[1]) &&
+                wires[0].outputConnections.includes(wires[1])
+              ) {
+                // intersection type 1
+                const inputIndex = wires[0].inputConnections.indexOf(wires[1]);
+                if (inputIndex > -1)
+                  wires[0].inputConnections.splice(inputIndex, 1);
+                const outputIndex = wires[1].outputConnections.indexOf(
+                  wires[0],
+                );
+                if (outputIndex > -1)
+                  wires[1].outputConnections.splice(outputIndex, 1);
+
+                const intersection = wires[1].intersections.find(
+                  (intersection) =>
+                    intersection.pos.x === this.state.mouse.grid.x &&
+                    intersection.pos.y === this.state.mouse.grid.y,
+                );
+                if (intersection) {
+                  intersection.type = 1;
+                }
+              } else if (wires[1].inputConnections.includes(wires[0])) {
+                // intersection type 2
+                const inputIndex = wires[1].inputConnections.indexOf(wires[0]);
+                if (inputIndex > -1)
+                  wires[1].inputConnections.splice(inputIndex, 1);
+                const outputIndex = wires[0].outputConnections.indexOf(
+                  wires[1],
+                );
+                if (outputIndex > -1)
+                  wires[0].outputConnections.splice(outputIndex, 1);
+
+                connectWires(wires[1], wires[0]);
+
+                const intersection = wires[1].intersections.find(
+                  (intersection) =>
+                    intersection.pos.x === this.state.mouse.grid.x &&
+                    intersection.pos.y === this.state.mouse.grid.y,
+                );
+                if (intersection) {
+                  intersection.type = 2;
+                }
+              } else if (wires[1].outputConnections.includes(wires[0])) {
+                const inputIndex = wires[0].inputConnections.indexOf(wires[1]);
+                if (inputIndex > -1)
+                  wires[0].inputConnections.splice(inputIndex, 1);
+                const outputIndex = wires[1].outputConnections.indexOf(
+                  wires[0],
+                );
+                if (outputIndex > -1)
+                  wires[1].outputConnections.splice(outputIndex, 1);
+
+                const intersection = wires[1].intersections.findIndex(
+                  (intersection) =>
+                    intersection.pos.x === this.state.mouse.grid.x &&
+                    intersection.pos.y === this.state.mouse.grid.y,
+                );
+                if (intersection > -1) {
+                  wires[1].intersections.splice(intersection, 1);
+                }
+              } else {
+                connectWires(wires[0], wires[1]);
+                connectWires(wires[1], wires[0]);
+
+                const intersection = wires[1].intersections.find(
+                  (intersection) =>
+                    intersection.pos.x === this.state.mouse.grid.x &&
+                    this.state.mouse.grid.y,
+                );
+                if (intersection) {
+                  intersection.type = 3;
+                }
+              }
+            }
+          }
+          this.state.connectingWire = null
+        } else if(event.altKey) {
+          this.state.scrollAnimation.animate = true
+        } else if (event.ctrlKey){
+          this.state.scrollAnimation.animate = true
+        } else {
+          const component = findComponentByPos(null,null,this.state)
+          if(component && 'handleOnMouseUp' in component){
+            component.handleOnMouseUp()
+          }
+        }
+      }
+    } else if (event.button === MouseButton.MIDDLE) {
+      this.state.scrollAnimation.animate = true;
+
+      if (this.state.mouse.isMouseWheelClicked) {
+        const component = findComponentByPos(null, null, this.state);
+        if (component)
+          selectComponent(
+            component.constructor as AnyLogicComponentClass,
+            this.state,
+          );
+      }
+
+      event.preventDefault();
+      return;
+    }
+  }
 
   handleOnDblClick(event: MouseEvent) {
     this.state.mouse.screen.x = event.x;

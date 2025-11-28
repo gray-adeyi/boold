@@ -3,6 +3,7 @@ import Wire from "$/lib/logicComponents/Wire.svelte";
 import type { BoardStoreState } from "$/stores/boardStore.svelte";
 import type {
   AnyLogicComponent,
+  AnyLogicComponentClass,
   BoardEntity,
   ComponentInputPin,
   ComponentOutputPin,
@@ -11,6 +12,10 @@ import type {
   UserSelection,
   WireIntersection,
 } from "$/types";
+
+export function selectComponent(component: AnyLogicComponentClass,boardStoreState :BoardStoreState){
+  boardStoreState.componentInSelectionFocus = component
+}
 
 /**
  * Adds the logic component to the board

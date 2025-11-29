@@ -1,0 +1,79 @@
+name: Build Release Artifacts
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '1.25.3'
+      - name: Check GO installed successfully
+        run: go version
+      - name: Install wails
+        run: go install github.com/wailsapp/wails/v2/cmd/wails@latest
+
+      # -----------------------------------------
+      # Install platform-specific dependencies
+      # -----------------------------------------
+
+      # Linux
+      - name: Install Linux deps
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y make
+          export APP_VERSION=${{ github.ref_name }}
+
+      # macOS
+      - name: Install macOS deps
+        if: matrix.os == 'macos-latest'
+        run: |
+          brew update
+          brew install make
+          export APP_VERSION=${{ github.ref_name }}
+
+      # Windows
+      - name: Install Windows deps
+        if: matrix.os == 'windows-latest'
+        run: |
+          choco install upx nsis make -y
+          powershell -Command "Set-ExecutionPolicy Bypass -Scope Process"
+
+      # -----------------------------------------
+      # Build for platforms
+      # -----------------------------------------
+      - name: Build linux
+        run: |
+         make build-linux 
+      
+      - name: Build windows
+        run: |
+         make build-windows
+         
+      - name: Build darwin
+        run: |
+         make build-darwin
+
+      # -----------------------------------------
+      # Upload artifacts to the GitHub Release
+      # -----------------------------------------
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            build/bin/boold_${APP_VERSION}_linux-amd64
+            build/bin/boold_${APP_VERSION}_windows-amd64.exe
+            build/bin/boold_${APP_VERSION}_darwin-amd64.dmg
+  

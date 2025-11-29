@@ -1,14 +1,17 @@
 .PHONY: build
 	
+-include .env
+export
+
 dev:
 	wails dev
 build: build-linux build-darwin build-windows
 build-linux:
-	wails build -platform "linux/amd64" -o boold.bin
+	wails build -platform "linux/amd64" -o boold_$(APP_VERSION)_linux-amd64
 build-darwin:
-	wails build -platform "darwin/amd64" -o boold.dmg
+	wails build -platform "darwin/amd64" -o boold_$(APP_VERSION)_darwin-amd64.dmg
 build-windows:
-	wails build -platform "windows/amd64" -upx -nsis -o boold.exe
+	wails build -platform "windows/amd64" -upx -nsis -o boold_$(APP_VERSION)_windows-amd64.exe
 fmt-frontend:
 	$(MAKE) -C frontend fmt
 fmt-backend:
@@ -22,7 +25,7 @@ install-pre-commit-hook:
 	@echo "pre-commit hook installed!"
 uninstall-pre-commit-hook:
 	rm -f .git/hooks/pre-commit
-	@echo "pre-commit hook uninstalled!"	
+	@echo "pre-commit hook uninstalled!"
 reset-hooks:
 	rm -f .git/hooks/pre-commit
 	# rm -f .git/hooks/pre-push

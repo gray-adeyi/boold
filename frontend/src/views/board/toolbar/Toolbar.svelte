@@ -72,24 +72,41 @@ const selectComponent = (
 	showToast(`${componentName} is selected`);
 };
 
+const selectComponentInDropdown = (
+	component: AnyLogicComponentClass,
+	componentName: string,
+) => {
+	selectComponent(component, componentName);
+	isIOSelectDropdownVisible = false;
+};
+
 const ioSelectClickHandlers: Record<string, () => void> = {
-	[InputComponent as any]: () => selectComponent(InputComponent, "Input"),
-	[OutputComponent as any]: () => selectComponent(OutputComponent, "Output"),
-	[ButtonComponent as any]: () => selectComponent(ButtonComponent, "Button"),
+	[InputComponent as any]: () =>
+		selectComponentInDropdown(InputComponent, "Input"),
+	[OutputComponent as any]: () =>
+		selectComponentInDropdown(OutputComponent, "Output"),
+	[ButtonComponent as any]: () =>
+		selectComponentInDropdown(ButtonComponent, "Button"),
 	[ConstantComponent as any]: () =>
-		selectComponent(ConstantComponent, "Constant"),
-	[DelayComponent as any]: () => selectComponent(DelayComponent, "Delay"),
-	[ClockComponent as any]: () => selectComponent(ClockComponent, "Clock"),
-	[LEDComponent as any]: () => selectComponent(LEDComponent, "LED"),
-	[DisplayComponent as any]: () => selectComponent(DisplayComponent, "Display"),
-	[DebugComponent as any]: () => selectComponent(DebugComponent, "Debug"),
-	[BuzzerComponent as any]: () => selectComponent(BuzzerComponent, "Buzzer"),
-	[CounterComponent as any]: () => selectComponent(CounterComponent, "Counter"),
+		selectComponentInDropdown(ConstantComponent, "Constant"),
+	[DelayComponent as any]: () =>
+		selectComponentInDropdown(DelayComponent, "Delay"),
+	[ClockComponent as any]: () =>
+		selectComponentInDropdown(ClockComponent, "Clock"),
+	[LEDComponent as any]: () => selectComponentInDropdown(LEDComponent, "LED"),
+	[DisplayComponent as any]: () =>
+		selectComponentInDropdown(DisplayComponent, "Display"),
+	[DebugComponent as any]: () =>
+		selectComponentInDropdown(DebugComponent, "Debug"),
+	[BuzzerComponent as any]: () =>
+		selectComponentInDropdown(BuzzerComponent, "Buzzer"),
+	[CounterComponent as any]: () =>
+		selectComponentInDropdown(CounterComponent, "Counter"),
 	[TimerStartComponent as any]: () =>
-		selectComponent(TimerStartComponent, "Timer start"),
+		selectComponentInDropdown(TimerStartComponent, "Timer start"),
 	[TimerEndComponent as any]: () =>
-		selectComponent(TimerEndComponent, "Timer end"),
-	[ROMComponent as any]: () => selectComponent(ROMComponent, "ROM"),
+		selectComponentInDropdown(TimerEndComponent, "Timer end"),
+	[ROMComponent as any]: () => selectComponentInDropdown(ROMComponent, "ROM"),
 };
 
 const toolbarItems: ToolbarItem[] = [

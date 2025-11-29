@@ -33,67 +33,67 @@ const options: IOSelectOption[] = [
 	{
 		displayText: "output",
 		displayTextTransform: "capitalize",
-		onclick: () => ioSelectClickHandlers[OutputComponent as any],
+		onclick: ioSelectClickHandlers[OutputComponent as any],
 	},
 	{
 		displayText: "button",
 		displayTextTransform: "capitalize",
-		onclick: () => ioSelectClickHandlers[ButtonComponent as any],
+		onclick: ioSelectClickHandlers[ButtonComponent as any],
 	},
 	{
 		displayText: "constant",
 		displayTextTransform: "capitalize",
-		onclick: () => ioSelectClickHandlers[ConstantComponent as any],
+		onclick: ioSelectClickHandlers[ConstantComponent as any],
 	},
 	{
 		displayText: "delay",
 		displayTextTransform: "capitalize",
-		onclick: () => ioSelectClickHandlers[DelayComponent as any],
+		onclick: ioSelectClickHandlers[DelayComponent as any],
 	},
 	{
 		displayText: "clock",
 		displayTextTransform: "capitalize",
-		onclick: () => ioSelectClickHandlers[ClockComponent as any],
+		onclick: ioSelectClickHandlers[ClockComponent as any],
 	},
 	{
 		displayText: "led",
 		displayTextTransform: "uppercase",
-		onclick: () => ioSelectClickHandlers[LEDComponent as any],
+		onclick: ioSelectClickHandlers[LEDComponent as any],
 	},
 	{
 		displayText: "display",
 		displayTextTransform: "capitalize",
-		onclick: () => ioSelectClickHandlers[DisplayComponent as any],
+		onclick: ioSelectClickHandlers[DisplayComponent as any],
 	},
 	{
 		displayText: "debug",
 		displayTextTransform: "capitalize",
-		onclick: () => ioSelectClickHandlers[DebugComponent as any],
+		onclick: ioSelectClickHandlers[DebugComponent as any],
 	},
 	{
 		displayText: "buzzer",
 		displayTextTransform: "capitalize",
-		onclick: () => ioSelectClickHandlers[BuzzerComponent as any],
+		onclick: ioSelectClickHandlers[BuzzerComponent as any],
 	},
 	{
 		displayText: "counter",
 		displayTextTransform: "capitalize",
-		onclick: () => ioSelectClickHandlers[CounterComponent as any],
+		onclick: ioSelectClickHandlers[CounterComponent as any],
 	},
 	{
 		displayText: "timer start",
 		displayTextTransform: "capitalize",
-		onclick: () => ioSelectClickHandlers[TimerStartComponent as any],
+		onclick: ioSelectClickHandlers[TimerStartComponent as any],
 	},
 	{
 		displayText: "timer end",
 		displayTextTransform: "capitalize",
-		onclick: () => ioSelectClickHandlers[TimerEndComponent as any],
+		onclick: ioSelectClickHandlers[TimerEndComponent as any],
 	},
 	{
 		displayText: "rom",
 		displayTextTransform: "uppercase",
-		onclick: () => ioSelectClickHandlers[ROMComponent as any],
+		onclick: ioSelectClickHandlers[ROMComponent as any],
 	},
 ];
 </script>

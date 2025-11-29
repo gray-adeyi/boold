@@ -9,5 +9,19 @@
   "author": {
     "name": "Gbenga Adeyi",
     "email": "adeyigbenga005@gmail.com"
+  },
+  "info":{
+  "productVersion":"0.0.1",
+  "companyName":"com.github.gray_adeyi",
+  "fileDescription": "A software tool for building and testing digital circuits (logic gates, adders, registers, even small CPUs)",
+  "legalCopyright": "Copyright (c) 2025 Gbenga Adeyi\n\nThis project is dual-licensed under the MIT License and the Apache License 2.0.\nYou may choose either license.",
+  "productName": "boold",
+  "comments": "digital logic simulator, inspired by BOOLR",
+  "fileAssociations": [
+    {
+      "ext": "boold",
+      "description": "a boold file"
+    }
+  ]
   }
 }

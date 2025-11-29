@@ -6,8 +6,8 @@ fmt-all: fmt-frontend fmt-backend
 install-hooks: install-pre-commit-hook
 uninstall-hooks: uninstall-pre-commit-hook
 install-pre-commit-hook:
-	ln -s ./scripts/run-pre-commit-hook.sh .git/hooks/pre-commit
-	chmod +x ./scripts/run-pre-commit-hook.sh
+	cp ./scripts/run-pre-commit-hook.sh .git/hooks/pre-commit
+	chmod +x .git/hooks/pre-commit
 	@echo "pre-commit hook installed!"
 uninstall-pre-commit-hook:
 	rm -f .git/hooks/pre-commit

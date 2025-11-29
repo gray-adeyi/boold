@@ -23,9 +23,9 @@ const setTipLeftOffset = (el: HTMLDivElement) => {
 };
 
 const handleButtonClick = (event: MouseEvent) => {
-  isTipVisible = false
-  onclick()
-}
+	isTipVisible = false;
+	onclick();
+};
 
 const handleRightClick = (event: MouseEvent) => {
 	event.preventDefault();

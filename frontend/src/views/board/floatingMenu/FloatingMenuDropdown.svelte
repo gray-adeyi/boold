@@ -1,20 +1,18 @@
 <script lang="ts">
-    import type { FloatingMenuOption } from "$/types";
+import type { FloatingMenuOption } from "$/types";
 
-    type Props = {
-      menuOptions: FloatingMenuOption[];
-    }
-    
-    const {menuOptions}: Props = $props()
-    
-    const createKeydownHandler = (action: FloatingMenuOption['action']) => {
-      return (event: KeyboardEvent) => {
-        event.preventDefault()
-        if(event.key === 'Enter' || event.key = ' ') action()
-      }
-    }
+type Props = {
+	menuOptions: FloatingMenuOption[];
+};
 
+const { menuOptions }: Props = $props();
 
+const createKeydownHandler = (action: FloatingMenuOption["action"]) => {
+	return (event: KeyboardEvent) => {
+		event.preventDefault();
+		if (event.key === "Enter" || event.key === " ") action();
+	};
+};
 </script>
 
 <ul class="menu">

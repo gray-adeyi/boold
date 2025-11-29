@@ -26,7 +26,7 @@ import CounterComponent from "$/lib/logicComponents/CounterComponent.svelte";
 import TimerStartComponent from "$/lib/logicComponents/TimerStartComponent.svelte";
 import TimerEndComponent from "$/lib/logicComponents/TimerEndComponent.svelte";
 import ROMComponent from "$/lib/logicComponents/ROMComponent.svelte";
-    import NOTGateComponent from "$/lib/logicComponents/NOTGateComponent.svelte";
+import NOTGateComponent from "$/lib/logicComponents/NOTGateComponent.svelte";
 
 type ToolbarItem = {
 	text?: string;

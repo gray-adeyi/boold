@@ -63,7 +63,7 @@ export type BoardStoreState = {
 	animationFrameId: number | null;
 	componentInSelectionFocus: AnyLogicComponentClass; // type of any logic component not just InputComponent
 	updateQueue: (() => void)[];
-  isTutorialDrawerOpen: boolean;
+	isTutorialDrawerOpen: boolean;
 };
 
 export const state: BoardStoreState = $state({
@@ -225,6 +225,6 @@ export function drawBoardFrame() {
 	state.animationFrameId = requestAnimationFrame(drawBoardFrame);
 }
 
-export function toggleTutorialDrawer(){
-  state.isTutorialDrawerOpen = !state.isTutorialDrawerOpen
+export function toggleTutorialDrawer() {
+	state.isTutorialDrawerOpen = !state.isTutorialDrawerOpen;
 }

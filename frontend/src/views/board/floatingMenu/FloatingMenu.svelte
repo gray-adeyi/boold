@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { toggleTutorialDrawer } from "$/stores/boardStore.svelte";
-    import type { FloatingMenuOption } from "$/types";
+import { toggleTutorialDrawer } from "$/stores/boardStore.svelte";
+import type { FloatingMenuOption } from "$/types";
 import AppVersionButton from "$/views/board/floatingMenu/AppVersionButton.svelte";
 import FloatingMenuDropdown from "$/views/board/floatingMenu/FloatingMenuDropdown.svelte";
 import FloatingMenuDropdownButton from "$/views/board/floatingMenu/FloatingMenuDropdownButton.svelte";
@@ -48,9 +48,9 @@ const menuOptions: FloatingMenuOption[] = [
 		display: "Open tutorial",
 		shortcut: "F1",
 		action: () => {
-		console.log('i executed!')
-		toggleTutorialDrawer()
-		isDropdownVisible = false
+			console.log("i executed!");
+			toggleTutorialDrawer();
+			isDropdownVisible = false;
 		},
 	},
 	{

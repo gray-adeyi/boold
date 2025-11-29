@@ -8,13 +8,13 @@
     !define INFO_PROJECTNAME "boold"
 !endif
 !ifndef INFO_COMPANYNAME
-    !define INFO_COMPANYNAME "boold"
+    !define INFO_COMPANYNAME "com.github.gray_adeyi"
 !endif
 !ifndef INFO_PRODUCTNAME
     !define INFO_PRODUCTNAME "boold"
 !endif
 !ifndef INFO_PRODUCTVERSION
-    !define INFO_PRODUCTVERSION "1.0.0"
+    !define INFO_PRODUCTVERSION "0.0.1"
 !endif
 !ifndef INFO_COPYRIGHT
     !define INFO_COPYRIGHT "Copyright........."

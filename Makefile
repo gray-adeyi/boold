@@ -1,3 +1,14 @@
+.PHONY: build
+	
+dev:
+	wails dev
+build: build-linux build-darwin build-windows
+build-linux:
+	wails build -platform "linux/amd64" -o boold.bin
+build-darwin:
+	wails build -platform "darwin/amd64" -o boold.dmg
+build-windows:
+	wails build -platform "windows/amd64" -upx -nsis -o boold.exe
 fmt-frontend:
 	$(MAKE) -C frontend fmt
 fmt-backend:

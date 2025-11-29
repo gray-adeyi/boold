@@ -63,6 +63,7 @@ export type BoardStoreState = {
 	animationFrameId: number | null;
 	componentInSelectionFocus: AnyLogicComponentClass; // type of any logic component not just InputComponent
 	updateQueue: (() => void)[];
+  isTutorialDrawerOpen: boolean;
 };
 
 export const state: BoardStoreState = $state({
@@ -97,6 +98,7 @@ export const state: BoardStoreState = $state({
 	animationFrameId: null,
 	componentInSelectionFocus: ANDGateComponent,
 	updateQueue: [],
+	isTutorialDrawerOpen: false,
 });
 
 export function scrollBoard(dx: number, dy: number) {
@@ -221,4 +223,8 @@ export function drawBoardFrame() {
 	state.lastFrameTimestamp = new Date();
 
 	state.animationFrameId = requestAnimationFrame(drawBoardFrame);
+}
+
+export function toggleTutorialDrawer(){
+  state.isTutorialDrawerOpen = !state.isTutorialDrawerOpen
 }

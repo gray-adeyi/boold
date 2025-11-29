@@ -143,3 +143,10 @@ export type AnyLogicComponentClass =
 export type BoardEntity = AnyLogicComponent | ComponentPin | Wire;
 
 export type WireIntersection = { pos: Coord; type: number };
+
+export type FloatingMenuOption = {
+	icon: string;
+	display: string;
+	shortcut?: string;
+	action: () => void;
+};

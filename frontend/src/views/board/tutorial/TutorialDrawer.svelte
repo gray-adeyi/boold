@@ -1,5 +1,6 @@
 <script lang="ts">
 import TutorialControls from "$/views/board/tutorial/TutorialControls.svelte";
+import { state as boardStoreState, toggleTutorialDrawer } from "$/stores/boardStore.svelte";
 const totalSteps = 11;
 let currentStep = $state(1);
 
@@ -17,12 +18,20 @@ const stepComponentModule = $derived.by(async () => {
 	const module = await import(`./steps/TutorialStep${currentStep}.svelte`);
 	return module.default;
 });
+
+const updateDrawerVisibility = (node: HTMLDialogElement) => {
+  if(boardStoreState.isTutorialDrawerOpen) {
+    node.show()
+  } else {
+    node.close()
+  }
+}
 </script>
 
-<dialog class="container">
+<dialog class="container" {@attach updateDrawerVisibility}>
     <div class="header">
         <h1 class="title">tutorial</h1>
-        <button class="close-button"><i class="material-icon">close</i></button>
+        <button class="close-button" onclick={toggleTutorialDrawer}><i class="material-icon">close</i></button>
     </div>
     <div class="main">
         {#await stepComponentModule then StepComponent}

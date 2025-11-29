@@ -9,11 +9,11 @@ import {
 	state as boardStoreState,
 	drawBoardFrame,
 } from "$/stores/boardStore.svelte";
-    import CanvasEventManager from "$/lib/composable/CanvasEventManager";
+import CanvasEventManager from "$/lib/composable/CanvasEventManager";
 
 let windowHeight = $state(0);
 let windowWidth = $state(0);
-const canvasEventManager = new CanvasEventManager(boardStoreState)
+const canvasEventManager = new CanvasEventManager(boardStoreState);
 
 function initCanvas(node: HTMLCanvasElement) {
 	node.height = windowHeight;

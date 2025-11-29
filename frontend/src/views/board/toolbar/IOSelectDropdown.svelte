@@ -1,79 +1,99 @@
 <script lang="ts">
+import BeepComponent from "$/lib/logicComponents/BeepComponent.svelte";
+import ButtonComponent from "$/lib/logicComponents/ButtonComponent.svelte";
+import ClockComponent from "$/lib/logicComponents/ClockComponent.svelte";
+import ConstantComponent from "$/lib/logicComponents/ConstantComponent.svelte";
+import CounterComponent from "$/lib/logicComponents/CounterComponent.svelte";
+import DebugComponent from "$/lib/logicComponents/DebugComponent.svelte";
+import DelayComponent from "$/lib/logicComponents/DelayComponent.svelte";
+import DisplayComponent from "$/lib/logicComponents/DisplayComponent.svelte";
+import InputComponent from "$/lib/logicComponents/InputComponent.svelte";
+import LEDComponent from "$/lib/logicComponents/LEDComponent.svelte";
+import OutputComponent from "$/lib/logicComponents/OutputComponent.svelte";
+import ROMComponent from "$/lib/logicComponents/ROMComponent.svelte";
+import TimerEndComponent from "$/lib/logicComponents/TimerEndComponent.svelte";
+import TimerStartComponent from "$/lib/logicComponents/TimerStartComponent.svelte";
+
+type Props = {
+	ioSelectClickHandlers: Record<string, () => void>;
+};
 type IOSelectOption = {
 	displayText: string;
 	displayTextTransform: "uppercase" | "capitalize";
 	onclick: () => void;
 };
+
+const { ioSelectClickHandlers }: Props = $props();
 const options: IOSelectOption[] = [
 	{
 		displayText: "input",
 		displayTextTransform: "capitalize",
-		onclick: () => {},
+		onclick: ioSelectClickHandlers[InputComponent as any],
 	},
 	{
 		displayText: "output",
 		displayTextTransform: "capitalize",
-		onclick: () => {},
+		onclick: () => ioSelectClickHandlers[OutputComponent as any],
 	},
 	{
 		displayText: "button",
 		displayTextTransform: "capitalize",
-		onclick: () => {},
+		onclick: () => ioSelectClickHandlers[ButtonComponent as any],
 	},
 	{
 		displayText: "constant",
 		displayTextTransform: "capitalize",
-		onclick: () => {},
+		onclick: () => ioSelectClickHandlers[ConstantComponent as any],
 	},
 	{
 		displayText: "delay",
 		displayTextTransform: "capitalize",
-		onclick: () => {},
+		onclick: () => ioSelectClickHandlers[DelayComponent as any],
 	},
 	{
 		displayText: "clock",
 		displayTextTransform: "capitalize",
-		onclick: () => {},
+		onclick: () => ioSelectClickHandlers[ClockComponent as any],
 	},
 	{
 		displayText: "led",
 		displayTextTransform: "uppercase",
-		onclick: () => {},
+		onclick: () => ioSelectClickHandlers[LEDComponent as any],
 	},
 	{
 		displayText: "display",
 		displayTextTransform: "capitalize",
-		onclick: () => {},
+		onclick: () => ioSelectClickHandlers[DisplayComponent as any],
 	},
 	{
 		displayText: "debug",
 		displayTextTransform: "capitalize",
-		onclick: () => {},
+		onclick: () => ioSelectClickHandlers[DebugComponent as any],
 	},
 	{
 		displayText: "beep",
 		displayTextTransform: "capitalize",
-		onclick: () => {},
+		onclick: () => ioSelectClickHandlers[BeepComponent as any],
 	},
 	{
 		displayText: "counter",
 		displayTextTransform: "capitalize",
-		onclick: () => {},
+		onclick: () => ioSelectClickHandlers[CounterComponent as any],
 	},
 	{
 		displayText: "timer start",
 		displayTextTransform: "capitalize",
-		onclick: () => {},
+		onclick: () => ioSelectClickHandlers[TimerStartComponent as any],
 	},
 	{
 		displayText: "timer end",
 		displayTextTransform: "capitalize",
-		onclick: () => {},
+		onclick: () => ioSelectClickHandlers[TimerEndComponent as any],
 	},
 	{
 		displayText: "rom",
 		displayTextTransform: "uppercase",
-		onclick: () => {},
+		onclick: () => ioSelectClickHandlers[ROMComponent as any],
 	},
 ];
 </script>

@@ -1,11 +1,32 @@
 <script lang="ts">
-import ToolbarItem from "$/views/board/toolbar/ToolbarItem.svelte";
 import { Portal } from "@jsrob/svelte-portal";
-import NOTGateInfoDialog from "$/views/board/toolbar/dialogs/NOTGateInfoDialog.svelte";
+import ANDGateComponent from "$/lib/logicComponents/ANDGateComponent.svelte";
+import { selectComponent as doSelectComponent } from "$/lib/logicComponents/componentManipulation.svelte";
+import type { AnyLogicComponentClass } from "$/types";
+import { state as boardStoreState } from "$/stores/boardStore.svelte";
+import InputComponent from "$/lib/logicComponents/InputComponent.svelte";
+import OutputComponent from "$/lib/logicComponents/OutputComponent.svelte";
 import IOSelectDropdown from "$/views/board/toolbar/IOSelectDropdown.svelte";
+import NOTGateInfoDialog from "$/views/board/toolbar/dialogs/NOTGateInfoDialog.svelte";
 import ANDGateInfoDialog from "$/views/board/toolbar/dialogs/ANDGateInfoDialog.svelte";
 import ORGateInfoDialog from "$/views/board/toolbar/dialogs/ORGateInfoDialog.svelte";
 import XORGateInfoDialog from "$/views/board/toolbar/dialogs/XORGateInfoDialog.svelte";
+import ORGateComponent from "$/lib/logicComponents/ORGateComponent.svelte";
+import XORGateComponent from "$/lib/logicComponents/XORGateComponent.svelte";
+import ToolbarItem from "$/views/board/toolbar/ToolbarItem.svelte";
+import ButtonComponent from "$/lib/logicComponents/ButtonComponent.svelte";
+import ConstantComponent from "$/lib/logicComponents/ConstantComponent.svelte";
+import DelayComponent from "$/lib/logicComponents/DelayComponent.svelte";
+import ClockComponent from "$/lib/logicComponents/ClockComponent.svelte";
+import LEDComponent from "$/lib/logicComponents/LEDComponent.svelte";
+import DisplayComponent from "$/lib/logicComponents/DisplayComponent.svelte";
+import DebugComponent from "$/lib/logicComponents/DebugComponent.svelte";
+import BeepComponent from "$/lib/logicComponents/BeepComponent.svelte";
+import CounterComponent from "$/lib/logicComponents/CounterComponent.svelte";
+import TimerStartComponent from "$/lib/logicComponents/TimerStartComponent.svelte";
+import TimerEndComponent from "$/lib/logicComponents/TimerEndComponent.svelte";
+import ROMComponent from "$/lib/logicComponents/ROMComponent.svelte";
+
 type ToolbarItem = {
 	text?: string;
 	icon?: string;
@@ -21,8 +42,54 @@ let isANDGateDialogVisible = $state(false);
 let isORGateDialogVisible = $state(false);
 let isXORGateDialogVisible = $state(false);
 
+const toastTimeout = 800;
+let isToastVisible = $state(false);
+let toastTimeoutId: NodeJS.Timeout | null = $state(null);
+let toastMessage: string | null = $state(null);
+
+const showToast = (message: string) => {
+	if (toastTimeoutId) clearTimeout(toastTimeoutId);
+	toastMessage = message;
+	isToastVisible = true;
+	toastTimeoutId = setTimeout(() => {
+		(toastMessage = null), (isToastVisible = false);
+	}, toastTimeout);
+};
+
 const toggleIOSelectDropdownVisibility = () => {
 	isIOSelectDropdownVisible = !isIOSelectDropdownVisible;
+};
+
+const selectComponent = (
+	component: AnyLogicComponentClass,
+	componentName: string,
+) => {
+	if (boardStoreState.componentInSelectionFocus === component) {
+		showToast(`${componentName} is already selected`);
+		return;
+	}
+	doSelectComponent(component, boardStoreState);
+	showToast(`${componentName} is selected`);
+};
+
+const ioSelectClickHandlers: Record<string, () => void> = {
+	[InputComponent as any]: () => selectComponent(InputComponent, "Input"),
+	[OutputComponent as any]: () => selectComponent(OutputComponent, "Output"),
+	[ButtonComponent as any]: () => selectComponent(ButtonComponent, "Button"),
+	[ConstantComponent as any]: () =>
+		selectComponent(ConstantComponent, "Constant"),
+	[DelayComponent as any]: () => selectComponent(DelayComponent, "Delay"),
+	[ClockComponent as any]: () => selectComponent(ClockComponent, "Clock"),
+	[LEDComponent as any]: () => selectComponent(LEDComponent, "LED"),
+	[DisplayComponent as any]: () => selectComponent(DisplayComponent, "Display"),
+	[DebugComponent as any]: () => selectComponent(DebugComponent, "Debug"),
+	[BeepComponent as any]: () => selectComponent(BeepComponent, "Beep"),
+	[CounterComponent as any]: () => selectComponent(CounterComponent, "Counter"),
+	[TimerStartComponent as any]: () =>
+		selectComponent(TimerStartComponent, "Timer start"),
+	[TimerEndComponent as any]: () =>
+		selectComponent(TimerEndComponent, "Timer end"),
+	[ROMComponent as any]: () => selectComponent(ROMComponent, "ROM"),
 };
 
 const toolbarItems: ToolbarItem[] = [
@@ -35,28 +102,36 @@ const toolbarItems: ToolbarItem[] = [
 		text: "!",
 		tip: "NOT gate",
 		tipSubtext: "Right click for details",
-		onclick: () => {},
+		onclick: () => {
+			selectComponent(NOTGateComponent, "NOT gate");
+		},
 		onrightclick: () => (isNOTGateDialogVisible = true),
 	},
 	{
 		text: "&",
 		tip: "AND gate",
 		tipSubtext: "Right click for details",
-		onclick: () => {},
+		onclick: () => {
+			selectComponent(ANDGateComponent, "AND gate");
+		},
 		onrightclick: () => (isANDGateDialogVisible = true),
 	},
 	{
 		text: "|",
 		tip: "OR gate",
 		tipSubtext: "Right click for details",
-		onclick: () => {},
+		onclick: () => {
+			selectComponent(ORGateComponent, "OR gate");
+		},
 		onrightclick: () => (isORGateDialogVisible = true),
 	},
 	{
 		text: "^",
 		tip: "XOR gate",
 		tipSubtext: "Right click for details",
-		onclick: () => {},
+		onclick: () => {
+			selectComponent(XORGateComponent, "XOR gate");
+		},
 		onrightclick: () => (isXORGateDialogVisible = true),
 	},
 	{
@@ -73,9 +148,11 @@ const toolbarItems: ToolbarItem[] = [
 </script>
 
 <div class="container">
-    <span class="toast">Selected And gate for me</span>
+    {#if isToastVisible}
+        <span class="toast">{toastMessage}</span>
+    {/if}
     {#if isIOSelectDropdownVisible}
-        <IOSelectDropdown />
+        <IOSelectDropdown {ioSelectClickHandlers} />
     {/if}
     <ul class="toolbar-items">
         {#each toolbarItems as item, id (id)}

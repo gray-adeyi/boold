@@ -1,4 +1,4 @@
-export function beep(
+export function buzz(
 	audioContext: AudioContext,
 	frequency: number = 440,
 	duration: number = 500,

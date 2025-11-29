@@ -1,5 +1,5 @@
 import type { Coord } from "$/types";
-import { beep } from "$/lib/audio";
+import { buzz } from "$/lib/audio";
 import PrimitiveComponent from "$/lib/logicComponents/PrimitiveComponent.svelte";
 import type { BoardStoreState } from "$/stores/boardStore.svelte";
 
@@ -29,7 +29,7 @@ export default class BeepComponent extends PrimitiveComponent {
 			this.properties.duration &&
 			this.boardStoreState.audioCtx
 		) {
-			beep(
+			buzz(
 				this.boardStoreState.audioCtx,
 				this.properties.frequency,
 				this.properties.duration,

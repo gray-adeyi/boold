@@ -22,6 +22,11 @@ const setTipLeftOffset = (el: HTMLDivElement) => {
 	// el.style.bottom = `${rect.top}px`
 };
 
+const handleButtonClick = (event: MouseEvent) => {
+  isTipVisible = false
+  onclick()
+}
+
 const handleRightClick = (event: MouseEvent) => {
 	event.preventDefault();
 	if (!onrightclick) return;
@@ -43,7 +48,7 @@ const handleRightClick = (event: MouseEvent) => {
     <button
         class="button"
         bind:this={buttonEl}
-        {onclick}
+        onclick={handleButtonClick}
         oncontextmenu={handleRightClick}
         onmouseenter={() => (isTipVisible = true)}
         onmouseleave={() => (isTipVisible = false)}

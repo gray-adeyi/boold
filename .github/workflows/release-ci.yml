@@ -37,7 +37,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install -y make libwebkit2gtk-4.0-dev
+          sudo apt-get install -y make libwebkit2gtk
           export APP_VERSION=${{ github.ref_name }}
 
       # macOS

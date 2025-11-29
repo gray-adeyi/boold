@@ -21,7 +21,7 @@ import ClockComponent from "$/lib/logicComponents/ClockComponent.svelte";
 import LEDComponent from "$/lib/logicComponents/LEDComponent.svelte";
 import DisplayComponent from "$/lib/logicComponents/DisplayComponent.svelte";
 import DebugComponent from "$/lib/logicComponents/DebugComponent.svelte";
-import BeepComponent from "$/lib/logicComponents/BeepComponent.svelte";
+import BuzzerComponent from "$/lib/logicComponents/BuzzerComponent.svelte";
 import CounterComponent from "$/lib/logicComponents/CounterComponent.svelte";
 import TimerStartComponent from "$/lib/logicComponents/TimerStartComponent.svelte";
 import TimerEndComponent from "$/lib/logicComponents/TimerEndComponent.svelte";
@@ -83,7 +83,7 @@ const ioSelectClickHandlers: Record<string, () => void> = {
 	[LEDComponent as any]: () => selectComponent(LEDComponent, "LED"),
 	[DisplayComponent as any]: () => selectComponent(DisplayComponent, "Display"),
 	[DebugComponent as any]: () => selectComponent(DebugComponent, "Debug"),
-	[BeepComponent as any]: () => selectComponent(BeepComponent, "Beep"),
+	[BuzzerComponent as any]: () => selectComponent(BuzzerComponent, "Buzzer"),
 	[CounterComponent as any]: () => selectComponent(CounterComponent, "Counter"),
 	[TimerStartComponent as any]: () =>
 		selectComponent(TimerStartComponent, "Timer start"),

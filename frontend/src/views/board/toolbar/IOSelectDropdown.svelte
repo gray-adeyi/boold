@@ -1,5 +1,5 @@
 <script lang="ts">
-import BeepComponent from "$/lib/logicComponents/BeepComponent.svelte";
+import BuzzerComponent from "$/lib/logicComponents/BuzzerComponent.svelte";
 import ButtonComponent from "$/lib/logicComponents/ButtonComponent.svelte";
 import ClockComponent from "$/lib/logicComponents/ClockComponent.svelte";
 import ConstantComponent from "$/lib/logicComponents/ConstantComponent.svelte";
@@ -71,9 +71,9 @@ const options: IOSelectOption[] = [
 		onclick: () => ioSelectClickHandlers[DebugComponent as any],
 	},
 	{
-		displayText: "beep",
+		displayText: "buzzer",
 		displayTextTransform: "capitalize",
-		onclick: () => ioSelectClickHandlers[BeepComponent as any],
+		onclick: () => ioSelectClickHandlers[BuzzerComponent as any],
 	},
 	{
 		displayText: "counter",

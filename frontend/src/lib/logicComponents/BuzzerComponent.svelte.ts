@@ -3,7 +3,7 @@ import { buzz } from "$/lib/audio";
 import PrimitiveComponent from "$/lib/logicComponents/PrimitiveComponent.svelte";
 import type { BoardStoreState } from "$/stores/boardStore.svelte";
 
-export default class BeepComponent extends PrimitiveComponent {
+export default class BuzzerComponent extends PrimitiveComponent {
 	constructor(
 		name: string | null,
 		pos: Coord,

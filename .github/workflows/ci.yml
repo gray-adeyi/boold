@@ -1,5 +1,8 @@
 name: Format and Test
 
+permissions:
+  contents: write
+
 on:
   push:
     branches: [main]
@@ -26,9 +29,7 @@ jobs:
         with:
           go-version: '1.25.3'
       - name: Run formatter
-        run: |
-          make fmt-all
-          echo "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
+        run: make fmt-all
       - name: Commit changes
         run: |
           git config --global user.name "github-actions[bot]"

@@ -40,7 +40,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y make libgtk-3-dev libwebkit2gtk-4.1-dev
-          export APP_VERSION=${{ github.ref_name }}
 
       # macOS
       - name: Install macOS deps
@@ -48,7 +47,6 @@ jobs:
         run: |
           brew update
           brew install make
-          export APP_VERSION=${{ github.ref_name }}
 
       # Windows
       - name: Install Windows deps
@@ -62,15 +60,15 @@ jobs:
       # -----------------------------------------
       - name: Build linux
         run: |
-         make build-linux 
+         APP_VERSION=${{ github.ref_name}} WEBKIT2GTK=webkit2gtk-4.1 make build-linux 
       
       - name: Build windows
         run: |
-         make build-windows
+         APP_VERSION=${{ github.ref_name}} make build-windows
          
       - name: Build darwin
         run: |
-         make build-darwin
+         APP_VERSION=${{ github.ref_name}} make build-darwin
 
       # -----------------------------------------
       # Upload artifacts to the GitHub Release

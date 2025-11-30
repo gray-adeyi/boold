@@ -26,7 +26,10 @@ jobs:
       - name: Check GO installed successfully
         run: go version
       - name: Install wails
-        run: go install github.com/wailsapp/wails/v2/cmd/wails@latest
+        run: |
+          go install github.com/wailsapp/wails/v2/cmd/wails@latest
+          wails doctor
+          echo "API_VERSION=${{ github.ref_name }}"
 
       # -----------------------------------------
       # Install platform-specific dependencies

@@ -59,14 +59,17 @@ jobs:
       # Build for platforms
       # -----------------------------------------
       - name: Build linux
+        if: matrix.os == 'ubuntu-latest'
         run: |
          APP_VERSION=${{ github.ref_name}} WEBKIT2GTK=webkit2gtk-4.1 make build-linux 
       
       - name: Build windows
+        if: matrix.os == 'windows-latest'
         run: |
          APP_VERSION=${{ github.ref_name}} make build-windows
          
       - name: Build darwin
+        if: matrix.os == 'macos-latest'
         run: |
          APP_VERSION=${{ github.ref_name}} make build-darwin
 

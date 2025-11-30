@@ -7,7 +7,7 @@ dev:
 	wails dev
 build: build-linux build-darwin build-windows
 build-linux:
-	wails build -platform "linux/amd64" -o boold_$(APP_VERSION)_linux-amd64
+	wails build -platform "linux/amd64" -o boold_$(APP_VERSION)_linux-amd64 -tags webkit2_41
 build-darwin:
 	wails build -platform "darwin/amd64" -o boold_$(APP_VERSION)_darwin-amd64.dmg
 build-windows:

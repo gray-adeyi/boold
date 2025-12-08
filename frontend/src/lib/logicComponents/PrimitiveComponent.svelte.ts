@@ -28,7 +28,7 @@ export default class PrimitiveComponent implements LogicComponent {
 
 	constructor(
 		name: string | null,
-		pos: Coord = {} as Coord,
+		pos: Coord,
 		width: number = 2,
 		height: number = 2,
 		icon: ComponentIcon | null,
@@ -43,10 +43,14 @@ export default class PrimitiveComponent implements LogicComponent {
 		}
 		this.name = name;
 
-		this.pos =
-			Object.keys(pos).length === 0
-				? Object.assign({}, this.boardStoreState.mouse.grid)
-				: pos;
+		if (pos.x === 0 && pos.y === 0) {
+			this.pos = {
+				x: this.boardStoreState.mouse.grid.x,
+				y: this.boardStoreState.mouse.grid.y,
+			};
+		} else {
+			this.pos = pos;
+		}
 		this.width = width;
 		this.height = height;
 		this.rotation = 0;

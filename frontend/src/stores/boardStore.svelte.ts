@@ -1,4 +1,9 @@
 import ANDGateComponent from "$/lib/logicComponents/ANDGateComponent.svelte";
+import {
+	addSelection,
+	cloneComponent,
+	cloneSelection,
+} from "$/lib/logicComponents/componentManipulation.svelte";
 import type Wire from "$/lib/logicComponents/Wire.svelte";
 import type {
 	AnyLogicComponent,
@@ -40,6 +45,11 @@ export type BoardStoreState = {
 	};
 	components: AnyLogicComponent[];
 	wires: Wire[];
+	clipboard: {
+		components: AnyLogicComponent[];
+		wires: Wire[];
+		userSelection: UserSelection | null;
+	};
 	settings: {
 		isScrollAnimationEnabled: boolean;
 		isZoomAnimationEnabled: boolean;
@@ -79,6 +89,11 @@ export const state: BoardStoreState = $state({
 	},
 	components: [],
 	wires: [],
+	clipboard: {
+		components: [],
+		wires: [],
+		userSelection: null,
+	},
 	settings: {
 		isScrollAnimationEnabled: true,
 		isZoomAnimationEnabled: true,
@@ -227,4 +242,52 @@ export function drawBoardFrame() {
 
 export function toggleTutorialDrawer() {
 	state.isTutorialDrawerOpen = !state.isTutorialDrawerOpen;
+}
+
+export function copyToClipboard(
+	components: AnyLogicComponent[],
+	wires: Wire[],
+	userSelection: UserSelection | null,
+) {
+	const clone = cloneSelection(components, wires, undefined, undefined, state);
+	state.clipboard.components = clone.components;
+	state.clipboard.wires = clone.wires;
+	if (userSelection) {
+		state.clipboard.userSelection = Object.assign({}, userSelection);
+	} else {
+		state.clipboard.userSelection = null;
+	}
+}
+
+export function pasteFromClipboard(x: number, y: number) {
+	if (state.clipboard.userSelection) {
+		const dx = Math.round(x - state.clipboard.userSelection.pos.x) || 0;
+		const dy = Math.round(y - state.clipboard.userSelection.pos.y) || 0;
+
+		const clone = cloneSelection(
+			state.clipboard.components,
+			state.clipboard.wires,
+			dx,
+			dy,
+			state,
+		);
+		addSelection(
+			clone.components,
+			clone.wires,
+			state.clipboard.userSelection,
+			x,
+			y,
+			state,
+		);
+	} else if (state.clipboard.components.length > 0) {
+		const clone = cloneComponent(
+			state.clipboard.components[0],
+			undefined,
+			undefined,
+			state,
+		);
+		clone.pos.x = x;
+		clone.pos.y = y;
+		state.components.push(clone);
+	}
 }

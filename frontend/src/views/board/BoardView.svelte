@@ -9,11 +9,15 @@ import {
 	state as boardStoreState,
 	drawBoardFrame,
 } from "$/stores/boardStore.svelte";
-import CanvasEventManager from "$/lib/composable/CanvasEventManager";
+import CanvasMouseEventManager from "$/lib/composable/CanvasMouseEventManager.svelte";
+import CanvasKeyboardEventManager from "$/lib/composable/CanvasKeyboardEventManager.svelte";
 
 let windowHeight = $state(0);
 let windowWidth = $state(0);
-const canvasEventManager = new CanvasEventManager(boardStoreState);
+const canvasMouseEventManager = new CanvasMouseEventManager(boardStoreState);
+const canvasKeyboardEventManager = new CanvasKeyboardEventManager(
+	boardStoreState,
+);
 
 function initCanvas(node: HTMLCanvasElement) {
 	node.height = windowHeight;
@@ -42,13 +46,14 @@ function initCanvas(node: HTMLCanvasElement) {
 <svelte:window bind:innerHeight={windowHeight} bind:innerWidth={windowWidth} />
 <div class="container">
     <canvas {@attach initCanvas} 
-        onmouseleave={(e: MouseEvent) => canvasEventManager.handleOnMouseLeave(e)}
-        onmouseenter={(e: MouseEvent) => canvasEventManager.handleOnMouseEnter(e)}
-        onmousedown={(e: MouseEvent) => canvasEventManager.handleOnMouseDown(e)}
-        onmousemove={(e: MouseEvent) => canvasEventManager.handleOnMouseMove(e)}
-        onmouseup={(e: MouseEvent) => canvasEventManager.handleOnMouseUp(e)}
-        ondblclick={(e: MouseEvent) => canvasEventManager.handleOnDblClick(e)}
-        onmousewheel={(e: WheelEvent) =>canvasEventManager.handleOnMouseWheel(e)}
+        onmouseleave={(e: MouseEvent) => canvasMouseEventManager.handleOnMouseLeave(e)}
+        onmouseenter={(e: MouseEvent) => canvasMouseEventManager.handleOnMouseEnter(e)}
+        onmousedown={(e: MouseEvent) => canvasMouseEventManager.handleOnMouseDown(e)}
+        onmousemove={(e: MouseEvent) => canvasMouseEventManager.handleOnMouseMove(e)}
+        onmouseup={(e: MouseEvent) => canvasMouseEventManager.handleOnMouseUp(e)}
+        ondblclick={(e: MouseEvent) => canvasMouseEventManager.handleOnDblClick(e)}
+        onmousewheel={(e: WheelEvent) =>canvasMouseEventManager.handleOnMouseWheel(e)}
+        onkeydown={(e: KeyboardEvent) => canvasKeyboardEventManager.handleOnKeydown(e)}
     ></canvas>
     <TutorialDrawer />
     <Toolbar />

@@ -1,0 +1,66 @@
+# https://taskfile.dev
+
+version: "3"
+
+dotenv: [".env"]
+
+tasks:
+  default:
+    cmds:
+      - task: dev
+  dev:
+    cmds:
+      - wails dev
+  build:
+    cmds:
+      - task: build-linux
+      - task: build-darwin
+      - task: build-windows
+  build-linux:
+    cmds:
+      - wails build -platform "linux/amd64" -o boold_{{.APP_VERSION}}_linux-amd64 -tags webkit2_41
+  build-darwin:
+    cmds:
+      - wails build -platform "darwin/amd64" -o boold_{{.APP_VERSION}}_darwin-amd64.dmg
+  build-windows:
+    cmds:
+      - wails build -platform "windows/amd64" -upx -nsis -o boold_{{.APP_VERSION}}_windows-amd64.exe
+  frontend:fmt:
+    dir: "frontend"
+    cmds:
+      - bunx @biomejs/biome format --write
+  frontend:fmt-check:
+    dir: "frontend"
+    cmds:
+      - bunx @biomejs/biome format
+  fmt-all:
+    cmds:
+      - task: frontend:fmt
+      - task: backend:fmt
+  backend:fmt:
+    cmds:
+      - go fmt ./...
+  install-hooks:
+    cmds:
+      - install-pre-commit-hook
+  uninstall-hooks:
+    cmds:
+      - uninstall-pre-commit-hook
+  install-pre-commit-hook:
+    cmds:
+      - cp ./scripts/run-pre-commit-hook.sh .git/hooks/pre-commit
+      - chmod +x .git/hooks/pre-commit
+      - echo "pre-commit hook installed!"
+    silent: true
+  uninstall-pre-commit-hook:
+    cmds:
+      - rm -f .git/hooks/pre-commit
+      - echo "pre-commit hook uninstalled!"
+    silent: true
+  reset-hooks:
+    cmds:
+      - rm -f .git/hooks/pre-commit
+      # - rm -f .git/hooks/pre-push
+      # - rm -f .git/hooks/commit-msg
+      - echo "all git hooks removed!"
+    silent: true

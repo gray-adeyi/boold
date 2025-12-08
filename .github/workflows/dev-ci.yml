@@ -20,6 +20,8 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
+      - name: Install Task
+        uses: go-task/setup-task@v1
       - name: Install bun
         uses: oven-sh/setup-bun@v2
         with:
@@ -29,7 +31,7 @@ jobs:
         with:
           go-version: '1.25.3'
       - name: Run formatter
-        run: make fmt-all
+        run: task fmt-all
       - name: Commit changes
         run: |
           git config --global user.name "github-actions[bot]"

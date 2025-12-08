@@ -46,6 +46,7 @@ function initCanvas(node: HTMLCanvasElement) {
 <svelte:window bind:innerHeight={windowHeight} bind:innerWidth={windowWidth} />
 <div class="container">
     <canvas {@attach initCanvas} 
+        tabindex="0"
         onmouseleave={(e: MouseEvent) => canvasMouseEventManager.handleOnMouseLeave(e)}
         onmouseenter={(e: MouseEvent) => canvasMouseEventManager.handleOnMouseEnter(e)}
         onmousedown={(e: MouseEvent) => canvasMouseEventManager.handleOnMouseDown(e)}

@@ -29,7 +29,7 @@ export enum MouseButton {
 	BROWSER_FORWARD = 4,
 }
 
-export default class CanvasEventManager {
+export default class CanvasMouseEventManager {
 	state: BoardStoreState;
 	constructor(state: BoardStoreState) {
 		this.state = state;
@@ -46,6 +46,7 @@ export default class CanvasEventManager {
 	}
 
 	handleOnMouseDown(event: MouseEvent) {
+		console.log("mouse grid pos", $state.snapshot(this.state.mouse.grid));
 		this.state.mouse.screen.x = event.x;
 		this.state.mouse.screen.y = event.y;
 		this.state.mouse.grid.x = Math.round(
@@ -239,7 +240,7 @@ export default class CanvasEventManager {
 					}
 				}
 			}
-		} else if (event.button === MouseButton.RIGHT) {
+		} else if (event.button === MouseButton.MIDDLE) {
 			// right click
 			// hide waypoints menu
 			if (this.state.userSelection && !this.state.userDrag) {
@@ -391,7 +392,7 @@ export default class CanvasEventManager {
 			} else {
 				// TODO: show context menu
 			}
-		} else if (event.button === MouseButton.MIDDLE) {
+		} else if (event.button === MouseButton.RIGHT) {
 			this.state.mouse.isMouseWheelClicked = true;
 			this.state.scrollAnimation.animate = false;
 			return;
@@ -1261,6 +1262,5 @@ export default class CanvasEventManager {
 			),
 			300,
 		);
-		return false;
 	}
 }

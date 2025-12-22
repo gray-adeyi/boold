@@ -832,9 +832,9 @@ export default class CanvasMouseEventManager {
 					this.state.userSelection
 				) {
 					/*
-            The x and y coordinate of the selection need to be integers. While dragging, they are floats. So I created a little animation for the x
-            and y coordinates of the selection becoming integers.
-            */
+					The x and y coordinate of the selection need to be integers. While dragging, they are floats. So I created a little animation for the x
+					and y coordinates of the selection becoming integers.
+					*/
 					const components = this.state.userSelection.components;
 					const wires = this.state.wires;
 
@@ -979,9 +979,9 @@ export default class CanvasMouseEventManager {
 						this.state.userDrag.component
 					) {
 						/*
-              The x and y coordinate of the component need to be integers. While dragging, they are floats. So I created a little animation for the x
-              and y coordinates of the component becoming integers.
-            */
+					  The x and y coordinate of the component need to be integers. While dragging, they are floats. So I created a little animation for the x
+					  and y coordinates of the component becoming integers.
+					*/
 						const component = this.state.userDrag.component;
 						const animate = () => {};
 						animate();
@@ -1042,9 +1042,9 @@ export default class CanvasMouseEventManager {
 								this.state.connectingWire,
 							);
 							/*
-                Give the intersection point to the wire with the highest index,
-                so the intersection point is drawn
-              */
+						Give the intersection point to the wire with the highest index,
+						so the intersection point is drawn
+					  */
 							if (
 								this.state.wires.indexOf(this.state.connectingWire) >
 								this.state.wires.indexOf(

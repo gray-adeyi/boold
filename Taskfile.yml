@@ -51,11 +51,11 @@ tasks:
   install-hooks:
     dir: "{{.PROJECT_ROOT}}"
     cmds:
-      - install-pre-commit-hook
+      - task: install-pre-commit-hook
   uninstall-hooks:
     dir: "{{.PROJECT_ROOT}}"
     cmds:
-      - uninstall-pre-commit-hook
+      - task: uninstall-pre-commit-hook
   install-pre-commit-hook:
     dir: "{{.PROJECT_ROOT}}"
     cmds:

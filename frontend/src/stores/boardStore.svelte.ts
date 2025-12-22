@@ -224,6 +224,7 @@ export function drawBoardFrame() {
 		state.offset.y -=
 			state.mouse.screen.y *
 			(1 / state.zoom - 8 / (state.zoomAnimation + 7 * state.zoom));
+		state.zoom = state.zoom - (state.zoom - state.zoomAnimation) / 8;
 	} else {
 		state.offset.x =
 			state.offset.x +

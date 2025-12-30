@@ -1,8 +1,8 @@
 <script lang="ts">
 import DefaultButton from "$/lib/components/DefaultButton.svelte";
-import MacCmdKeyIcon from "$/assets/icons/mac-command.svg?component";
-import MouseLeftButtonIcon from "$/assets/icons/mouse-left-button.svg?component";
 import StartMenuOptionsItemBody from "$/views/startMenu/components/StartMenuOptionsItemBody.svelte";
+import MacCmdKeyIcon from "$/lib/components/icons/MacCmdKeyIcon.svelte";
+import MouseLeftButtonIcon from "$/lib/components/icons/MouseLeftButtonIcon.svelte";
 
 type Props = {
 	readonly title?: string;

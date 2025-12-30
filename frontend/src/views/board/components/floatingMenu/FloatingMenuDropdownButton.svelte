@@ -1,5 +1,5 @@
 <script lang="ts">
-import FloatingMenuButton from "$/views/board/floatingMenu/FloatingMenuButton.svelte";
+import FloatingMenuButton from "$/views/board/components/floatingMenu/FloatingMenuButton.svelte";
 
 type Props = {
 	isDropdownVisible: boolean;

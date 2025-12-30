@@ -1,9 +1,10 @@
 <script lang="ts">
-import TutorialControls from "$/views/board/tutorial/TutorialControls.svelte";
 import {
 	state as boardStoreState,
 	toggleTutorialDrawer,
-} from "$/stores/boardStore.svelte";
+} from "$/stores/boardStore.svelte.js";
+import TutorialControls from "$/views/board/components/tutorial/TutorialControls.svelte";
+
 const totalSteps = 11;
 let currentStep = $state(1);
 

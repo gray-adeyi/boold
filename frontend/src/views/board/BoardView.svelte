@@ -1,16 +1,17 @@
 <script lang="ts">
 import DialogPrimitive from "$/lib/components/DialogPrimitive.svelte";
+import CanvasKeyboardEventManager from "$/lib/composable/CanvasKeyboardEventManager.svelte";
+import CanvasMouseEventManager from "$/lib/composable/CanvasMouseEventManager.svelte";
 import PrimitiveComponent from "$/lib/logicComponents/PrimitiveComponent.svelte";
 import Wire from "$/lib/logicComponents/Wire.svelte";
-import FloatingMenu from "$/views/board/floatingMenu/FloatingMenu.svelte";
-import Toolbar from "$/views/board/toolbar/Toolbar.svelte";
-import TutorialDrawer from "$/views/board/tutorial/TutorialDrawer.svelte";
 import {
 	state as boardStoreState,
 	drawBoardFrame,
 } from "$/stores/boardStore.svelte";
-import CanvasMouseEventManager from "$/lib/composable/CanvasMouseEventManager.svelte";
-import CanvasKeyboardEventManager from "$/lib/composable/CanvasKeyboardEventManager.svelte";
+import ContextMenu from "$/views/board/components/ContextMenu.svelte";
+import FloatingMenu from "$/views/board/components/floatingMenu/FloatingMenu.svelte";
+import Toolbar from "$/views/board/components/toolbar/Toolbar.svelte";
+import TutorialDrawer from "$/views/board/components/tutorial/TutorialDrawer.svelte";
 
 let windowHeight = $state(0);
 let windowWidth = $state(0);
@@ -59,6 +60,7 @@ function initCanvas(node: HTMLCanvasElement) {
     <TutorialDrawer />
     <Toolbar />
     <FloatingMenu />
+    <ContextMenu />
     <div class="portal-target" id="workspace-portal-target"></div>
 </div>
 

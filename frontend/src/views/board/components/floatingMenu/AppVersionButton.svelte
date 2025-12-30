@@ -1,7 +1,7 @@
 <script lang="ts">
-import FloatingMenuButton from "$/views/board/floatingMenu/FloatingMenuButton.svelte";
 import { Portal } from "@jsrob/svelte-portal";
-import AboutAppDialog from "$/views/board/floatingMenu/AboutAppDialog.svelte";
+import AboutAppDialog from "$/views/board/components/floatingMenu/AboutAppDialog.svelte";
+import FloatingMenuButton from "$/views/board/components/floatingMenu/FloatingMenuButton.svelte";
 
 let isAboutAppDialog = $state(false);
 </script>

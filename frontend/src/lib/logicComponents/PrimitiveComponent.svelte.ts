@@ -143,7 +143,7 @@ export default class PrimitiveComponent implements LogicComponent {
 			}
 		}
 
-		// Draw the name of the component un the upper left corner
+		// Draw the name of the component in the upper left corner
 		if (this.name && zoom > 30) {
 			ctx.textAlign = "left";
 			ctx.font = `italic normal normal ${zoom / 7}px Ubuntu`;
@@ -175,6 +175,12 @@ export default class PrimitiveComponent implements LogicComponent {
 			if (placement.side === 1) {
 				screen.x += (this.width - 1) * zoom;
 			} else if (placement.side === 2) {
+				screen.y += (this.height - 1) * zoom;
+			}
+
+			if (placement.side % 2 === 0) {
+				screen.x += placement.sideIndex * zoom;
+			} else {
 				screen.y += placement.sideIndex * zoom;
 			}
 
@@ -200,7 +206,7 @@ export default class PrimitiveComponent implements LogicComponent {
 				const name = this.inputPins[i].name;
 				if (name) {
 					ctx.fillStyle = "#888";
-					ctx.font = `${zoom}px Ubuntu`;
+					ctx.font = `${zoom / 7}px Ubuntu`;
 					ctx.fillText(
 						name,
 						screen.x - ctx.measureText(name).width / 2,

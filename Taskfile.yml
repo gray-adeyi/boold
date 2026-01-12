@@ -34,11 +34,11 @@ tasks:
   frontend:fmt:
     dir: "frontend"
     cmds:
-      - bunx @biomejs/biome format --write
+      - bunx oxfmt
   frontend:fmt-check:
     dir: "frontend"
     cmds:
-      - bunx @biomejs/biome format
+      - bunx oxfmt --check
   fmt-all:
     cmds:
       - task: frontend:fmt

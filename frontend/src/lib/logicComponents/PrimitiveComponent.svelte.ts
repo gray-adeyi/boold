@@ -165,105 +165,10 @@ export default class PrimitiveComponent implements LogicComponent {
 		}
 
 		// Draw input pins
-		for (let i = 0; i < this.inputPins.length; i++) {
-			const screen = { x, y };
-			const placement = this.inputPins[i].placement;
-
-			const angle = (Math.PI / 2) * placement.side;
-			screen.x += Math.sin(angle) * zoom;
-			screen.y -= Math.cos(angle) * zoom;
-			if (placement.side === 1) {
-				screen.x += (this.width - 1) * zoom;
-			} else if (placement.side === 2) {
-				screen.y += (this.height - 1) * zoom;
-			}
-
-			if (placement.side % 2 === 0) {
-				screen.x += placement.sideIndex * zoom;
-			} else {
-				screen.y += placement.sideIndex * zoom;
-			}
-
-			ctx.beginPath();
-			ctx.moveTo(
-				screen.x - (Math.sin(angle) / 2) * zoom,
-				screen.y + (Math.cos(angle) / 2) * zoom,
-			);
-			ctx.lineTo(screen.x, screen.y);
-			ctx.lineWidth = zoom / 8;
-			ctx.stroke();
-
-			if (zoom > 10) {
-				ctx.beginPath();
-				ctx.arc(screen.x, screen.y, zoom / 8 - zoom / 20, 0, Math.PI * 2);
-				ctx.lineWidth = zoom / 10;
-				ctx.fillStyle = "#fff";
-				ctx.stroke();
-				ctx.fill();
-			}
-
-			if (zoom > 30) {
-				const name = this.inputPins[i].name;
-				if (name) {
-					ctx.fillStyle = "#888";
-					ctx.font = `${zoom / 7}px Ubuntu`;
-					ctx.fillText(
-						name,
-						screen.x - ctx.measureText(name).width / 2,
-						placement.side === 2 ? screen.y + zoom / 4 : screen.y - zoom / 4,
-					);
-				}
-			}
-		}
+		this.drawPins(this.inputPins, ctx, zoom, x, y);
 
 		// Draw output pins
-		for (let i = 0; i < this.outputPins.length; i++) {
-			const screen = { x, y };
-			const placement = this.outputPins[i].placement;
-			const angle = (Math.PI / 2) * placement.side;
-			screen.x += Math.sin(angle) * zoom;
-			screen.y -= Math.cos(angle) * zoom;
-			if (placement.side === 1) {
-				screen.x += (this.width - 1) * zoom;
-			} else if (placement.side === 2) {
-				screen.y += (this.height - 1) * zoom;
-			}
-
-			if (placement.side % 2 === 0) {
-				screen.x += placement.sideIndex * zoom;
-			} else {
-				screen.y += placement.sideIndex * zoom;
-			}
-
-			ctx.beginPath();
-			ctx.moveTo(
-				screen.x - (Math.sin(angle) / 2) * zoom,
-				screen.y + (Math.cos(angle) / 2) * zoom,
-			);
-			ctx.lineTo(screen.x, screen.y);
-			ctx.lineWidth = zoom / 8;
-			ctx.stroke();
-
-			if (zoom > 10) {
-				ctx.beginPath();
-				ctx.arc(screen.x, screen.y, zoom / 8, 0, Math.PI * 2);
-				ctx.fillStyle = "#111";
-				ctx.fill();
-			}
-
-			if (zoom > 30) {
-				const name = this.outputPins[i].name;
-				if (name) {
-					ctx.fillStyle = "#888";
-					ctx.font = `${zoom / 7}px Ubuntu`;
-					ctx.fillText(
-						name,
-						screen.x - ctx.measureText(name).width / 2,
-						placement.side === 2 ? screen.y + zoom / 4 : screen.y - zoom / 4,
-					);
-				}
-			}
-		}
+		this.drawPins(this.outputPins, ctx, zoom, x, y);
 	}
 
 	addInputPin(
@@ -341,5 +246,61 @@ export default class PrimitiveComponent implements LogicComponent {
 
 	execute(): void {
 		throw new Error("not implemented, override this method in subclass");
+	}
+
+	private drawPins(
+		pins: ComponentPin[],
+		ctx: CanvasRenderingContext2D,
+		zoom: number,
+		x: number,
+		y: number,
+	) {
+		for (let i = 0; i < pins.length; i++) {
+			const screen = { x, y };
+			const placement = pins[i].placement;
+			const angle = (Math.PI / 2) * placement.side;
+			screen.x += Math.sin(angle) * zoom;
+			screen.y -= Math.cos(angle) * zoom;
+			if (placement.side === 1) {
+				screen.x += (this.width - 1) * zoom;
+			} else if (placement.side === 2) {
+				screen.y += (this.height - 1) * zoom;
+			}
+
+			if (placement.side % 2 === 0) {
+				screen.x += placement.sideIndex * zoom;
+			} else {
+				screen.y += placement.sideIndex * zoom;
+			}
+
+			ctx.beginPath();
+			ctx.moveTo(
+				screen.x - (Math.sin(angle) / 2) * zoom,
+				screen.y + (Math.cos(angle) / 2) * zoom,
+			);
+			ctx.lineTo(screen.x, screen.y);
+			ctx.lineWidth = zoom / 8;
+			ctx.stroke();
+
+			if (zoom > 10) {
+				ctx.beginPath();
+				ctx.arc(screen.x, screen.y, zoom / 8, 0, Math.PI * 2);
+				ctx.fillStyle = "#111";
+				ctx.fill();
+			}
+
+			if (zoom > 30) {
+				const name = pins[i].name;
+				if (name) {
+					ctx.fillStyle = "#888";
+					ctx.font = `${zoom / 7}px Ubuntu`;
+					ctx.fillText(
+						name,
+						screen.x - ctx.measureText(name).width / 2,
+						placement.side === 2 ? screen.y + zoom / 4 : screen.y - zoom / 4,
+					);
+				}
+			}
+		}
 	}
 }

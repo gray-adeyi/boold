@@ -123,7 +123,7 @@ export default class PrimitiveComponent implements LogicComponent {
 			ctx.fillStyle = this.value ? "#aaa" : "#111";
 			if (this.icon.type === "icon" || this.icon.type === "char") {
 				if (this.icon.type === "icon") {
-					ctx.font = `${zoom / 1.3} px Material Icons`;
+					ctx.font = `${zoom / 1.3}px Material Icons`;
 				} else {
 					ctx.font = `normal normal normal ${zoom / 1.2}px Ubuntu`;
 				}

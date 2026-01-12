@@ -3,19 +3,14 @@ import type { BoardStoreState } from "$/stores/boardStore.svelte";
 import type { Coord } from "$/types";
 
 export default class ANDGateComponent extends PrimitiveComponent {
-	constructor(
-		name: string | null,
-		pos: Coord,
-		boardStoreState: BoardStoreState,
-	) {
-		super(name, pos, 2, 2, { type: "char", text: "&" }, boardStoreState);
-		this.addInputPin({ side: 3, sideIndex: 0 }, "A");
-		this.addInputPin({ side: 3, sideIndex: 1 }, "B");
-		this.addOutputPin({ side: 1, sideIndex: 0 }, "OUT");
-	}
+  constructor(name: string | null, pos: Coord, boardStoreState: BoardStoreState) {
+    super(name, pos, 2, 2, { type: "char", text: "&" }, boardStoreState);
+    this.addInputPin({ side: 3, sideIndex: 0 }, "A");
+    this.addInputPin({ side: 3, sideIndex: 1 }, "B");
+    this.addOutputPin({ side: 1, sideIndex: 0 }, "OUT");
+  }
 
-	execute(): void {
-		this.outputPins[0].value =
-			this.inputPins[0].value & this.inputPins[1].value;
-	}
+  execute(): void {
+    this.outputPins[0].value = this.inputPins[0].value & this.inputPins[1].value;
+  }
 }

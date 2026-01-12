@@ -1,9 +1,8 @@
 import PrimitiveComponent from "$/lib/logicComponents/PrimitiveComponent.svelte";
 import type { BoardStoreState } from "$/stores/boardStore.svelte";
 import type { Coord } from "$/types";
-import type ClickableComponent, {
-  ComponentClickEventType,
-} from "$/lib/logicComponents/ClickableComponent";
+import type ClickableComponent from "$/lib/logicComponents/ClickableComponent";
+import type { ComponentClickEventType } from "$/lib/logicComponents/ClickableComponent";
 
 export default class ButtonComponent extends PrimitiveComponent implements ClickableComponent {
   constructor(name: string | null, pos: Coord, boardStoreState: BoardStoreState) {

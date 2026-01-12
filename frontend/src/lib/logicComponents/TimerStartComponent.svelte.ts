@@ -12,6 +12,7 @@ export default class TimerStartComponent extends PrimitiveComponent {
 		boardStoreState: BoardStoreState,
 	) {
 		super(name, pos, 2, 1, { type: "value" }, boardStoreState);
+		this.addOutputPin({ side: 1, sideIndex: 0 }, "OUT");
 		this.value = 0;
 	}
 

@@ -280,7 +280,8 @@ export default class PrimitiveComponent implements LogicComponent {
       if (zoom > 10) {
         ctx.beginPath();
         ctx.arc(screen.x, screen.y, zoom / 8, 0, Math.PI * 2);
-        ctx.fillStyle = "#111";
+        ctx.fillStyle = pins[i].type === "output" ? "#111" : "#fff";
+        if (pins[i].type === "input") ctx.stroke();
         ctx.fill();
       }
 

@@ -15,7 +15,6 @@ export default class DisplayComponent extends PrimitiveComponent {
   fillColor: string = "#111";
   strokeColor: string = "#111";
   private lineWidth: number;
-  private hOffset: number;
   private colorOff: string;
   private colorOn: string;
   constructor(name: string | null, pos: Coord, boardStoreState: BoardStoreState, color = "#a00") {

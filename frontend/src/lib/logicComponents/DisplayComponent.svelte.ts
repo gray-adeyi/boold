@@ -76,24 +76,20 @@ export default class DisplayComponent extends PrimitiveComponent {
     let sx = x + hOffset + lineWidth + margin;
     let sy = y + vOffset;
     let sLength = (this.width - 1) * zoom - 2 * lineWidth - hOffset - margin * 2;
-    let p: SegmentPath = {
-      a: { x: sx + sLength, y: sy },
-      b: { x: sx + sLength + lineWidth / 2, y: sy + lineWidth / 2 },
-      c: { x: sx + sLength, y: sy + lineWidth },
-      d: { x: sx, y: sy + lineWidth },
-      e: { x: sx - lineWidth / 2, y: sy + lineWidth / 2 },
-    };
-    let start = { x: x + hOffset + lineWidth + margin, y: y + vOffset };
+    let p: SegmentPath = this.getHorizontalSegmentPath(sx, sy, sLength, lineWidth);
+    let start = { x: sx, y: sy };
     this.drawSegment(ctx, this.inputPins[0], zoom, start, p);
 
     // Segment G, mid mid
     sy = y + ((this.height / 2) * zoom - lineWidth / 2);
     start.y = sy;
+    p = this.getHorizontalSegmentPath(sx, sy, sLength, lineWidth);
     this.drawSegment(ctx, this.inputPins[6], zoom, start, p);
 
     // Segment D, bottom mid
     sy = y + (this.height * zoom - vOffset - lineWidth);
     start.y = sy;
+    p = this.getHorizontalSegmentPath(sx, sy, sLength, lineWidth);
     this.drawSegment(ctx, this.inputPins[3], zoom, start, p);
 
     // Segment F, top left
@@ -101,29 +97,26 @@ export default class DisplayComponent extends PrimitiveComponent {
     sy = y + vOffset + lineWidth + margin;
     sLength = (this.height / 2) * zoom - lineWidth * 1.5 - vOffset - margin * 2;
     start = { x: sx, y: sy };
-    p = {
-      a: { x: sx + lineWidth / 2, y: sy - lineWidth / 2 },
-      b: { x: sx + lineWidth, y: sy },
-      c: { x: sx + lineWidth, y: sy + sLength },
-      d: { x: sx + lineWidth / 2, y: sy + sLength + lineWidth / 2 },
-      e: { x: sx, y: sy + sLength },
-    };
+    p = this.getVerticalSegmentPath(sx, sy, sLength, lineWidth);
     this.drawSegment(ctx, this.inputPins[5], zoom, start, p);
 
     // Segment B, bottom left
     sx = x + (this.width - 1) * zoom - lineWidth;
     start.x = sx;
+    p = this.getVerticalSegmentPath(sx, sy, sLength, lineWidth);
     this.drawSegment(ctx, this.inputPins[1], zoom, start, p);
 
     // Segment E, top right
     sx = x + hOffset;
     sy = y + (this.height / 2) * zoom + lineWidth / 2 + margin;
     start = { x: sx, y: sy };
+    p = this.getVerticalSegmentPath(sx, sy, sLength, lineWidth);
     this.drawSegment(ctx, this.inputPins[4], zoom, start, p);
 
     // Segment C, bottom right
     sx = x + (this.width - 1) * zoom - lineWidth;
     start.x = sx;
+    p = this.getVerticalSegmentPath(sx, sy, sLength, lineWidth);
     this.drawSegment(ctx, this.inputPins[2], zoom, start, p);
 
     // Decimal Point segment
@@ -176,5 +169,35 @@ export default class DisplayComponent extends PrimitiveComponent {
     ctx.lineTo(p.d.x, p.d.y);
     ctx.lineTo(p.e.x, p.e.y);
     ctx.fill();
+  }
+
+  private getHorizontalSegmentPath(
+    sx: number,
+    sy: number,
+    sLength: number,
+    lineWidth: number,
+  ): SegmentPath {
+    return {
+      a: { x: sx + sLength, y: sy },
+      b: { x: sx + sLength + lineWidth / 2, y: sy + lineWidth / 2 },
+      c: { x: sx + sLength, y: sy + lineWidth },
+      d: { x: sx, y: sy + lineWidth },
+      e: { x: sx - lineWidth / 2, y: sy + lineWidth / 2 },
+    };
+  }
+
+  private getVerticalSegmentPath(
+    sx: number,
+    sy: number,
+    sLength: number,
+    lineWidth: number,
+  ): SegmentPath {
+    return {
+      a: { x: sx + lineWidth / 2, y: sy - lineWidth / 2 },
+      b: { x: sx + lineWidth, y: sy },
+      c: { x: sx + lineWidth, y: sy + sLength },
+      d: { x: sx + lineWidth / 2, y: sy + sLength + lineWidth / 2 },
+      e: { x: sx, y: sy + sLength },
+    };
   }
 }

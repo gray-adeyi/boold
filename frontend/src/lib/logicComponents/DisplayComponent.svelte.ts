@@ -41,7 +41,7 @@ export default class DisplayComponent extends PrimitiveComponent {
     const { zoom, offset, canvasCtx: ctx, canvas } = this.boardStoreState;
     if (!ctx || !canvas) return;
     let x = (this.pos.x - offset.x) * zoom;
-    let y = (this.pos.y - offset.y) * zoom;
+    let y = -(this.pos.y - offset.y) * zoom;
 
     if (
       !(

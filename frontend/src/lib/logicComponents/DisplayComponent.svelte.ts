@@ -30,7 +30,6 @@ export default class DisplayComponent extends PrimitiveComponent {
     this.value = 0;
 
     this.lineWidth = 0.12;
-    this.hOffset = this.width / 8;
     this.colorOff = "#300";
     this.colorOn = "#f00";
   }

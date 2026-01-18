@@ -134,7 +134,7 @@ export function removeWire(wire: Wire, boardStoreState: BoardStoreState): Wire[]
   if (to) {
     delete to.connection;
     to.value = 0;
-    to.component.update;
+    to.component.update();
   }
 
   for (let i = 0; i < wire.inputConnections.length; i++) {
@@ -226,9 +226,9 @@ export function changeComponentSize(
   const allPins = component.inputPins.concat(component.outputPins);
   if (2 * (height + width) < allPins.length) return;
 
-  const oldPinsPlacements = allPins.map((pin) => Object.assign({}, pin.placement));
-  const oldHeight = component.height;
-  const oldWidth = component.width;
+  const _oldPinsPlacements = allPins.map((pin) => Object.assign({}, pin.placement));
+  const _oldHeight = component.height;
+  const _oldWidth = component.width;
 
   component.height = height;
   component.width = width;
@@ -286,13 +286,13 @@ export function moveComponent(
       : component.pos,
   );
 
-  const dx = x - oldPos.x;
-  const dy = y - oldPos.y;
+  const _dx = x - oldPos.x;
+  const _dy = y - oldPos.y;
 
   component.pos.x = x;
   component.pos.y = y;
 
-  const oldInputWirePos = [];
+  const _oldInputWirePos = [];
   for (let i = 0; i < component.inputPins.length; i++) {
     const wire = component.inputPins[i].connection;
     if (!wire) continue;
@@ -349,7 +349,7 @@ export function moveComponent(
     }
   }
 
-  const oldOutputWirePos = [];
+  const _oldOutputWirePos = [];
   for (let i = 0; i < component.outputPins.length; i++) {
     const wire = component.outputPins[i].connection;
     if (!wire) continue;
@@ -413,7 +413,7 @@ export function moveComponentPin(
   sideIndex: number = pin.placement.sideIndex,
   boardStoreState: BoardStoreState,
 ) {
-  const oldSideIndex = Object.assign(
+  const _oldSideIndex = Object.assign(
     {},
     boardStoreState.userDrag && boardStoreState.userDrag?.pin === pin
       ? boardStoreState.userDrag?.sideIndex
@@ -423,7 +423,7 @@ export function moveComponentPin(
   pin.placement.sideIndex = sideIndex;
   const wire = pin.connection;
   if (!wire) return;
-  const oldWirePath = [...wire.path];
+  const _oldWirePath = [...wire.path];
 
   if (pin.type === "input") {
     const coord = wire.path.slice(-1)[0];
@@ -1009,11 +1009,7 @@ export function cloneComponent(
  * @param component is the source where you want to copy the pins from
  * @param clone is the component where you want the clone pin to be
  */
-function cloneComponentPins(
-  component: AnyLogicComponent,
-  clone: AnyLogicComponent,
-  boardStoreState: BoardStoreState,
-) {
+function cloneComponentPins(component: AnyLogicComponent, clone: AnyLogicComponent) {
   clone.inputPins = [];
   for (let i = 0; i < component.inputPins.length; i++) {
     const pin = clone.addInputPin({ side: 0, sideIndex: 0 }, "");

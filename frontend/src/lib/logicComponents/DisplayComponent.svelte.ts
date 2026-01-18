@@ -17,6 +17,7 @@ export default class DisplayComponent extends PrimitiveComponent {
   private lineWidth: number;
   private colorOff: string;
   private colorOn: string;
+  private _color: string;
   constructor(name: string | null, pos: Coord, boardStoreState: BoardStoreState, color = "#a00") {
     super(name, pos, 4, 5, { type: "value" }, boardStoreState);
     this.addInputPin({ side: 0, sideIndex: 0 }, "A");
@@ -28,6 +29,7 @@ export default class DisplayComponent extends PrimitiveComponent {
     this.addInputPin({ side: 2, sideIndex: 2 }, "G");
     this.addInputPin({ side: 2, sideIndex: 3 }, "DP");
     this.value = 0;
+    this._color = color;
 
     this.lineWidth = 0.12;
     this.colorOff = "#300";

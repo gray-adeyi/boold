@@ -3,8 +3,10 @@ import PrimitiveComponent from "$/lib/logicComponents/PrimitiveComponent.svelte"
 import type { BoardStoreState } from "$/stores/boardStore.svelte";
 
 export default class ROMComponent extends PrimitiveComponent {
+  private _data: unknown;
   constructor(name: string | null, pos: Coord, boardStoreState: BoardStoreState, data = []) {
     super(name, pos, 3, 8, { type: "char", text: "ROM" }, boardStoreState);
+    this._data = data;
   }
 
   execute(): void {

@@ -1,5 +1,5 @@
 import type { BoardStoreState } from "$/stores/boardStore.svelte";
-import type { AnyLogicComponent, AnyLogicComponentClass, ComponentPin } from "$/types";
+import type { AnyLogicComponentClass, ComponentPin } from "$/types";
 import {
   addComponent,
   connectComponents,
@@ -16,6 +16,7 @@ import {
 } from "../logicComponents/componentManipulation.svelte";
 import PrimitiveComponent from "../logicComponents/PrimitiveComponent.svelte";
 import Wire from "../logicComponents/Wire.svelte";
+import type ClickableComponent from "$/lib/logicComponents/ClickableComponent";
 
 export enum MouseButton {
   LEFT = 0,
@@ -41,13 +42,12 @@ export default class CanvasMouseEventManager {
   }
 
   handleOnMouseDown(event: MouseEvent) {
-    console.log("mouse grid pos", $state.snapshot(this.state.mouse.grid));
     this.state.mouse.screen.x = event.x;
     this.state.mouse.screen.y = event.y;
     this.state.mouse.grid.x = Math.round(event.x / this.state.zoom + this.state.offset.x);
     this.state.mouse.grid.y = Math.round(-event.y / this.state.zoom + this.state.offset.y);
 
-    // left click
+    // left-click
     if (event.button === MouseButton.LEFT) {
       if (event.shiftKey) {
         if (this.state.userSelection) {
@@ -141,7 +141,7 @@ export default class CanvasMouseEventManager {
             if (found) {
               this.state.userDrag = {
                 pin: found,
-                sideIndex: Object.assign({}, found.placement.sideIndex),
+                placement: Object.assign({}, found.placement),
               };
             }
           }
@@ -160,8 +160,8 @@ export default class CanvasMouseEventManager {
             findWireByPos(null, null, this.state) ||
             findComponentPinByPos(null, null, this.state);
           if (found instanceof PrimitiveComponent) {
-            if (Object.hasOwn(found, "handleOnMouseDown")) {
-              found.handleOnMouseDown();
+            if (Object.hasOwn(found, "handleClick")) {
+              (found as unknown as ClickableComponent).handleClick("mousedown");
             } else {
               found.update();
             }
@@ -216,14 +216,14 @@ export default class CanvasMouseEventManager {
         }
       }
     } else if (event.button === MouseButton.MIDDLE) {
-      // right click
+      // right-click
       // hide waypoints menu
       if (this.state.userSelection && !this.state.userDrag) {
         this.state.userSelection = null;
       } else if (this.state.userDrag) {
         if ("isDragSelecting" in this.state.userDrag && this.state.userDrag.isDragSelecting) {
-          const component = this.state.userSelection?.components || [];
-          const wires = this.state.userSelection?.wires || [];
+          const _component = this.state.userSelection?.components || [];
+          const _wires = this.state.userSelection?.wires || [];
           const animate = () => {
             if (!this.state.userDrag || !this.state.userSelection || !this.state.canvas) return;
             let dx = this.state.userDrag.pos.x - this.state.userSelection.pos.x;
@@ -353,7 +353,7 @@ export default class CanvasMouseEventManager {
     this.state.mouse.grid.x = Math.round(event.x / this.state.zoom + this.state.offset.x);
     this.state.mouse.grid.y = Math.round(-event.y / this.state.zoom + this.state.offset.y);
 
-    // left click
+    // left-click
     if (event.button === MouseButton.LEFT) {
       if (this.state.userSelection && !this.state.userSelection.components.length) {
         if (event.ctrlKey) {
@@ -845,7 +845,7 @@ export default class CanvasMouseEventManager {
 					  The x and y coordinate of the component need to be integers. While dragging, they are floats. So I created a little animation for the x
 					  and y coordinates of the component becoming integers.
 					*/
-            const component = this.state.userDrag.component;
+            const _component = this.state.userDrag.component;
             const animate = () => {};
             animate();
           } else if ("pin" in this.state.userDrag && this.state.userDrag.pin) {
@@ -1048,8 +1048,8 @@ export default class CanvasMouseEventManager {
           this.state.scrollAnimation.animate = true;
         } else {
           const component = findComponentByPos(null, null, this.state);
-          if (component && "handleOnMouseUp" in component) {
-            component.handleOnMouseUp();
+          if (component && "handleClick" in component) {
+            (component as ClickableComponent).handleClick("mouseup");
           }
         }
       }

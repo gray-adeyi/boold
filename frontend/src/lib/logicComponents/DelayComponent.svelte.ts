@@ -18,7 +18,7 @@ export default class DelayComponent extends PrimitiveComponent {
       () =>
         this.boardStoreState.updateQueue.push(() => {
           this.outputPins[0].value = value;
-          this.outputPins[0].connection && this.outputPins[0].connection?.update(value);
+          if (this.outputPins[0].connection) this.outputPins[0].connection?.update(value);
         }),
       this.properties.delay,
     );

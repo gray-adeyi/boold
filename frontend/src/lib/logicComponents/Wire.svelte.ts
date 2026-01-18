@@ -103,7 +103,6 @@ export default class Wire {
     }
     ctx.strokeStyle = `rgb(${color.r} ${color.g} ${color.b})`;
 
-    console.log("path is ->", this.path);
     const path: Coord[] = [];
     for (let i = 0; i < this.path.length; i++) {
       const isFirstOrLastCoord = i === 0 || i === this.path.length - 1;

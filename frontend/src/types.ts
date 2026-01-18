@@ -12,7 +12,6 @@ import type LEDComponent from "$/lib/logicComponents/LEDComponent.svelte";
 import type NOTGateComponent from "$/lib/logicComponents/NOTGateComponent.svelte";
 import type ORGateComponent from "$/lib/logicComponents/ORGateComponent.svelte";
 import type OutputComponent from "$/lib/logicComponents/OutputComponent.svelte";
-import type PrimitiveComponent from "$/lib/logicComponents/PrimitiveComponent.svelte";
 import type ROMComponent from "$/lib/logicComponents/ROMComponent.svelte";
 import type TimerEndComponent from "$/lib/logicComponents/TimerEndComponent.svelte";
 import type TimerStartComponent from "$/lib/logicComponents/TimerStartComponent.svelte";

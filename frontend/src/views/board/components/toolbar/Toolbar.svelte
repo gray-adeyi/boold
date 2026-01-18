@@ -1,34 +1,34 @@
 <script lang="ts">
-import { Portal } from "@jsrob/svelte-portal";
-import ANDGateComponent from "$/lib/logicComponents/ANDGateComponent.svelte";
-import ButtonComponent from "$/lib/logicComponents/ButtonComponent.svelte";
-import BuzzerComponent from "$/lib/logicComponents/BuzzerComponent.svelte";
-import ClockComponent from "$/lib/logicComponents/ClockComponent.svelte";
-import ConstantComponent from "$/lib/logicComponents/ConstantComponent.svelte";
-import CounterComponent from "$/lib/logicComponents/CounterComponent.svelte";
-import { selectComponent as doSelectComponent } from "$/lib/logicComponents/componentManipulation.svelte";
-import DebugComponent from "$/lib/logicComponents/DebugComponent.svelte";
-import DelayComponent from "$/lib/logicComponents/DelayComponent.svelte";
-import DisplayComponent from "$/lib/logicComponents/DisplayComponent.svelte";
-import InputComponent from "$/lib/logicComponents/InputComponent.svelte";
-import LEDComponent from "$/lib/logicComponents/LEDComponent.svelte";
-import NOTGateComponent from "$/lib/logicComponents/NOTGateComponent.svelte";
-import ORGateComponent from "$/lib/logicComponents/ORGateComponent.svelte";
-import OutputComponent from "$/lib/logicComponents/OutputComponent.svelte";
-import ROMComponent from "$/lib/logicComponents/ROMComponent.svelte";
-import TimerEndComponent from "$/lib/logicComponents/TimerEndComponent.svelte";
-import TimerStartComponent from "$/lib/logicComponents/TimerStartComponent.svelte";
-import XORGateComponent from "$/lib/logicComponents/XORGateComponent.svelte";
-import { state as boardStoreState } from "$/stores/boardStore.svelte";
-import type { AnyLogicComponentClass } from "$/types";
-import ANDGateInfoDialog from "$/views/board/components/toolbar/dialogs/ANDGateInfoDialog.svelte";
-import NOTGateInfoDialog from "$/views/board/components/toolbar/dialogs/NOTGateInfoDialog.svelte";
-import ORGateInfoDialog from "$/views/board/components/toolbar/dialogs/ORGateInfoDialog.svelte";
-import XORGateInfoDialog from "$/views/board/components/toolbar/dialogs/XORGateInfoDialog.svelte";
-import IOSelectDropdown from "$/views/board/components/toolbar/IOSelectDropdown.svelte";
-import ToolbarItem from "$/views/board/components/toolbar/ToolbarItem.svelte";
+    import {Portal} from "@jsrob/svelte-portal";
+    import ANDGateComponent from "$/lib/logicComponents/ANDGateComponent.svelte";
+    import ButtonComponent from "$/lib/logicComponents/ButtonComponent.svelte";
+    import BuzzerComponent from "$/lib/logicComponents/BuzzerComponent.svelte";
+    import ClockComponent from "$/lib/logicComponents/ClockComponent.svelte";
+    import ConstantComponent from "$/lib/logicComponents/ConstantComponent.svelte";
+    import CounterComponent from "$/lib/logicComponents/CounterComponent.svelte";
+    import {selectComponent as doSelectComponent} from "$/lib/logicComponents/componentManipulation.svelte";
+    import DebugComponent from "$/lib/logicComponents/DebugComponent.svelte";
+    import DelayComponent from "$/lib/logicComponents/DelayComponent.svelte";
+    import DisplayComponent from "$/lib/logicComponents/DisplayComponent.svelte";
+    import InputComponent from "$/lib/logicComponents/InputComponent.svelte";
+    import LEDComponent from "$/lib/logicComponents/LEDComponent.svelte";
+    import NOTGateComponent from "$/lib/logicComponents/NOTGateComponent.svelte";
+    import ORGateComponent from "$/lib/logicComponents/ORGateComponent.svelte";
+    import OutputComponent from "$/lib/logicComponents/OutputComponent.svelte";
+    import ROMComponent from "$/lib/logicComponents/ROMComponent.svelte";
+    import TimerEndComponent from "$/lib/logicComponents/TimerEndComponent.svelte";
+    import TimerStartComponent from "$/lib/logicComponents/TimerStartComponent.svelte";
+    import XORGateComponent from "$/lib/logicComponents/XORGateComponent.svelte";
+    import {state as boardStoreState} from "$/stores/boardStore.svelte";
+    import type {AnyLogicComponentClass} from "$/types";
+    import ANDGateInfoDialog from "$/views/board/components/toolbar/dialogs/ANDGateInfoDialog.svelte";
+    import NOTGateInfoDialog from "$/views/board/components/toolbar/dialogs/NOTGateInfoDialog.svelte";
+    import ORGateInfoDialog from "$/views/board/components/toolbar/dialogs/ORGateInfoDialog.svelte";
+    import XORGateInfoDialog from "$/views/board/components/toolbar/dialogs/XORGateInfoDialog.svelte";
+    import IOSelectDropdown from "$/views/board/components/toolbar/IOSelectDropdown.svelte";
+    import ToolbarItem from "$/views/board/components/toolbar/ToolbarItem.svelte";
 
-type ToolbarItem = {
+    type ToolbarItem = {
 	text?: string;
 	icon?: string;
 	tip: string;
@@ -53,7 +53,8 @@ const showToast = (message: string) => {
 	toastMessage = message;
 	isToastVisible = true;
 	toastTimeoutId = setTimeout(() => {
-		(toastMessage = null), (isToastVisible = false);
+		toastMessage = null;
+            isToastVisible = false;
 	}, toastTimeout);
 };
 

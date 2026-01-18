@@ -1,3 +1,3 @@
 # boold
 
-My Third attempt to re-implementing BOOLR
+My third attempt at reimplementing [BOOLR](https://github.com/GGBRW/BOOLR) from scratch.

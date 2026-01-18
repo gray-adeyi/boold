@@ -90,9 +90,8 @@ export default class PrimitiveComponent implements LogicComponent {
   }
 
   draw() {
-    const { zoom, offset, canvas, canvasCtx } = this.boardStoreState;
-    if (!canvas || !canvasCtx) return;
-    const ctx = canvasCtx;
+    const { zoom, offset, canvas, canvasCtx: ctx } = this.boardStoreState;
+    if (!canvas || !ctx) return;
     const canvasWidth = canvas.width;
     const canvasHeight = canvas.height;
     const x = (this.pos.x - offset.x) * zoom;
@@ -175,7 +174,7 @@ export default class PrimitiveComponent implements LogicComponent {
     name: string,
     properties: ComponentProperties = {},
   ): ComponentPin {
-    let port: ComponentPin = {
+    let pin: ComponentPin = {
       id: crypto.randomUUID(),
       type: "input",
       component: this,
@@ -183,9 +182,9 @@ export default class PrimitiveComponent implements LogicComponent {
       placement,
       value: 0,
     };
-    port = Object.assign(port, properties);
-    this.inputPins.push(port);
-    return port;
+    pin = Object.assign(pin, properties);
+    this.inputPins.push(pin);
+    return pin;
   }
 
   addOutputPin(
@@ -193,7 +192,7 @@ export default class PrimitiveComponent implements LogicComponent {
     name: string,
     properties: ComponentProperties = {},
   ): ComponentPin {
-    let port: ComponentPin = {
+    let pin: ComponentPin = {
       id: crypto.randomUUID(),
       type: "output",
       component: this,
@@ -201,9 +200,9 @@ export default class PrimitiveComponent implements LogicComponent {
       placement,
       value: 0,
     };
-    port = Object.assign(port, properties);
-    this.outputPins.push(port);
-    return port;
+    pin = Object.assign(pin, properties);
+    this.outputPins.push(pin);
+    return pin;
   }
 
   rotate() {

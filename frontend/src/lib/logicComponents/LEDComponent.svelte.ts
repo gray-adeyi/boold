@@ -21,8 +21,7 @@ export default class LEDComponent extends PrimitiveComponent {
   }
 
   draw() {
-    const { offset, zoom, canvas, canvasCtx } = this.boardStoreState;
-    const ctx = canvasCtx;
+    const { offset, zoom, canvas, canvasCtx: ctx } = this.boardStoreState;
     if (!canvas || !ctx) return;
     const x = (this.pos.x - offset.x) * zoom;
     const y = -(this.pos.y - offset.y) * zoom;

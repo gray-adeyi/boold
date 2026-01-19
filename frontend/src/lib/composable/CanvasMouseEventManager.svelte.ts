@@ -16,14 +16,15 @@ import {
 } from "../logicComponents/componentManipulation.svelte";
 import PrimitiveComponent from "../logicComponents/PrimitiveComponent.svelte";
 import Wire from "../logicComponents/Wire.svelte";
-import type ClickableComponent from "$/lib/logicComponents/ClickableComponent";
+import type ClickableComponent from "$/lib/logicComponents/ClickableComponent"; // using the bitmask values so you're expected to compare with MouseEvent.buttons instead of MouseEvent.button
 
+// using the bitmask values so you're expected to compare with MouseEvent.buttons instead of MouseEvent.button
 export enum MouseButton {
-  LEFT = 0,
-  MIDDLE = 1,
+  LEFT = 1,
   RIGHT = 2,
-  BROWSER_BACK = 3,
-  BROWSER_FORWARD = 4,
+  MIDDLE = 4,
+  BROWSER_BACK = 8,
+  BROWSER_FORWARD = 16,
 }
 
 export default class CanvasMouseEventManager {
@@ -38,7 +39,7 @@ export default class CanvasMouseEventManager {
   }
 
   handleOnMouseEnter(event: MouseEvent) {
-    if (event.button > MouseButton.LEFT) this.state.scrollAnimation.animate = false;
+    if (event.buttons > MouseButton.LEFT) this.state.scrollAnimation.animate = false;
   }
 
   handleOnMouseDown(event: MouseEvent) {
@@ -48,7 +49,7 @@ export default class CanvasMouseEventManager {
     this.state.mouse.grid.y = Math.round(-event.y / this.state.zoom + this.state.offset.y);
 
     // left-click
-    if (event.button === MouseButton.LEFT) {
+    if (event.buttons === MouseButton.LEFT) {
       if (event.shiftKey) {
         if (this.state.userSelection) {
           const x = this.state.mouse.grid.x;
@@ -215,7 +216,7 @@ export default class CanvasMouseEventManager {
           }
         }
       }
-    } else if (event.button === MouseButton.MIDDLE) {
+    } else if (event.buttons === MouseButton.MIDDLE) {
       // right-click
       // hide waypoints menu
       if (this.state.userSelection && !this.state.userDrag) {
@@ -342,7 +343,7 @@ export default class CanvasMouseEventManager {
       } else {
         // TODO: show context menu
       }
-    } else if (event.button === MouseButton.RIGHT) {
+    } else if (event.buttons === MouseButton.RIGHT) {
       this.state.mouse.isMouseWheelClicked = true;
       this.state.scrollAnimation.animate = false;
       return;
@@ -356,7 +357,7 @@ export default class CanvasMouseEventManager {
     this.state.mouse.grid.y = Math.round(-event.y / this.state.zoom + this.state.offset.y);
 
     // left-click
-    if (event.button === MouseButton.LEFT) {
+    if (event.buttons === MouseButton.LEFT) {
       if (this.state.userSelection && !this.state.userSelection.components.length) {
         if (event.ctrlKey) {
           this.state.offset.x -= event.movementX / this.state.zoom;
@@ -519,10 +520,7 @@ export default class CanvasMouseEventManager {
         let dy = this.state.mouse.grid.y - this.state.connectingWire.path.slice(-1)[0].y;
 
         // If dx and dy are both 0, no new positions have to be put into the wire's 'pos' array: return
-        if (!dx && !dy) {
-          console.log("i am exiting here!");
-          return;
-        }
+        if (!dx && !dy) return;
 
         // If the shift key is down, we want the wire to be drawn in a straight line
         if (event.shiftKey) {
@@ -541,7 +539,7 @@ export default class CanvasMouseEventManager {
           delete this.state.connectingWire.lock;
         }
 
-        while (dx + dy < 10_000) {
+        while ((dx || dy) && dx + dy < 10_000) {
           const prev = this.state.connectingWire.path.slice(-2)[0];
           const last = this.state.connectingWire.path.slice(-1)[0];
 
@@ -633,7 +631,7 @@ export default class CanvasMouseEventManager {
         this.state.scrollAnimation.r = Math.atan2(event.movementX, event.movementY);
         return;
       }
-    } else if (event.button === MouseButton.MIDDLE) {
+    } else if (event.buttons === MouseButton.MIDDLE) {
       // middle click
       this.state.offset.x -= event.movementX / this.state.zoom;
       this.state.offset.y += event.movementY / this.state.zoom;
@@ -652,7 +650,7 @@ export default class CanvasMouseEventManager {
     this.state.mouse.grid.x = Math.round(event.y / this.state.zoom + this.state.offset.x);
     this.state.mouse.grid.y = Math.round(-event.y / this.state.zoom + this.state.offset.y);
 
-    if (event.button === MouseButton.LEFT) {
+    if (event.buttons === MouseButton.LEFT) {
       if (
         this.state.userSelection &&
         !this.state.userSelection.components.length &&
@@ -1054,14 +1052,12 @@ export default class CanvasMouseEventManager {
           this.state.scrollAnimation.animate = true;
         } else {
           const component = findComponentByPos(null, null, this.state);
-          console.log("component is ", component);
           if (component && "handleClick" in component) {
             (component as ClickableComponent).handleClick("mouseup");
-            console.log("handle click called on ", component);
           }
         }
       }
-    } else if (event.button === MouseButton.MIDDLE) {
+    } else if (event.buttons === MouseButton.MIDDLE) {
       this.state.scrollAnimation.animate = true;
 
       if (this.state.mouse.isMouseWheelClicked) {
@@ -1081,7 +1077,7 @@ export default class CanvasMouseEventManager {
     this.state.mouse.grid.y = Math.round(-event.y / this.state.zoom + this.state.offset.y);
 
     const component = findComponentByPos(null, null, this.state);
-    if (event.button === MouseButton.LEFT && component && "open" in component) {
+    if (event.buttons === MouseButton.LEFT && component && "open" in component) {
       component.open();
     }
   }

@@ -66,7 +66,7 @@ const selectComponent = (
 	component: AnyLogicComponentClass,
 	componentName: string,
 ) => {
-	if (boardStoreState.componentInSelectionFocus === component) {
+	if (boardStoreState.componentClassInSelectionFocus === component) {
 		showToast(`${componentName} is already selected`);
 		return;
 	}

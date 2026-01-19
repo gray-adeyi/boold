@@ -71,7 +71,7 @@ export type BoardStoreState = {
   userDrag: UserDrag | null;
   connectingWire: Wire | null;
   animationFrameId: number | null;
-  componentInSelectionFocus: AnyLogicComponentClass; // type of any logic component not just InputComponent
+  componentClassInSelectionFocus: AnyLogicComponentClass; // type of any logic component not just InputComponent
   updateQueue: (() => void)[];
   isTutorialDrawerOpen: boolean;
 };
@@ -111,7 +111,7 @@ export const state: BoardStoreState = $state({
   userDrag: null,
   connectingWire: null,
   animationFrameId: null,
-  componentInSelectionFocus: ANDGateComponent,
+  componentClassInSelectionFocus: ANDGateComponent,
   updateQueue: [],
   isTutorialDrawerOpen: false,
 });

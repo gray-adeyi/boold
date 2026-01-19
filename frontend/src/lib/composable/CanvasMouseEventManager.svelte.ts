@@ -201,7 +201,7 @@ export default class CanvasMouseEventManager {
               });
             }
           } else {
-            const component = new this.state.componentInSelectionFocus(
+            const component = new this.state.componentClassInSelectionFocus(
               null,
               { x: 0, y: 0 },
               this.state,

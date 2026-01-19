@@ -17,7 +17,7 @@ export function selectComponent(
   component: AnyLogicComponentClass,
   boardStoreState: BoardStoreState,
 ) {
-  boardStoreState.componentInSelectionFocus = component;
+  boardStoreState.componentClassInSelectionFocus = component;
 }
 
 /**
@@ -645,7 +645,9 @@ export function editEntity(entity: BoardEntity, property: string, value: unknown
 
 /**
  * Finds a component by its position
- * @param param0 is the coordinate of the component you're looking for
+ * @param x is the x coordinate of where you want to find the component
+ * @param y is the y coordinate of where you want to find the component
+ * @param boardStoreState is the state of the board
  * @returns the component found at that position on the board if any otherwise
  *  returns undefined
  */
@@ -771,7 +773,9 @@ export function findComponentPinInComponent(
 
 /**
  * Find component pin by its coordinate
- * @param param0 is the coordinate where you want to find the component pin
+ * @param x is the x coordinate where you want to find the component pin
+ * @param y is the y coordinate where you want to find the component pin
+ * @param boardStoreState is the state of the board
  * @returns the component pin found at that position on the board if any otherwise
  *  returns undefined
  */
@@ -785,8 +789,8 @@ export function findComponentPinByPos(
   if (findComponentByPos(x, y, boardStoreState)) return;
   for (let i = 0; i < 4; i++) {
     const component = findComponentByPos(
-      x - Math.round(Math.sin((Math.PI / 2) * 1)),
-      y - Math.round(Math.cos((Math.PI / 2) * 1)),
+      x - Math.round(Math.sin((Math.PI / 2) * i)),
+      y - Math.round(Math.cos((Math.PI / 2) * i)),
       boardStoreState,
     );
 

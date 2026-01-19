@@ -48,14 +48,14 @@ function initCanvas(node: HTMLCanvasElement) {
 <div class="container">
     <canvas {@attach initCanvas} 
         tabindex="0"
-        onmouseleave={(e: MouseEvent) => canvasMouseEventManager.handleOnMouseLeave(e)}
-        onmouseenter={(e: MouseEvent) => canvasMouseEventManager.handleOnMouseEnter(e)}
-        onmousedown={(e: MouseEvent) => canvasMouseEventManager.handleOnMouseDown(e)}
-        onmousemove={(e: MouseEvent) => canvasMouseEventManager.handleOnMouseMove(e)}
-        onmouseup={(e: MouseEvent) => canvasMouseEventManager.handleOnMouseUp(e)}
-        ondblclick={(e: MouseEvent) => canvasMouseEventManager.handleOnDblClick(e)}
-        onmousewheel={(e: WheelEvent) =>canvasMouseEventManager.handleOnMouseWheel(e)}
-        onkeydown={(e: KeyboardEvent) => canvasKeyboardEventManager.handleOnKeydown(e)}
+        onmouseleave={(e) => canvasMouseEventManager.handleOnMouseLeave(e)}
+        onmouseenter={(e) => canvasMouseEventManager.handleOnMouseEnter(e)}
+        onmousedown={(e) => canvasMouseEventManager.handleOnMouseDown(e)}
+        onmousemove={(e) => canvasMouseEventManager.handleOnMouseMove(e)}
+        onmouseup={(e) => canvasMouseEventManager.handleOnMouseUp(e)}
+        ondblclick={(e) => canvasMouseEventManager.handleOnDblClick(e)}
+        onwheel={(e) =>canvasMouseEventManager.handleOnMouseWheel(e)}
+        onkeydown={(e) => canvasKeyboardEventManager.handleOnKeydown(e)}
     ></canvas>
     <TutorialDrawer />
     <Toolbar />

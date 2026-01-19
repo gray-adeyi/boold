@@ -1,5 +1,5 @@
-import type { BoardStoreState } from "$/stores/boardStore.svelte";
-import type { AnyLogicComponentClass, ComponentPin } from "$/types";
+import type {BoardStoreState} from "$/stores/boardStore.svelte";
+import type {AnyLogicComponentClass, ComponentPin} from "$/types";
 import {
   addComponent,
   connectComponents,
@@ -18,13 +18,12 @@ import PrimitiveComponent from "../logicComponents/PrimitiveComponent.svelte";
 import Wire from "../logicComponents/Wire.svelte";
 import type ClickableComponent from "$/lib/logicComponents/ClickableComponent"; // using the bitmask values so you're expected to compare with MouseEvent.buttons instead of MouseEvent.button
 
-// using the bitmask values so you're expected to compare with MouseEvent.buttons instead of MouseEvent.button
 export enum MouseButton {
-  LEFT = 1,
-  RIGHT = 2,
-  MIDDLE = 4,
-  BROWSER_BACK = 8,
-  BROWSER_FORWARD = 16,
+  LEFT = 0,
+  RIGHT = 1,
+  MIDDLE = 2,
+  BROWSER_BACK = 3,
+  BROWSER_FORWARD = 4,
 }
 
 export default class CanvasMouseEventManager {
@@ -39,7 +38,7 @@ export default class CanvasMouseEventManager {
   }
 
   handleOnMouseEnter(event: MouseEvent) {
-    if (event.buttons > MouseButton.LEFT) this.state.scrollAnimation.animate = false;
+    if (event.button > MouseButton.LEFT) this.state.scrollAnimation.animate = false;
   }
 
   handleOnMouseDown(event: MouseEvent) {
@@ -49,7 +48,7 @@ export default class CanvasMouseEventManager {
     this.state.mouse.grid.y = Math.round(-event.y / this.state.zoom + this.state.offset.y);
 
     // left-click
-    if (event.buttons === MouseButton.LEFT) {
+    if (event.button === MouseButton.LEFT) {
       if (event.shiftKey) {
         if (this.state.userSelection) {
           const x = this.state.mouse.grid.x;
@@ -216,7 +215,7 @@ export default class CanvasMouseEventManager {
           }
         }
       }
-    } else if (event.buttons === MouseButton.MIDDLE) {
+    } else if (event.button === MouseButton.MIDDLE) {
       // right-click
       // hide waypoints menu
       if (this.state.userSelection && !this.state.userDrag) {
@@ -343,7 +342,7 @@ export default class CanvasMouseEventManager {
       } else {
         // TODO: show context menu
       }
-    } else if (event.buttons === MouseButton.RIGHT) {
+    } else if (event.button === MouseButton.RIGHT) {
       this.state.mouse.isMouseWheelClicked = true;
       this.state.scrollAnimation.animate = false;
       return;
@@ -357,7 +356,7 @@ export default class CanvasMouseEventManager {
     this.state.mouse.grid.y = Math.round(-event.y / this.state.zoom + this.state.offset.y);
 
     // left-click
-    if (event.buttons === MouseButton.LEFT) {
+    if (event.button === MouseButton.LEFT) {
       if (this.state.userSelection && !this.state.userSelection.components.length) {
         if (event.ctrlKey) {
           this.state.offset.x -= event.movementX / this.state.zoom;
@@ -631,7 +630,7 @@ export default class CanvasMouseEventManager {
         this.state.scrollAnimation.r = Math.atan2(event.movementX, event.movementY);
         return;
       }
-    } else if (event.buttons === MouseButton.MIDDLE) {
+    } else if (event.button === MouseButton.MIDDLE) {
       // middle click
       this.state.offset.x -= event.movementX / this.state.zoom;
       this.state.offset.y += event.movementY / this.state.zoom;
@@ -650,7 +649,7 @@ export default class CanvasMouseEventManager {
     this.state.mouse.grid.x = Math.round(event.y / this.state.zoom + this.state.offset.x);
     this.state.mouse.grid.y = Math.round(-event.y / this.state.zoom + this.state.offset.y);
 
-    if (event.buttons === MouseButton.LEFT) {
+    if (event.button === MouseButton.LEFT) {
       if (
         this.state.userSelection &&
         !this.state.userSelection.components.length &&
@@ -1057,7 +1056,7 @@ export default class CanvasMouseEventManager {
           }
         }
       }
-    } else if (event.buttons === MouseButton.MIDDLE) {
+    } else if (event.button === MouseButton.MIDDLE) {
       this.state.scrollAnimation.animate = true;
 
       if (this.state.mouse.isMouseWheelClicked) {
@@ -1077,7 +1076,7 @@ export default class CanvasMouseEventManager {
     this.state.mouse.grid.y = Math.round(-event.y / this.state.zoom + this.state.offset.y);
 
     const component = findComponentByPos(null, null, this.state);
-    if (event.buttons === MouseButton.LEFT && component && "open" in component) {
+    if (event.button === MouseButton.LEFT && component && "open" in component) {
       component.open();
     }
   }

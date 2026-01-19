@@ -1,5 +1,5 @@
-import type {BoardStoreState} from "$/stores/boardStore.svelte";
-import type {AnyLogicComponentClass, ComponentPin} from "$/types";
+import { type BoardStoreState, showContextMenu } from "$/stores/boardStore.svelte";
+import type { AnyLogicComponentClass, ComponentPin } from "$/types";
 import {
   addComponent,
   connectComponents,
@@ -341,6 +341,7 @@ export default class CanvasMouseEventManager {
         this.state.connectingWire = null;
       } else {
         // TODO: show context menu
+        showContextMenu(this.state.mouse.screen);
       }
     } else if (event.button === MouseButton.RIGHT) {
       this.state.mouse.isMouseWheelClicked = true;

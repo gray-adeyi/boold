@@ -1,5 +1,11 @@
-import type {BoardStoreState} from "$/stores/boardStore.svelte";
-import type {ComponentInputPin, ComponentOutputPin, Coord, RGBColor, WireIntersection,} from "$/types";
+import type { BoardStoreState } from "$/stores/boardStore.svelte";
+import type {
+  ComponentInputPin,
+  ComponentOutputPin,
+  Coord,
+  RGBColor,
+  WireIntersection,
+} from "$/types";
 
 const updateQueue = [];
 

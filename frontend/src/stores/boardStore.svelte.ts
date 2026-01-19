@@ -74,6 +74,10 @@ export type BoardStoreState = {
   componentClassInSelectionFocus: AnyLogicComponentClass; // type of any logic component not just InputComponent
   updateQueue: (() => void)[];
   isTutorialDrawerOpen: boolean;
+  contextMenu: {
+    isVisible: boolean;
+    pos: Coord;
+  };
 };
 
 export const state: BoardStoreState = $state({
@@ -114,6 +118,10 @@ export const state: BoardStoreState = $state({
   componentClassInSelectionFocus: ANDGateComponent,
   updateQueue: [],
   isTutorialDrawerOpen: false,
+  contextMenu: {
+    isVisible: false,
+    pos: { x: 0, y: 0 },
+  },
 });
 
 export function scrollBoard(dx: number, dy: number) {
@@ -226,7 +234,7 @@ export function drawBoardFrame() {
     state.zoom = state.zoomAnimation;
   }
 
-  state.simulationFrameRate = 1000 / (new Date() - state.lastFrameTimestamp);
+  state.simulationFrameRate = 1000 / (new Date().getTime() - state.lastFrameTimestamp.getTime());
   state.lastFrameTimestamp = new Date();
 
   state.animationFrameId = requestAnimationFrame(drawBoardFrame);
@@ -264,4 +272,14 @@ export function pasteFromClipboard(x: number, y: number) {
     clone.pos.y = y;
     state.components.push(clone);
   }
+}
+
+export function showContextMenu(pos: Coord) {
+  if (state.userDrag || state.connectingWire) return;
+  state.contextMenu.pos = pos;
+  state.contextMenu.isVisible = true;
+}
+
+export function hideContextMenu() {
+  state.contextMenu.isVisible = false;
 }

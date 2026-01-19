@@ -12,6 +12,7 @@ import ContextMenu from "$/views/board/components/ContextMenu.svelte";
 import FloatingMenu from "$/views/board/components/floatingMenu/FloatingMenu.svelte";
 import Toolbar from "$/views/board/components/toolbar/Toolbar.svelte";
 import TutorialDrawer from "$/views/board/components/tutorial/TutorialDrawer.svelte";
+import FloatingTip from "$/views/board/components/FloatingTip.svelte";
 
 let windowHeight = $state(0);
 let windowWidth = $state(0);
@@ -44,7 +45,7 @@ function initCanvas(node: HTMLCanvasElement) {
 }
 </script>
 
-<svelte:window bind:innerHeight={windowHeight} bind:innerWidth={windowWidth} />
+<svelte:window bind:innerHeight={windowHeight} bind:innerWidth={windowWidth} oncontextmenu={(e) => e.preventDefault()} />
 <div class="container">
     <canvas {@attach initCanvas} 
         tabindex="0"
@@ -60,7 +61,10 @@ function initCanvas(node: HTMLCanvasElement) {
     <TutorialDrawer />
     <Toolbar />
     <FloatingMenu />
+    {#if boardStoreState.contextMenu.isVisible}
     <ContextMenu />
+        {/if}
+<!--    <FloatingTip />-->
     <div class="portal-target" id="workspace-portal-target"></div>
 </div>
 

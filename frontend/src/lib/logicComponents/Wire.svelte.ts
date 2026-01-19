@@ -20,6 +20,7 @@ export default class Wire {
   outputConnections: Wire[];
   color: RGBColor;
   boardStoreState: BoardStoreState;
+  lock?: boolean;
 
   constructor(
     path: Coord[] = [],

@@ -160,7 +160,7 @@ export default class CanvasMouseEventManager {
             findWireByPos(null, null, this.state) ||
             findComponentPinByPos(null, null, this.state);
           if (found instanceof PrimitiveComponent) {
-            if (Object.hasOwn(found, "handleClick")) {
+            if ("handleClick" in found) {
               (found as unknown as ClickableComponent).handleClick("mousedown");
             } else {
               found.update();
@@ -181,7 +181,7 @@ export default class CanvasMouseEventManager {
             });
           } else if (
             found &&
-            Object.hasOwn(found, "type") &&
+            "type" in found &&
             ((found as ComponentPin).type === "input" || (found as ComponentPin).type === "output")
           ) {
             if (found.type === "output") {
@@ -226,6 +226,7 @@ export default class CanvasMouseEventManager {
           const _wires = this.state.userSelection?.wires || [];
           const animate = () => {
             if (!this.state.userDrag || !this.state.userSelection || !this.state.canvas) return;
+            if (!("pos" in this.state.userDrag)) return;
             let dx = this.state.userDrag.pos.x - this.state.userSelection.pos.x;
             let dy = this.state.userDrag.pos.y - this.state.userSelection.pos.y;
 
@@ -278,6 +279,7 @@ export default class CanvasMouseEventManager {
           const component = this.state.userDrag.component;
           const animate = () => {
             if (!this.state.userDrag || !this.state.canvas) return;
+            if (!("pos" in this.state.userDrag)) return;
 
             let dx = this.state.userDrag.pos.x - component.pos.x;
             let dy = this.state.userDrag.pos.y - component.pos.y;
@@ -517,11 +519,14 @@ export default class CanvasMouseEventManager {
         let dy = this.state.mouse.grid.y - this.state.connectingWire.path.slice(-1)[0].y;
 
         // If dx and dy are both 0, no new positions have to be put into the wire's 'pos' array: return
-        if (!dx && !dy) return;
+        if (!dx && !dy) {
+          console.log("i am exiting here!");
+          return;
+        }
 
         // If the shift key is down, we want the wire to be drawn in a straight line
         if (event.shiftKey) {
-          if (!Object.hasOwn(this.state.connectingWire, "lock")) {
+          if (!("lock" in this.state.connectingWire)) {
             if (event.movementX !== event.movementY)
               this.state.connectingWire.lock =
                 Math.abs(event.movementX) < Math.abs(event.movementY);
@@ -728,6 +733,7 @@ export default class CanvasMouseEventManager {
 
           const animate = () => {
             if (!this.state.userSelection || !this.state.userDrag || !this.state.canvas) return;
+            if (!("pos" in this.state.userDrag)) return;
             let dx = Math.round(this.state.userSelection.pos.x) - this.state.userSelection.pos.x;
             let dy = Math.round(this.state.userSelection.pos.y) - this.state.userSelection.pos.y;
 
@@ -1048,8 +1054,10 @@ export default class CanvasMouseEventManager {
           this.state.scrollAnimation.animate = true;
         } else {
           const component = findComponentByPos(null, null, this.state);
+          console.log("component is ", component);
           if (component && "handleClick" in component) {
             (component as ClickableComponent).handleClick("mouseup");
+            console.log("handle click called on ", component);
           }
         }
       }
